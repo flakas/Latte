@@ -5,3 +5,5 @@ python:
 install:
 # Nothing yet
 script: nosetests
+notifications:
+  email: false
