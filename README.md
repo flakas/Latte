@@ -3,6 +3,7 @@ Latte - Linux Automatic Time Tracker
 
 An attempt to build an automatic time tracker for Linux
 
+[![Build Status](https://secure.travis-ci.org/flakas/Latte.png)](http://travis-ci.org/flakas/Latte)
 
 Goal
 ----
