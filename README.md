@@ -19,6 +19,8 @@ To build an Automatic Time Tracker for Linux that:
 Tasks
 -----
 
+- Track time spent on each window
+- Dump tracked time information to filesystem
 - Functionality to periodically fetch window information
 - Functionality to check if the user is active (mouse and/or keyboard activity tracking)
 - Functionality to collect and periodically store activity information
