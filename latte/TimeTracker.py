@@ -19,3 +19,9 @@ class TimeTracker:
             self.logs[window] = 0
         self.logs[window] += self.getSleepTime()
 
+    def getLogs(self):
+        return self.logs
+
+    def clearLogs(self):
+        self.logs = {}
+        return
