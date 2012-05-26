@@ -43,7 +43,7 @@ class testTimeTracker(unittest.TestCase):
 
         """
 
-        self.assertIsNone(self.timetracker.getWindowTime('Bogus'))
+        self.assertEqual(self.timetracker.getWindowTime('Bogus'), None)
 
     def testAddTimeToNonExistingWindows(self):
 
