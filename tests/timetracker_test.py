@@ -1,4 +1,7 @@
 import unittest
+import json
+import os
+import shutil
 
 from latte.TimeTracker import TimeTracker
 
@@ -22,8 +25,18 @@ class testTimeTracker(unittest.TestCase):
         """
 
         self.sleepTime = 5
-        self.timetracker = TimeTracker(self.sleepTime)
+        self.configs = {
+            'appPath' : 'tests/latte/',
+            'statsPath' : 'stats/',
+        }
+        self.timetracker = TimeTracker(self.sleepTime, self.configs)
         self.timetracker.clearLogs()
+
+    def tearDown(self):
+        try:
+            shutil.rmtree(self.configs['appPath'])
+        except Exception as ex:
+            pass
 
     def testSleepTimeIsSet(self):
 
@@ -86,3 +99,29 @@ class testTimeTracker(unittest.TestCase):
             'Test window 1' : 2 * self.sleepTime,
             'Test window 2' : self.sleepTime
         })
+
+    def testDumpLogToFile(self):
+
+        """
+        
+        Tests dumping log data to file
+
+        """
+
+        self.timetracker.clearLogs()
+        self.timetracker.log('Dump Log To File')
+        str = json.dumps(self.timetracker.getLogs(), indent=4)
+        filename = self.timetracker.dumpLogs()
+        file_path = os.path.join(
+            self.configs['appPath'], 
+            self.configs['statsPath'], 
+            filename
+        )
+        self.assertTrue(os.path.exists(file_path))
+        
+        file = open(file_path, 'r')
+        contents = file.read()
+        file.close()
+
+        self.assertEqual(str, contents)
+
