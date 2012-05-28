@@ -1,7 +1,7 @@
-import unittest2
+import unittest
 from latte.Categories.Category import Category
 
-class testCategory(unittest2.TestCase):
+class testCategory(unittest.TestCase):
     """
 
     Tests base activity category class
@@ -9,9 +9,10 @@ class testCategory(unittest2.TestCase):
     """
 
     def testRaisesErrorWhenNotImplemented(self):
-        with self.assertRaises(NotImplementedError):
-            Category().title
-            Category().belongs('NotImplemented')
+        self.assertRaises(NotImplementedError,
+            Category().__getattribute__, 'title')
+        self.assertRaises(NotImplementedError,
+            Category().belongs, 'NotImplemented')
 
     def testSubclassedCategorizator(self):
         class ImplementedCategory(Category):
