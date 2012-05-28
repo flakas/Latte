@@ -1,7 +1,7 @@
-import unittest
+import unittest2
 from latte.Categories.Category import Category
 
-class testCategory(unittest.TestCase):
+class testCategory(unittest2.TestCase):
     """
 
     Tests base activity category class
