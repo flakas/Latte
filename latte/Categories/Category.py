@@ -1,7 +1,6 @@
 class Category(object):
 
-    @property
-    def title(self):
+    def getTitle(self):
         raise NotImplementedError
 
     def belongs(self, window):

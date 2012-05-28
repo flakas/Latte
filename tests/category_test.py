@@ -10,7 +10,7 @@ class testCategory(unittest.TestCase):
 
     def testRaisesErrorWhenNotImplemented(self):
         self.assertRaises(NotImplementedError,
-            Category().__getattribute__, 'title')
+            Category().getTitle)
         self.assertRaises(NotImplementedError,
             Category().belongs, 'NotImplemented')
 
@@ -23,3 +23,5 @@ class testCategory(unittest.TestCase):
         c = ImplementedCategory()
         self.assertEquals(c.title, 'Implemented Category')
         self.assertEquals(c.belongs('Does not belong'), False)
+
+
