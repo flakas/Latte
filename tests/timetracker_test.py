@@ -111,7 +111,7 @@ class testTimeTracker(unittest.TestCase):
     def testDumpLogToFile(self):
 
         """
-        
+
         Tests dumping log data to file
 
         """
@@ -121,12 +121,12 @@ class testTimeTracker(unittest.TestCase):
         str = json.dumps(self.timetracker.getLogs(), indent=4)
         filename = self.timetracker.dumpLogs()
         file_path = os.path.join(
-            self.configs['appPath'], 
-            self.configs['statsPath'], 
+            self.configs['appPath'],
+            self.configs['statsPath'],
             filename
         )
         self.assertTrue(os.path.exists(file_path))
-        
+
         file = open(file_path, 'r')
         contents = file.read()
         file.close()
