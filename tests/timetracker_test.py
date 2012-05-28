@@ -24,12 +24,12 @@ class testTimeTracker(unittest.TestCase):
 
         """
 
-        self.sleepTime = 5
         self.configs = {
+            'sleepTime' : 5,
             'appPath' : 'tests/latte/',
             'statsPath' : 'stats/',
         }
-        self.timetracker = TimeTracker(self.sleepTime, self.configs)
+        self.timetracker = TimeTracker(self.configs)
         self.timetracker.clearLogs()
 
     def tearDown(self):
@@ -46,7 +46,7 @@ class testTimeTracker(unittest.TestCase):
 
         """
 
-        self.assertEqual(self.timetracker.getSleepTime(), self.sleepTime)
+        self.assertEqual(self.timetracker.getSleepTime(), self.configs['sleepTime'])
 
     def testGettingEmptyLog(self):
 
@@ -68,7 +68,7 @@ class testTimeTracker(unittest.TestCase):
 
         window = 'Non existing window 1'
         self.timetracker.log(window)
-        self.assertEqual(self.timetracker.getWindowTime(window), self.sleepTime)
+        self.assertEqual(self.timetracker.getWindowTime(window), self.configs['sleepTime'])
 
     def testClearLogs(self):
 
@@ -96,8 +96,8 @@ class testTimeTracker(unittest.TestCase):
         self.timetracker.log('Test window 2')
         self.timetracker.log('Test window 1')
         self.assertEqual(self.timetracker.getLogs(), {
-            'Test window 1' : 2 * self.sleepTime,
-            'Test window 2' : self.sleepTime
+            'Test window 1' : 2 * self.configs['sleepTime'],
+            'Test window 2' : self.configs['sleepTime']
         })
 
     def testDumpLogToFile(self):

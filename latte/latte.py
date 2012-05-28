@@ -1,6 +1,8 @@
 import time
 import subprocess
 import os
+import atexit
+
 from TimeTracker import TimeTracker
 
 def GetActiveWindowTitle():
@@ -13,11 +15,17 @@ configs = {}
 configs['appPath'] = lattePath
 configs['statsPath'] = 'stats/'
 configs['appPath'] = os.path.expanduser(configs['appPath'])
-tracker = TimeTracker(sleepTime=sleepTime, configs=configs)
+configs['sleepTime'] = sleepTime
+configs['autosaveTime'] = 3600
+tracker = TimeTracker(configs=configs)
+
+# Catch exit signal and force save logs
+atexit.register(tracker.dumpLogs)
 
 if not os.path.exists(lattePath):
     os.makedirs(lattePath)
 
+duration = 0
 while True:
     try:
         title = GetActiveWindowTitle()
@@ -25,4 +33,9 @@ while True:
         print title, tracker.getWindowTime(title)
     except AttributeError:
         pass
-    time.sleep(sleepTime);
+
+    time.sleep(configs['sleepTime']);
+    duration += configs['sleepTime']
+    if duration >= configs['autosaveTime']:
+        duration = 0
+        tracker.dumpLogs()

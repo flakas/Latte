@@ -6,8 +6,8 @@ class TimeTracker:
 
     logs = {}
 
-    def __init__(self, sleepTime, configs):
-        self._sleepTime = sleepTime
+    def __init__(self, configs):
+        self._sleepTime = configs['sleepTime']
         self._configs = configs
 
     def getSleepTime(self):
