@@ -15,14 +15,18 @@ class TimeTracker:
 
     def getWindowTime(self, window):
         if window in self.logs.keys():
-            return self.logs[window]
+            return self.logs[window]['time']
         else:
             return None
 
     def log(self, window):
         if not window in self.logs.keys():
-            self.logs[window] = 0
-        self.logs[window] += self.getSleepTime()
+            self.logs[window] = {
+                'time' : 0,
+                'category' : '',
+                'project' : ''
+            }
+        self.logs[window]['time'] += self.getSleepTime()
 
     def getLogs(self):
         return self.logs

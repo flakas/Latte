@@ -96,8 +96,16 @@ class testTimeTracker(unittest.TestCase):
         self.timetracker.log('Test window 2')
         self.timetracker.log('Test window 1')
         self.assertEqual(self.timetracker.getLogs(), {
-            'Test window 1' : 2 * self.configs['sleepTime'],
-            'Test window 2' : self.configs['sleepTime']
+            'Test window 1' : {
+                'time' : 2 * self.configs['sleepTime'],
+                'category' : '',
+                'project' : '',
+            },
+            'Test window 2' : {
+                'time' : self.configs['sleepTime'],
+                'category' : '',
+                'project' : '',
+            }
         })
 
     def testDumpLogToFile(self):
