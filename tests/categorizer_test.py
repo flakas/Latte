@@ -11,8 +11,12 @@ class testCategorizer(unittest.TestCase):
     """
 
     def setUp(self):
-        self.categories = (TestCategory1(), TestCategory2())
-        self.categorizer = Categorizer(self.categories)
+        self.configs = {
+            'lattePath' : 'latte/',
+        }
+        self.categorizer = Categorizer(self.configs)
+        self.categorizer.addCategory(TestCategory1)
+        self.categorizer.addCategory(TestCategory2)
 
     def tearDown(self):
         pass

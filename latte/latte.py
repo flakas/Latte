@@ -4,6 +4,7 @@ import os
 import atexit
 
 from TimeTracker import TimeTracker
+from Categories.Categorizer import Categorizer
 
 def GetActiveWindowTitle():
         return subprocess.Popen(["xprop", "-id", subprocess.Popen(["xprop", "-root", "_NET_ACTIVE_WINDOW"], stdout=subprocess.PIPE).communicate()[0].strip().split()[-1], "WM_NAME"], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].strip().split('"', 1)[-1][:-1]
@@ -30,7 +31,8 @@ while True:
     try:
         title = GetActiveWindowTitle()
         tracker.log(title)
-        print title, tracker.getWindowTime(title)
+        stats = tracker.getWindowStats(title)
+        print title, stats['category'], stats['project'], stats['time']
     except AttributeError:
         pass
 

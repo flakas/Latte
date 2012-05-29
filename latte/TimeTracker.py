@@ -1,6 +1,7 @@
 import time
 import json
 import os
+from Categories.Categorizer import Categorizer
 
 class TimeTracker:
 
@@ -9,6 +10,8 @@ class TimeTracker:
     def __init__(self, configs):
         self._sleepTime = configs['sleepTime']
         self._configs = configs
+        self._categorizer = Categorizer(configs)
+        self._categorizer.loadCategories()
 
     def getSleepTime(self):
         return self._sleepTime
@@ -19,6 +22,12 @@ class TimeTracker:
         else:
             return None
 
+    def getWindowStats(self, window):
+        if window in self.logs.keys():
+            return self.logs[window]
+        else:
+            return None
+
     def log(self, window):
         if not window in self.logs.keys():
             self.logs[window] = {
@@ -26,6 +35,9 @@ class TimeTracker:
                 'category' : '',
                 'project' : ''
             }
+            category = self._categorizer.categorize(window)
+            if not category == None:
+                self.logs[window]['category'] = category.getTitle()
         self.logs[window]['time'] += self.getSleepTime()
 
     def getLogs(self):
