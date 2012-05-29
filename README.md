@@ -5,6 +5,19 @@ An attempt to build an automatic time tracker for Linux
 
 [![Build Status](https://secure.travis-ci.org/flakas/Latte.png)](http://travis-ci.org/flakas/Latte)
 
+Installation
+------------
+
+Installation is not properly supported yet. Download as a `.zip`, extract and run with `python latte/latte.py`
+
+Configuration
+-------------
+
+Configuration scripts are saved in ~/.latte folder.
+
+- `categories.py` should contain user defined classes for categories (see example configuration in `doc/config/categories.py`)
+
+
 Goal
 ----
 
