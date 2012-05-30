@@ -27,7 +27,7 @@ class Categorizer:
                         self.addCategory(obj)
             except Exception as ex:
                 print 'Cannot properly load categories'
-                print(ex)
+                print ex
                 pass
 
     def addCategory(self, category):
