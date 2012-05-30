@@ -18,7 +18,8 @@ configs['statsPath'] = 'stats/'
 configs['appPath'] = os.path.expanduser(configs['appPath'])
 configs['sleepTime'] = sleepTime
 configs['autosaveTime'] = 3600
-tracker = TimeTracker(configs=configs)
+categorizer = Categorizer(configs=configs)
+tracker = TimeTracker(configs=configs, categorizer=categorizer)
 
 # Catch exit signal and force save logs
 atexit.register(tracker.dumpLogs)

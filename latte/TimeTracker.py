@@ -1,16 +1,15 @@
 import time
 import json
 import os
-from Categories.Categorizer import Categorizer
 
 class TimeTracker:
 
     logs = {}
 
-    def __init__(self, configs):
+    def __init__(self, configs, categorizer):
         self._sleepTime = configs['sleepTime']
         self._configs = configs
-        self._categorizer = Categorizer(configs)
+        self._categorizer = categorizer
         self._categorizer.loadCategories()
 
     def getSleepTime(self):
