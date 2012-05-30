@@ -16,6 +16,7 @@ Configuration
 Configuration scripts are saved in ~/.latte folder.
 
 - `categories.py` should contain user defined classes for categories (see example configuration in `doc/config/categories.py`)
+- `projects.py` should contain user defined classes for projects (see example configuration in `doc/config/projects.py`)
 
 
 Goal
