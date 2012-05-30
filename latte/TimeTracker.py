@@ -6,11 +6,13 @@ class TimeTracker:
 
     logs = {}
 
-    def __init__(self, configs, categorizer):
+    def __init__(self, configs, categorizer, projectizer):
         self._sleepTime = configs['sleepTime']
         self._configs = configs
         self._categorizer = categorizer
         self._categorizer.loadCategories()
+        self._projectizer = projectizer
+        self._projectizer.loadProjects()
 
     def getSleepTime(self):
         return self._sleepTime
@@ -37,6 +39,9 @@ class TimeTracker:
             category = self._categorizer.categorize(window)
             if not category == None:
                 self.logs[window]['category'] = category.getTitle()
+            project = self._projectizer.projectize(window, category)
+            if not project == None:
+                self.logs[window]['project'] = project.getTitle()
         self.logs[window]['time'] += self.getSleepTime()
 
     def getLogs(self):

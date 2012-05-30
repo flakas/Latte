@@ -5,6 +5,7 @@ import atexit
 
 from TimeTracker import TimeTracker
 from Categories.Categorizer import Categorizer
+from Projects.Projectizer import Projectizer
 
 def GetActiveWindowTitle():
         return subprocess.Popen(["xprop", "-id", subprocess.Popen(["xprop", "-root", "_NET_ACTIVE_WINDOW"], stdout=subprocess.PIPE).communicate()[0].strip().split()[-1], "WM_NAME"], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].strip().split('"', 1)[-1][:-1]
@@ -19,7 +20,8 @@ configs['appPath'] = os.path.expanduser(configs['appPath'])
 configs['sleepTime'] = sleepTime
 configs['autosaveTime'] = 3600
 categorizer = Categorizer(configs=configs)
-tracker = TimeTracker(configs=configs, categorizer=categorizer)
+projectizer = Projectizer(configs=configs)
+tracker = TimeTracker(configs=configs, categorizer=categorizer, projectizer=projectizer)
 
 # Catch exit signal and force save logs
 atexit.register(tracker.dumpLogs)

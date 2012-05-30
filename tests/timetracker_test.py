@@ -5,6 +5,7 @@ import shutil
 
 from latte.TimeTracker import TimeTracker
 from latte.Categories.Categorizer import Categorizer
+from latte.Projects.Projectizer import Projectizer
 
 class testTimeTracker(unittest.TestCase):
 
@@ -31,7 +32,8 @@ class testTimeTracker(unittest.TestCase):
             'statsPath' : 'stats/',
         }
         self.categorizer = Categorizer(self.configs)
-        self.timetracker = TimeTracker(self.configs, self.categorizer)
+        self.projectizer = Projectizer(self.configs)
+        self.timetracker = TimeTracker(self.configs, self.categorizer, self.projectizer)
         self.timetracker.clearLogs()
 
     def tearDown(self):
