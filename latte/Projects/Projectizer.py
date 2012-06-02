@@ -4,7 +4,7 @@ import inspect
 
 from Project import Project
 
-class Projectizer:
+class Projectizer(object):
     projects = []
 
     def __init__(self, configs):

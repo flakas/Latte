@@ -2,7 +2,7 @@ import time
 import json
 import os
 
-class TimeTracker:
+class TimeTracker(object):
 
     logs = {}
 

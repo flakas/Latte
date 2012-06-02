@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import time
 import subprocess
 import os
@@ -6,6 +7,7 @@ import atexit
 from TimeTracker import TimeTracker
 from Categories.Categorizer import Categorizer
 from Projects.Projectizer import Projectizer
+
 
 def GetActiveWindowTitle():
         return subprocess.Popen(["xprop", "-id", subprocess.Popen(["xprop", "-root", "_NET_ACTIVE_WINDOW"], stdout=subprocess.PIPE).communicate()[0].strip().split()[-1], "WM_NAME"], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].strip().split('"', 1)[-1][:-1]
@@ -23,6 +25,7 @@ categorizer = Categorizer(configs=configs)
 projectizer = Projectizer(configs=configs)
 tracker = TimeTracker(configs=configs, categorizer=categorizer, projectizer=projectizer)
 
+
 # Catch exit signal and force save logs
 atexit.register(tracker.dumpLogs)
 
@@ -39,7 +42,7 @@ while True:
     except AttributeError:
         pass
 
-    time.sleep(configs['sleepTime']);
+    time.sleep(configs['sleepTime'])
     duration += configs['sleepTime']
     if duration >= configs['autosaveTime']:
         duration = 0

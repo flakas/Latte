@@ -4,7 +4,7 @@ import inspect
 
 from Category import Category
 
-class Categorizer:
+class Categorizer(object):
     categories = []
 
     def __init__(self, configs):
