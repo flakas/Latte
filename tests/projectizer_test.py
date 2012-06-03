@@ -15,8 +15,8 @@ class testProjectizer(unittest.TestCase):
             'lattePath' : 'latte/',
         }
         self.projectizer = Projectizer(self.configs)
-        self.projectizer.addProject(TestProject1)
-        self.projectizer.addProject(TestProject2)
+        self.projectizer.add_project(TestProject1)
+        self.projectizer.add_project(TestProject2)
 
     def tearDown(self):
         pass
@@ -45,7 +45,7 @@ class testProjectizer(unittest.TestCase):
 
 class TestProject1(Project):
 
-    def getTitle(self):
+    def get_title(self):
         return 'TestProject1'
 
     def belongs(self, window, category):
@@ -53,7 +53,7 @@ class TestProject1(Project):
 
 class TestProject2(Project):
 
-    def getTitle(self):
+    def get_title(self):
         return 'TestProject2'
 
     def belongs(self, window, category):

@@ -1,3 +1,9 @@
+"""
+
+Window categorization class.
+Categorizes windows according to user-defined category classes
+
+"""
 import sys
 import os
 import inspect
@@ -5,18 +11,34 @@ import inspect
 from Category import Category
 
 class Categorizer(object):
+    """
+
+    Handles category management and categorization
+
+    """
     categories = []
 
     def __init__(self, configs):
         self._configs = configs
 
     def categorize(self, window):
+        """
+
+        Categorize window according to window title
+        Returns category object
+
+        """
         for i in self.categories:
             if i.belongs(window):
                 return i
         return None
 
-    def loadCategories(self):
+    def load_categories(self):
+        """
+
+        Loads user-defined categories from application path
+
+        """
         path = os.path.join(self._configs['appPath'])
         if os.path.exists(path):
             sys.path.append(path)
@@ -24,12 +46,16 @@ class Categorizer(object):
                 import categories
                 for name, obj in inspect.getmembers(categories):
                     if inspect.isclass(obj) and obj.__module__ == 'categories':
-                        self.addCategory(obj)
+                        self.add_category(obj)
             except Exception as ex:
                 print 'Cannot properly load categories'
                 print ex
-                pass
 
-    def addCategory(self, category):
+    def add_category(self, category):
+        """
+
+        Add category object to the Categorizer
+
+        """
         if issubclass(category, Category):
             self.categories.append(category())

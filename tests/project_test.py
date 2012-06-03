@@ -18,7 +18,7 @@ class testProject(unittest.TestCase):
         """
 
         self.assertRaises(NotImplementedError,
-            Project().getTitle)
+            Project().get_title)
         self.assertRaises(NotImplementedError,
             Project().belongs, 'NotImplemented', None)
 
@@ -33,11 +33,11 @@ class testProject(unittest.TestCase):
 
         class ImplementedProject(Project):
 
-            def getTitle(self):
+            def get_title(self):
                 return 'Implemented Project'
             def belongs(self, window):
                 return False
 
         c = ImplementedProject()
-        self.assertEquals(c.getTitle(), 'Implemented Project')
+        self.assertEquals(c.get_title(), 'Implemented Project')
         self.assertEquals(c.belongs('Does not belong'), False)

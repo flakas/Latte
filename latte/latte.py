@@ -1,4 +1,14 @@
 #!/usr/bin/env python
+
+"""
+
+Latte - Linux Automatic Time Tracker
+
+Collects window titles you are working on, categorizes them and tracks time for
+each window individually. Stores log data to the filesystem.
+
+"""
+
 import time
 import subprocess
 import os
@@ -8,42 +18,77 @@ from TimeTracker import TimeTracker
 from Categories.Categorizer import Categorizer
 from Projects.Projectizer import Projectizer
 
+class Latte(object):
 
-def GetActiveWindowTitle():
-        return subprocess.Popen(["xprop", "-id", subprocess.Popen(["xprop", "-root", "_NET_ACTIVE_WINDOW"], stdout=subprocess.PIPE).communicate()[0].strip().split()[-1], "WM_NAME"], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].strip().split('"', 1)[-1][:-1]
+    """
 
-sleepTime = 5
-lattePath = '~/.latte/'
+    Main application class
 
-configs = {}
-configs['appPath'] = lattePath
-configs['statsPath'] = 'stats/'
-configs['appPath'] = os.path.expanduser(configs['appPath'])
-configs['sleepTime'] = sleepTime
-configs['autosaveTime'] = 3600
-categorizer = Categorizer(configs=configs)
-projectizer = Projectizer(configs=configs)
-tracker = TimeTracker(configs=configs, categorizer=categorizer, projectizer=projectizer)
+    """
 
+    configs = {}
 
-# Catch exit signal and force save logs
-atexit.register(tracker.dumpLogs)
+    def __init__(self, sleeptime=5, lattepath='~/.latte'):
+        self.configs['appPath'] = os.path.expanduser(lattepath)
+        self.configs['statsPath'] = 'stats/'
+        self.configs['sleepTime'] = sleeptime
+        self.configs['autosaveTime'] = 3600
+        self.categorizer = Categorizer(configs=self.configs)
+        self.projectizer = Projectizer(configs=self.configs)
+        self.tracker = TimeTracker(configs=self.configs,
+                                   categorizer=self.categorizer,
+                                   projectizer=self.projectizer)
 
-if not os.path.exists(lattePath):
-    os.makedirs(lattePath)
+        # Register a cleanup
+        atexit.register(self.cleanup)
 
-duration = 0
-while True:
-    try:
-        title = GetActiveWindowTitle()
-        tracker.log(title)
-        stats = tracker.getWindowStats(title)
-        print title, stats['category'], stats['project'], stats['time']
-    except AttributeError:
-        pass
+        if not os.path.exists(self.configs['appPath']):
+            os.makedirs(self.configs['appPath'])
 
-    time.sleep(configs['sleepTime'])
-    duration += configs['sleepTime']
-    if duration >= configs['autosaveTime']:
+    def cleanup(self):
+        """
+
+        Atexit cleanup method. Force dumps log information to the filesystem
+
+        """
+        self.tracker.dump_logs()
+
+    def run(self):
+        """
+
+        Primary application loop
+
+        """
         duration = 0
-        tracker.dumpLogs()
+        while True:
+            try:
+                title = get_active_window_title()
+                self.tracker.log(title)
+                stats = self.tracker.get_window_stats(title)
+                print title, stats['category'], stats['project'], stats['time']
+            except AttributeError:
+                pass
+
+            time.sleep(self.configs['sleepTime'])
+            duration += self.configs['sleepTime']
+            if duration >= self.configs['autosaveTime']:
+                duration = 0
+                self.tracker.dump_logs()
+
+def get_active_window_title():
+    """
+
+    Fetches active window title using xprop
+
+    """
+    active = subprocess.Popen(["xprop", "-root", "_NET_ACTIVE_WINDOW"],
+                            stdout=subprocess.PIPE)
+    active_id = active.communicate()[0].strip().split()[-1]
+    window = subprocess.Popen(["xprop", "-id", active_id, "WM_NAME"],
+                            stdout=subprocess.PIPE,
+                            stderr=subprocess.PIPE)
+    return window.communicate()[0].strip().split('"', 1)[-1][:-1]
+
+
+if __name__ == '__main__':
+    Latte(sleeptime=5, lattepath='~/.latte').run()

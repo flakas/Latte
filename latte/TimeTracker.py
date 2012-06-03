@@ -1,35 +1,66 @@
+"""
+
+Time tracking class
+Handles window time logging and log information storage
+
+"""
 import time
 import json
 import os
 
 class TimeTracker(object):
+    """
+
+    Tracks window time and stores window information
+
+    """
 
     logs = {}
 
     def __init__(self, configs, categorizer, projectizer):
-        self._sleepTime = configs['sleepTime']
         self._configs = configs
         self._categorizer = categorizer
-        self._categorizer.loadCategories()
+        self._categorizer.load_categories()
         self._projectizer = projectizer
-        self._projectizer.loadProjects()
+        self._projectizer.load_projects()
 
-    def getSleepTime(self):
-        return self._sleepTime
+    def get_sleep_time(self):
+        """
 
-    def getWindowTime(self, window):
+        Returns sleepTime config
+
+        """
+        return self._configs['sleepTime']
+
+    def get_window_time(self, window):
+        """
+
+        Returns window time information from logs
+
+        """
         if window in self.logs.keys():
             return self.logs[window]['time']
         else:
             return None
 
-    def getWindowStats(self, window):
+    def get_window_stats(self, window):
+        """
+
+        Returns a dict of window statistics.
+        That includes window time, category and project.
+
+        """
         if window in self.logs.keys():
             return self.logs[window]
         else:
             return None
 
     def log(self, window):
+        """
+
+        Logs window time, handles assigning to projects and categories.
+
+        """
         if not window in self.logs.keys():
             self.logs[window] = {
                 'time' : 0,
@@ -38,19 +69,35 @@ class TimeTracker(object):
             }
             category = self._categorizer.categorize(window)
             if not category == None:
-                self.logs[window]['category'] = category.getTitle()
+                self.logs[window]['category'] = category.get_title()
             project = self._projectizer.projectize(window, category)
             if not project == None:
-                self.logs[window]['project'] = project.getTitle()
-        self.logs[window]['time'] += self.getSleepTime()
+                self.logs[window]['project'] = project.get_title()
+        self.logs[window]['time'] += self.get_sleep_time()
 
-    def getLogs(self):
+    def get_logs(self):
+        """
+
+        Returns whole logs dict
+
+        """
+
         return self.logs
 
-    def clearLogs(self):
+    def clear_logs(self):
+        """
+
+        Removes logs, stored in this object
+
+        """
         self.logs = {}
 
-    def dumpLogs(self):
+    def dump_logs(self):
+        """
+
+        Dumps logs to filesystem
+
+        """
         target_path = os.path.join(self._configs['appPath'],
                                    self._configs['statsPath'])
         if not os.path.exists(target_path):
@@ -59,10 +106,8 @@ class TimeTracker(object):
         file_path = os.path.join(target_path, filename)
 
         log_file = open(file_path, 'w')
-        log_file.write(json.dumps(self.getLogs(), indent=4))
+        log_file.write(json.dumps(self.get_logs(), indent=4))
         log_file.close()
 
-        self.clearLogs()
+        self.clear_logs()
         return filename
-
-

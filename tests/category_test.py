@@ -18,7 +18,7 @@ class testCategory(unittest.TestCase):
         """
 
         self.assertRaises(NotImplementedError,
-            Category().getTitle)
+            Category().get_title)
         self.assertRaises(NotImplementedError,
             Category().belongs, 'NotImplemented')
 
@@ -32,10 +32,11 @@ class testCategory(unittest.TestCase):
         """
 
         class ImplementedCategory(Category):
-            title = 'Implemented Category'
+            def get_title(self):
+                return 'Implemented Category'
             def belongs(self, window):
                 return False
 
         c = ImplementedCategory()
-        self.assertEquals(c.title, 'Implemented Category')
+        self.assertEquals(c.get_title(), 'Implemented Category')
         self.assertEquals(c.belongs('Does not belong'), False)

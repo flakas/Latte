@@ -34,7 +34,7 @@ class testTimeTracker(unittest.TestCase):
         self.categorizer = Categorizer(self.configs)
         self.projectizer = Projectizer(self.configs)
         self.timetracker = TimeTracker(self.configs, self.categorizer, self.projectizer)
-        self.timetracker.clearLogs()
+        self.timetracker.clear_logs()
 
     def tearDown(self):
         try:
@@ -50,7 +50,7 @@ class testTimeTracker(unittest.TestCase):
 
         """
 
-        self.assertEqual(self.timetracker.getSleepTime(), self.configs['sleepTime'])
+        self.assertEqual(self.timetracker.get_sleep_time(), self.configs['sleepTime'])
 
     def testGettingEmptyLog(self):
 
@@ -60,7 +60,7 @@ class testTimeTracker(unittest.TestCase):
 
         """
 
-        self.assertEqual(self.timetracker.getWindowTime('Bogus'), None)
+        self.assertEqual(self.timetracker.get_window_time('Bogus'), None)
 
     def testAddTimeToNonExistingWindows(self):
 
@@ -72,7 +72,7 @@ class testTimeTracker(unittest.TestCase):
 
         window = 'Non existing window 1'
         self.timetracker.log(window)
-        self.assertEqual(self.timetracker.getWindowTime(window), self.configs['sleepTime'])
+        self.assertEqual(self.timetracker.get_window_time(window), self.configs['sleepTime'])
 
     def testClearLogs(self):
 
@@ -85,8 +85,8 @@ class testTimeTracker(unittest.TestCase):
         title = 'Clearing out log data'
 
         self.timetracker.log(title)
-        self.timetracker.clearLogs()
-        self.assertEqual(self.timetracker.getWindowTime(title), None)
+        self.timetracker.clear_logs()
+        self.assertEqual(self.timetracker.get_window_time(title), None)
 
     def testGetAllLogs(self):
 
@@ -99,7 +99,7 @@ class testTimeTracker(unittest.TestCase):
         self.timetracker.log('Test window 1')
         self.timetracker.log('Test window 2')
         self.timetracker.log('Test window 1')
-        self.assertEqual(self.timetracker.getLogs(), {
+        self.assertEqual(self.timetracker.get_logs(), {
             'Test window 1' : {
                 'time' : 2 * self.configs['sleepTime'],
                 'category' : '',
@@ -120,10 +120,10 @@ class testTimeTracker(unittest.TestCase):
 
         """
 
-        self.timetracker.clearLogs()
+        self.timetracker.clear_logs()
         self.timetracker.log('Dump Log To File')
-        str = json.dumps(self.timetracker.getLogs(), indent=4)
-        filename = self.timetracker.dumpLogs()
+        str = json.dumps(self.timetracker.get_logs(), indent=4)
+        filename = self.timetracker.dump_logs()
         file_path = os.path.join(
             self.configs['appPath'],
             self.configs['statsPath'],
@@ -136,4 +136,3 @@ class testTimeTracker(unittest.TestCase):
         file.close()
 
         self.assertEqual(str, contents)
-

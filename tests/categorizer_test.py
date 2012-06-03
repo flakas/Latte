@@ -1,3 +1,8 @@
+"""
+
+Tests for activity categorization class
+
+"""
 import unittest
 from latte.Categories.Categorizer import Categorizer
 from latte.Categories.Category import Category
@@ -15,8 +20,8 @@ class testCategorizer(unittest.TestCase):
             'lattePath' : 'latte/',
         }
         self.categorizer = Categorizer(self.configs)
-        self.categorizer.addCategory(TestCategory1)
-        self.categorizer.addCategory(TestCategory2)
+        self.categorizer.add_category(TestCategory1)
+        self.categorizer.add_category(TestCategory2)
 
     def tearDown(self):
         pass
