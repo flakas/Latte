@@ -8,7 +8,13 @@ An attempt to build an automatic time tracker for Linux
 Installation
 ------------
 
-Installation is not properly supported yet. Download as a `.zip`, extract and run with `python latte/latte.py`
+Use these installation commands to install `Latte`:
+
+```
+git clone git://github.com/flakas/Latte.git
+cd Latte
+python setup.py install
+```
 
 Configuration
 -------------
@@ -39,7 +45,6 @@ Tasks ordered in random manner:
 - Functionality to check if the user is active (mouse and/or keyboard activity tracking)
 - Functionality to process log data
 - User defined application configuration (paths, timer durations)
-- Installation
 - Add comments to the code
 - Add configuration examples
 - Write documentation
@@ -55,6 +60,7 @@ Tasks done
 - Category support
 - Project support
 - Automatic project/category assignment according to user defined rules
+- Installation
 
 Nice to have
 ------------
