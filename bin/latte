@@ -1,0 +1,5 @@
+#!/usr/bin/python
+
+from latte.latte import Latte
+
+Latte(sleeptime=5, lattepath='~/.latte').run()
