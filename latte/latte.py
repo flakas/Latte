@@ -62,14 +62,11 @@ class Latte(object):
         """
         duration = 0
         while True:
-            try:
-                title = get_active_window_title()
-                if title:
-                    self.tracker.log(title)
-                    stats = self.tracker.get_window_stats(title)
-                    print title, stats['category'], stats['project'], stats['time']
-            except AttributeError:
-                pass
+            title = get_active_window_title()
+            if title:
+                self.tracker.log(title)
+                stats = self.tracker.get_window_stats(title)
+                print title, stats['category'], stats['project'], stats['time']
 
             time.sleep(self.configs['sleepTime'])
             # Track time since last save and do autosaves

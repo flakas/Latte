@@ -51,8 +51,9 @@ class Projectizer(object):
                 for name, obj in inspect.getmembers(projects):
                     if inspect.isclass(obj) and obj.__module__ == 'projects':
                         self.add_project(obj)
-            except ImportError:
+            except Exception as ex:
                 print 'Project file was not loaded'
+                print repr(ex)
 
     def add_project(self, project):
         """
