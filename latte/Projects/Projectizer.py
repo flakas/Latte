@@ -42,9 +42,12 @@ class Projectizer(object):
         """
         path = os.path.join(self._configs['appPath'])
         if os.path.exists(path):
+            # Append system path to attempt to import config module
             sys.path.append(path)
             try:
+                # Attempt to load projects
                 import projects
+                # Extract and load only classes
                 for name, obj in inspect.getmembers(projects):
                     if inspect.isclass(obj) and obj.__module__ == 'projects':
                         self.add_project(obj)
@@ -57,5 +60,6 @@ class Projectizer(object):
         Adds project object to projects list
 
         """
+        # Make sure that it extends Project Abstract Base Class
         if issubclass(project, Project):
             self.projects.append(project())

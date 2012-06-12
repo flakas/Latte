@@ -39,11 +39,14 @@ class Categorizer(object):
         Loads user-defined categories from application path
 
         """
+        # Add system path for categories if it exists
         path = os.path.join(self._configs['appPath'])
         if os.path.exists(path):
             sys.path.append(path)
+            # Attempt to load categories
             try:
                 import categories
+                # Inspect module members and extract only classes
                 for name, obj in inspect.getmembers(categories):
                     if inspect.isclass(obj) and obj.__module__ == 'categories':
                         self.add_category(obj)

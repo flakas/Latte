@@ -20,8 +20,9 @@ class TimeTracker(object):
     def __init__(self, configs, categorizer, projectizer):
         self._configs = configs
         self._categorizer = categorizer
-        self._categorizer.load_categories()
         self._projectizer = projectizer
+        # Load category and project configs
+        self._categorizer.load_categories()
         self._projectizer.load_projects()
 
     def get_sleep_time(self):
@@ -98,13 +99,16 @@ class TimeTracker(object):
         Dumps logs to filesystem
 
         """
+        # Join stats system path and create it if it doesn't exist
         target_path = os.path.join(self._configs['appPath'],
                                    self._configs['statsPath'])
         if not os.path.exists(target_path):
             os.makedirs(target_path)
+        # Filename for current timestamp
         filename = str(int(time.time()))
         file_path = os.path.join(target_path, filename)
 
+        # Write logs in json format to the log file
         log_file = open(file_path, 'w')
         log_file.write(json.dumps(self.get_logs(), indent=4))
         log_file.close()

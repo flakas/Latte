@@ -42,7 +42,6 @@ Tasks
 Tasks ordered in random manner:
 
 - Functionality to check if the user is active (mouse and/or keyboard activity tracking)
-- Functionality to check if the user is active (mouse and/or keyboard activity tracking)
 - Functionality to process log data
 - User defined application configuration (paths, timer durations)
 - Add comments to the code

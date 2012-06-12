@@ -42,6 +42,7 @@ class Latte(object):
         # Register a cleanup
         atexit.register(self.cleanup)
 
+        # Add application configuration path
         if not os.path.exists(self.configs['appPath']):
             os.makedirs(self.configs['appPath'])
 
@@ -63,13 +64,15 @@ class Latte(object):
         while True:
             try:
                 title = get_active_window_title()
-                self.tracker.log(title)
-                stats = self.tracker.get_window_stats(title)
-                print title, stats['category'], stats['project'], stats['time']
+                if title:
+                    self.tracker.log(title)
+                    stats = self.tracker.get_window_stats(title)
+                    print title, stats['category'], stats['project'], stats['time']
             except AttributeError:
                 pass
 
             time.sleep(self.configs['sleepTime'])
+            # Track time since last save and do autosaves
             duration += self.configs['sleepTime']
             if duration >= self.configs['autosaveTime']:
                 duration = 0
@@ -81,13 +84,16 @@ def get_active_window_title():
     Fetches active window title using xprop
 
     """
-    active = subprocess.Popen(["xprop", "-root", "_NET_ACTIVE_WINDOW"],
-                            stdout=subprocess.PIPE)
-    active_id = active.communicate()[0].strip().split()[-1]
-    window = subprocess.Popen(["xprop", "-id", active_id, "WM_NAME"],
-                            stdout=subprocess.PIPE,
-                            stderr=subprocess.PIPE)
-    return window.communicate()[0].strip().split('"', 1)[-1][:-1]
+    try:
+        active = subprocess.Popen(["xprop", "-root", "_NET_ACTIVE_WINDOW"],
+                                stdout=subprocess.PIPE)
+        active_id = active.communicate()[0].strip().split()[-1]
+        window = subprocess.Popen(["xprop", "-id", active_id, "WM_NAME"],
+                                stdout=subprocess.PIPE,
+                                stderr=subprocess.PIPE)
+        return window.communicate()[0].strip().split('"', 1)[-1][:-1]
+    except:
+        return ''
 
 
 if __name__ == '__main__':
