@@ -8,7 +8,7 @@ import sys
 import os
 import inspect
 
-from Project import Project
+from latte.Projects.Project import Project
 
 class Projectizer(object):
     """
@@ -48,9 +48,8 @@ class Projectizer(object):
                 for name, obj in inspect.getmembers(projects):
                     if inspect.isclass(obj) and obj.__module__ == 'projects':
                         self.add_project(obj)
-            except Exception as ex:
-                print 'Cannot properly load projects'
-                print ex
+            except ImportError:
+                print 'Project file was not loaded'
 
     def add_project(self, project):
         """

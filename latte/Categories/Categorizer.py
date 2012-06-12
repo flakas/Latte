@@ -8,7 +8,7 @@ import sys
 import os
 import inspect
 
-from Category import Category
+from latte.Categories.Category import Category
 
 class Categorizer(object):
     """
@@ -47,9 +47,8 @@ class Categorizer(object):
                 for name, obj in inspect.getmembers(categories):
                     if inspect.isclass(obj) and obj.__module__ == 'categories':
                         self.add_category(obj)
-            except Exception as ex:
-                print 'Cannot properly load categories'
-                print ex
+            except ImportError:
+                print 'Category file was not loaded'
 
     def add_category(self, category):
         """
