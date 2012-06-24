@@ -38,7 +38,17 @@ class testCategorizer(unittest.TestCase):
         category = self.categorizer.categorize('Non existing category')
         self.assertEquals(category, None)
 
-    #@unittest.skip('SKipp')
+    def testCannotAddDuplicateCategories(self):
+
+        """
+
+        Tests if one can add duplicate categories
+
+        """
+        
+        self.assertEqual(self.categorizer.add_category(TestCategory1), False)
+
+
     def testExistingCategory(self):
 
         """

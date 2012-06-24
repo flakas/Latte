@@ -73,3 +73,6 @@ class Categorizer(object):
         if issubclass(category, Category) and \
             not checkForCreatedObjects(category, self.categories):
             self.categories.append(category())
+            return True
+        else:
+            return False
