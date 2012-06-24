@@ -22,8 +22,8 @@ class TimeTracker(object):
         self._categorizer = categorizer
         self._projectizer = projectizer
         # Load category and project configs
-        self._categorizer.load_categories()
-        self._projectizer.load_projects()
+        self._categorizer.load_groups()
+        self._projectizer.load_groups()
 
     def get_sleep_time(self):
         """
@@ -68,10 +68,10 @@ class TimeTracker(object):
                 'category' : '',
                 'project' : ''
             }
-            categories = self._categorizer.categorize(window)
+            categories = self._categorizer.assign(True, window)
             if not categories == None:
                 self.logs[window]['categories'] = [c.get_title() for c in categories]
-            project = self._projectizer.projectize(window, categories)
+            project = self._projectizer.assign(False, window, categories)
             if not project == None:
                 self.logs[window]['project'] = project.get_title()
         self.logs[window]['time'] += self.get_sleep_time()

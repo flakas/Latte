@@ -14,9 +14,10 @@ import subprocess
 import os
 import atexit
 
-from TimeTracker import TimeTracker
-from Categories.Categorizer import Categorizer
-from Projects.Projectizer import Projectizer
+from .TimeTracker import TimeTracker
+#from Categories.Categorizer import Categorizer
+#from Projects.Projectizer import Projectizer
+from .Assigner import Assigner
 
 class Latte(object):
 
@@ -33,8 +34,10 @@ class Latte(object):
         self.configs['statsPath'] = 'stats/'
         self.configs['sleepTime'] = sleeptime
         self.configs['autosaveTime'] = 3600
-        self.categorizer = Categorizer(configs=self.configs)
-        self.projectizer = Projectizer(configs=self.configs)
+        #self.categorizer = Categorizer(configs=self.configs)
+        #self.projectizer = Projectizer(configs=self.configs)
+        self.categorizer = Assigner('category', self.configs)
+        self.projectizer = Assigner('project', self.configs)
         self.tracker = TimeTracker(configs=self.configs,
                                    categorizer=self.categorizer,
                                    projectizer=self.projectizer)

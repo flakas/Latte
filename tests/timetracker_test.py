@@ -4,8 +4,7 @@ import os
 import shutil
 
 from latte.TimeTracker import TimeTracker
-from latte.Categories.Categorizer import Categorizer
-from latte.Projects.Projectizer import Projectizer
+from latte.Assigner import Assigner
 
 class testTimeTracker(unittest.TestCase):
 
@@ -31,8 +30,8 @@ class testTimeTracker(unittest.TestCase):
             'appPath' : 'tests/latte/',
             'statsPath' : 'stats/',
         }
-        self.categorizer = Categorizer(self.configs)
-        self.projectizer = Projectizer(self.configs)
+        self.categorizer = Assigner('category', self.configs)
+        self.projectizer = Assigner('project', self.configs)
         self.timetracker = TimeTracker(self.configs, self.categorizer, self.projectizer)
         self.timetracker.clear_logs()
 
