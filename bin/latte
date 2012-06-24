@@ -1,5 +1,12 @@
 #!/usr/bin/python
 
+"""
+
+Main Latte application
+This is run as a binary application
+
+"""
+
 from latte.latte import Latte
 
 Latte(sleeptime=5, lattepath='~/.latte').run()

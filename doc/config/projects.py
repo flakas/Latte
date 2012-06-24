@@ -2,11 +2,11 @@ from latte.Projects.Project import Project # Import base Project class
 
 class ProjectDoingNothing(Project): # Must inherit from Project base class
 
-    def getTitle(self):
+    def get_title(self):
         """ User friendly project title """
         return 'Doing nothing'
 
-    def belongs(self, window, category):
+    def belongs(self, window, categories):
         """
 
         Checks if window belongs to this project
@@ -16,12 +16,22 @@ class ProjectDoingNothing(Project): # Must inherit from Project base class
             False otherwise
 
         """
-        return 'Youtube' in window and 'Chrome' in category.getTitle()
+        return 'Youtube' in window
 
 class ProjectLatte(Project):
 
-    def getTitle(self):
+    def get_title(self):
+        """ User friendly project title """
         return 'Latte'
 
-    def belongs(self, window, category):
+    def belongs(self, window, categories):
+        """
+
+        Checks if window belongs to this project
+
+        Returns:
+            True if window belongs to this project
+            False otherwise
+
+        """
         return 'Latte' in window

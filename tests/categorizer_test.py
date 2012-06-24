@@ -22,9 +22,10 @@ class testCategorizer(unittest.TestCase):
         self.categorizer = Categorizer(self.configs)
         self.categorizer.add_category(TestCategory1)
         self.categorizer.add_category(TestCategory2)
+        self.categorizer.add_category(TestCategory3)
 
     def tearDown(self):
-        pass
+        self.categorizer = None
 
     def testNonExistingCategory(self):
 
@@ -37,6 +38,7 @@ class testCategorizer(unittest.TestCase):
         category = self.categorizer.categorize('Non existing category')
         self.assertEquals(category, None)
 
+    #@unittest.skip('SKipp')
     def testExistingCategory(self):
 
         """
@@ -45,12 +47,29 @@ class testCategorizer(unittest.TestCase):
 
         """
 
-        category = self.categorizer.categorize('Existing test category')
-        self.assertEquals(isinstance(category, TestCategory2), True)
+        category = self.categorizer.categorize('test')
+        print category
+        print self.categorizer.categories
+        self.assertEquals(len(category), 1)
+        self.assertEquals(isinstance(category[0], TestCategory2), True)
+
+    def testAssignmentToMultipleCategories(self):
+
+        """
+
+        Tests if activity is assigned to multiple categories and that this
+        returns a list of categories
+
+        """
+
+        categories = self.categorizer.categorize('test is tested with Test3')
+        self.assertEquals(len(categories), 2)
+        self.assertEquals(isinstance(categories[0], TestCategory2), True)
+        self.assertEquals(isinstance(categories[1], TestCategory3), True)
 
 class TestCategory1(Category):
 
-    def getTitle(self):
+    def get_title(self):
         return 'TestCategory1'
 
     def belongs(self, window):
@@ -58,8 +77,16 @@ class TestCategory1(Category):
 
 class TestCategory2(Category):
 
-    def getTitle(self):
+    def get_title(self):
         return 'TestCategory2'
 
     def belongs(self, window):
         return 'test' in window
+
+class TestCategory3(Category):
+
+    def get_title(self):
+        return 'TestCategory3'
+
+    def belongs(self, window):
+        return 'test' in window and 'Test3' in window

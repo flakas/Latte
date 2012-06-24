@@ -22,7 +22,7 @@ class Projectizer(object):
     def __init__(self, configs):
         self._configs = configs
 
-    def projectize(self, window, category):
+    def projectize(self, window, categories):
         """
 
         Assign window to a project.
@@ -30,7 +30,7 @@ class Projectizer(object):
 
         """
         for i in self.projects:
-            if i.belongs(window, category):
+            if i.belongs(window, categories):
                 return i
         return None
 

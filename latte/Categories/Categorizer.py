@@ -28,9 +28,12 @@ class Categorizer(object):
         Returns category object
 
         """
+        cats = []
         for i in self.categories:
             if i.belongs(window):
-                return i
+                cats.append(i)
+        if cats:
+            return cats
         return None
 
     def load_categories(self):
@@ -59,5 +62,14 @@ class Categorizer(object):
         Add category object to the Categorizer
 
         """
-        if issubclass(category, Category):
+
+        def checkForCreatedObjects(cls, categories):
+            """ Checks for registered class objects """
+            for cat in categories:
+                if isinstance(cat, cls):
+                    return True
+            return False
+
+        if issubclass(category, Category) and \
+            not checkForCreatedObjects(category, self.categories):
             self.categories.append(category())
