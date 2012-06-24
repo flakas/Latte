@@ -61,6 +61,18 @@ class Projectizer(object):
         Adds project object to projects list
 
         """
+
+        def checkForCreatedObjects(cls, projects):
+            """ Checks for registered class objects """
+            for proj in projects:
+                if isinstance(proj, cls):
+                    return True
+            return False
+
         # Make sure that it extends Project Abstract Base Class
-        if issubclass(project, Project):
+        if issubclass(project, Project) and \
+           not checkForCreatedObjects(project, self.projects):
             self.projects.append(project())
+            return True
+        else:
+            return False

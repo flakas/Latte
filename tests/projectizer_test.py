@@ -32,6 +32,16 @@ class testProjectizer(unittest.TestCase):
         project = self.projectizer.projectize('Non existing project', None)
         self.assertEquals(project, None)
 
+    def testCannotAddDuplicateProject(self):
+
+        """
+
+        Tests if one can add a duplicate project
+
+        """
+
+        self.assertEqual(self.projectizer.add_project(TestProject1), False)
+
     def testExistingProject(self):
 
         """
