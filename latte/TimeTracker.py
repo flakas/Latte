@@ -69,10 +69,10 @@ class TimeTracker(object):
                 'project' : ''
             }
             categories = self._categorizer.assign(True, window)
-            if not categories == None:
+            if categories:
                 self.logs[window]['categories'] = [c.get_title() for c in categories]
             project = self._projectizer.assign(False, window, categories)
-            if not project == None:
+            if project:
                 self.logs[window]['project'] = project.get_title()
         self.logs[window]['time'] += self.get_sleep_time()
 

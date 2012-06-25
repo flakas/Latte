@@ -31,8 +31,6 @@ class Latte(object):
         self.configs['statsPath'] = 'stats/'
         self.configs['sleepTime'] = sleeptime
         self.configs['autosaveTime'] = 3600
-        #self.categorizer = Categorizer(configs=self.configs)
-        #self.projectizer = Projectizer(configs=self.configs)
         self.categorizer = Assigner('category', self.configs)
         self.projectizer = Assigner('project', self.configs)
         self.tracker = TimeTracker(configs=self.configs,

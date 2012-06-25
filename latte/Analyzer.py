@@ -30,6 +30,7 @@ class Analyzer(object):
         projects = {}
         totalLogs = 0
         totalTime = 0
+
         # Log files
         for logFileKey in self.logs.keys():
             logFile = self.logs[logFileKey]
@@ -121,6 +122,7 @@ class Analyzer(object):
             return '%ds' % seconds
 
 if __name__ == '__main__':
+    # FIXME: At this point it should load user-defined configs, not hardcoded
     configs = {}
     configs['appPath'] = os.path.expanduser('~/.latte')
     configs['statsPath'] = 'stats/'
