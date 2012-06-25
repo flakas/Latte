@@ -29,6 +29,7 @@ class Analyzer(object):
         categories = {}
         projects = {}
         totalLogs = 0
+        totalTime = 0
         # Log files
         for logFileKey in self.logs.keys():
             logFile = self.logs[logFileKey]
@@ -36,6 +37,7 @@ class Analyzer(object):
             # Individual log entries
             for logKey in logFile.keys():
                 log = logFile[logKey]
+                totalTime += log['time']
                 if not windows.has_key(logKey):
                     windows[logKey] = log['time']
                 else:
@@ -45,6 +47,8 @@ class Analyzer(object):
                 else:
                     projects[log['project']] += log['time']
                 if 'categories' in log.keys():
+                    if not log['categories']:
+                        log['categories'] = ['(Uncategorized)']
                     # Assign time to individual categories
                     for cat in log['categories']:
                         if not categories.has_key(cat):
@@ -52,10 +56,12 @@ class Analyzer(object):
                         else:
                             categories[cat] += log['time']
 
-        print 'Total log files: %d\nTotal log entries: %d\n' % (len(self.logs), totalLogs)
+        print 'Total log files: %d\nTotal log entries: %d' % (len(self.logs), totalLogs)
+        print 'Total logged time: %s' % self.normalize_time(totalTime)
         print ''
         print 'Spent time on windows:'
-        for (window, spent) in windows.items():
+        sortedWindowTimes = sorted(windows.items(), cmp=lambda x, y: cmp(x[1], y[1]), reverse=True)
+        for (window, spent) in sortedWindowTimes:
             print '- "%s" : %s' % (window, self.normalize_time(spent))
 
         print ''
