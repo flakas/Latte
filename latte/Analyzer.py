@@ -56,11 +56,14 @@ class Analyzer(object):
                         else:
                             categories[cat] += log['time']
 
-        print 'Total log files: %d\nTotal log entries: %d' % (len(self.logs), totalLogs)
+        print 'Total log files: %d\nTotal log entries: %d' % (len(self.logs), \
+                                                              totalLogs)
         print 'Total logged time: %s' % self.normalize_time(totalTime)
         print ''
         print 'Spent time on windows:'
-        sortedWindowTimes = sorted(windows.items(), cmp=lambda x, y: cmp(x[1], y[1]), reverse=True)
+        sortedWindowTimes = sorted(windows.items(), \
+                                   cmp=lambda x, y: cmp(x[1], y[1]), \
+                                   reverse=True)
         for (window, spent) in sortedWindowTimes:
             print '- "%s" : %s' % (window, self.normalize_time(spent))
 
