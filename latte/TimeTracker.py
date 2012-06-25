@@ -65,7 +65,7 @@ class TimeTracker(object):
         if not window in self.logs.keys():
             self.logs[window] = {
                 'time' : 0,
-                'category' : '',
+                'categories' : [],
                 'project' : ''
             }
             categories = self._categorizer.assign(True, window)

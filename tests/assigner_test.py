@@ -1,4 +1,3 @@
-
 """
 
 Tests for activity category/project assignment class
@@ -9,7 +8,7 @@ from latte.Assigner import Assigner
 from latte.Categories.Category import Category
 from latte.Projects.Project import Project
 
-class testCategorizer(unittest.TestCase):
+class testAssigner(unittest.TestCase):
 
     """
 

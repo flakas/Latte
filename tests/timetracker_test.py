@@ -101,12 +101,12 @@ class testTimeTracker(unittest.TestCase):
         self.assertEqual(self.timetracker.get_logs(), {
             'Test window 1' : {
                 'time' : 2 * self.configs['sleepTime'],
-                'category' : '',
+                'categories' : [],
                 'project' : '',
             },
             'Test window 2' : {
                 'time' : self.configs['sleepTime'],
-                'category' : '',
+                'categories' : [],
                 'project' : '',
             }
         })

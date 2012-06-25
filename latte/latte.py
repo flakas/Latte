@@ -15,8 +15,6 @@ import os
 import atexit
 
 from .TimeTracker import TimeTracker
-#from Categories.Categorizer import Categorizer
-#from Projects.Projectizer import Projectizer
 from .Assigner import Assigner
 
 class Latte(object):
@@ -27,9 +25,8 @@ class Latte(object):
 
     """
 
-    configs = {}
-
     def __init__(self, sleeptime=5, lattepath='~/.latte'):
+        self.configs = {}
         self.configs['appPath'] = os.path.expanduser(lattepath)
         self.configs['statsPath'] = 'stats/'
         self.configs['sleepTime'] = sleeptime
