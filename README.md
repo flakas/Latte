@@ -42,12 +42,13 @@ Tasks
 Tasks ordered in random manner:
 
 - Functionality to check if the user is active (mouse and/or keyboard activity tracking)
-- Functionality to process log data
 - User defined application configuration (paths, timer durations)
 - Add comments to the code
 - Add configuration examples
 - Write documentation
 - Add a wiki
+- Better log data processing functionality
+- Distribution through PIP
 
 Tasks done
 ----------
@@ -60,6 +61,7 @@ Tasks done
 - Project support
 - Automatic project/category assignment according to user defined rules
 - Installation
+- Functionality to process log data
 
 Nice to have
 ------------
