@@ -19,10 +19,12 @@ python setup.py install
 Configuration
 -------------
 
-Configuration scripts are saved in ~/.latte folder.
+Configuration scripts are saved in `~/.latte` folder.
 
 - `categories.py` should contain user defined classes for categories (see example configuration in `doc/config/categories.py`)
 - `projects.py` should contain user defined classes for projects (see example configuration in `doc/config/projects.py`)
+
+Statistics files are stored in `~/.latte/stats` folder
 
 
 Goal
@@ -49,21 +51,5 @@ Tasks ordered in random manner:
 - Add a wiki
 - Better log data processing functionality
 - Distribution through PIP
-
-Tasks done
-----------
-
-- Track time spent on each window
-- Dump tracked time information to filesystem
-- Functionality to periodically fetch window information
-- Functionality to collect and periodically store activity information
-- Category support
-- Project support
-- Automatic project/category assignment according to user defined rules
-- Installation
-- Functionality to process log data
-
-Nice to have
-------------
-
-- Python 3 support
+- 'Do not track' functionality
+- Limit statistics calculations according to specific time: X days, weeks, months, all time
