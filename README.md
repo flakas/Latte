@@ -16,6 +16,13 @@ cd Latte
 python setup.py install
 ```
 
+OR
+
+You can install it from Python Package Index (PIP):
+```
+pip install latte
+```
+
 Configuration
 -------------
 
