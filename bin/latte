@@ -9,16 +9,17 @@ This is run as a binary application
 
 import os
 import sys
+import argparse
 from latte.latte import Latte
 from latte.Analyzer import Analyzer
 
-if len(sys.argv) == 2 and sys.argv[1] == 'analyze':
+if len(sys.argv) >= 2 and sys.argv[1] == 'analyze':
     configs = {}
     configs['appPath'] = os.path.expanduser('~/.latte')
     configs['statsPath'] = 'stats/'
     configs['sleepTime'] = 5
     configs['autosaveTime'] = 3600
 
-    Analyzer(configs).run()
+    Analyzer(configs, sys.argv[2:]).run()
 else:
     Latte(sleeptime=5, lattepath='~/.latte').run()

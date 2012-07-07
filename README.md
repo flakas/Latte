@@ -52,4 +52,4 @@ Tasks ordered in random manner:
 - Better log data processing functionality
 - Distribution through PIP
 - 'Do not track' functionality
-- Limit statistics calculations according to specific time: X days, weeks, months, all time
+- Better analytics log filtering

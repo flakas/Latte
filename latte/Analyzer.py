@@ -6,13 +6,35 @@ Latte activity log analyzer
 
 import os
 import json
+import time
 
 class Analyzer(object):
     """ Analyzes Latte log data """
 
-    def __init__(self, config):
+    def __init__(self, config, args):
         self.config = config
         self.logs = {}
+        self.since = 0
+        if len(args) == 1:
+            try:
+                log_time = int(args[0], 10)
+                self.since = time.time() - log_time
+            except:
+                print 'Cannot convert time argument to integer'
+        elif len(args) == 2 and args[1] in ['d', 'w', 'm']:
+            try:
+                log_time = int(args[0], 10)
+                converted = True
+            except:
+                print 'Cannot convert time argument to integer'
+            if converted:
+                if args[1] == 'd':
+                    log_time *= 86400 #1 day
+                elif args[1] == 'w':
+                    log_time *= 604800 #1 week
+                elif args[1] == 'm':
+                    log_time *= 2592000 #1 month
+                self.since = time.time() - log_time
 
     def run(self):
         """ Main analyzer loop """
@@ -22,8 +44,11 @@ class Analyzer(object):
 
     def analyze(self):
         """ Analyzes log data and prints out results """
+        if self.since:
+            print 'Looking for log data since %s' % time.strftime('%d %b %Y %H:%M:%S', time.gmtime(self.since))
         if not self.logs:
             print 'There is no log data'
+            return False
 
         windows = {}
         categories = {}
@@ -88,6 +113,11 @@ class Analyzer(object):
         logFiles = os.listdir(logsPath)
         if not logFiles:
             return False
+
+        if self.since:
+            since = str(self.since)
+            logFiles = filter(lambda x: x >= since, logFiles)
+
 
         # Attempt to open each file, read and parse log data
         for logFile in logFiles:
