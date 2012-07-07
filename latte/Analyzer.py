@@ -11,7 +11,7 @@ import time
 class Analyzer(object):
     """ Analyzes Latte log data """
 
-    def __init__(self, config, args):
+    def __init__(self, config, args=[]):
         self.config = config
         self.logs = {}
         self.since = 0
