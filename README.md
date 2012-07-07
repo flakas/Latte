@@ -60,3 +60,8 @@ Tasks ordered in random manner:
 - Distribution through PIP
 - 'Do not track' functionality
 - Better analytics log filtering
+
+License
+-------
+
+MIT license, check LICENSE.txt
