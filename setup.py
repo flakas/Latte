@@ -11,7 +11,7 @@ config = {
     'install_requires': [],
     'packages': ['latte', 'latte.Categories', 'latte.Projects'],
     'scripts': ['bin/latte'],
-    'version': '1.0',
+    'version': '1.0.2',
     'name': 'latte'
 }
 
