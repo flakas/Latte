@@ -39,10 +39,10 @@ Usage
 
 Run the binary script either in foreground:
 
-```latte```
+`latte`
 
 or in background:
-```latte &```
+`latte &`
 
 To analyze log data you can use the built in analyzer:
 
