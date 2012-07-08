@@ -16,6 +16,7 @@ import atexit
 
 from .TimeTracker import TimeTracker
 from .Assigner import Assigner
+from .Config import Config
 
 class Latte(object):
 
@@ -25,12 +26,8 @@ class Latte(object):
 
     """
 
-    def __init__(self, sleeptime=5, lattepath='~/.latte'):
-        self.configs = {}
-        self.configs['appPath'] = os.path.expanduser(lattepath)
-        self.configs['statsPath'] = 'stats/'
-        self.configs['sleepTime'] = sleeptime
-        self.configs['autosaveTime'] = 3600
+    def __init__(self):
+        self.configs = Config()
         self.categorizer = Assigner('category', self.configs)
         self.projectizer = Assigner('project', self.configs)
         self.tracker = TimeTracker(configs=self.configs,
@@ -41,8 +38,8 @@ class Latte(object):
         atexit.register(self.cleanup)
 
         # Add application configuration path
-        if not os.path.exists(self.configs['appPath']):
-            os.makedirs(self.configs['appPath'])
+        if not os.path.exists(self.configs.get('app_path')):
+            os.makedirs(self.configs.get('app_path'))
 
     def cleanup(self):
         """
@@ -69,10 +66,10 @@ class Latte(object):
                     repr(stats['project']), \
                     stats['time']
 
-            time.sleep(self.configs['sleepTime'])
+            time.sleep(self.configs.getint('sleep_time'))
             # Track time since last save and do autosaves
-            duration += self.configs['sleepTime']
-            if duration >= self.configs['autosaveTime']:
+            duration += self.configs.getint('sleep_time')
+            if duration >= self.configs.getint('autosave_time'):
                 duration = 0
                 self.tracker.dump_logs()
 
@@ -95,4 +92,4 @@ def get_active_window_title():
 
 
 if __name__ == '__main__':
-    Latte(sleeptime=5, lattepath='~/.latte').run()
+    Latte().run()

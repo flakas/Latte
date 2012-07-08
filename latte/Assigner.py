@@ -49,7 +49,7 @@ class Assigner(object):
         Loads user-defined grouping classes for project/category assignment
 
         """
-        path = os.path.join(self._configs['appPath'])
+        path = os.path.join(self._configs.get('app_path'))
         if os.path.exists(path):
             # Append system path to attempt to import config module
             sys.path.append(path)

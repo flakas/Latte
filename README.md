@@ -69,7 +69,6 @@ Tasks
 Tasks ordered in random manner:
 
 - Functionality to check if the user is active (mouse and/or keyboard activity tracking)
-- User defined application configuration (paths, timer durations)
 - Add comments to the code
 - Add configuration examples
 - Write documentation
@@ -78,6 +77,8 @@ Tasks ordered in random manner:
 - Distribution through PIP
 - 'Do not track' functionality
 - Better analytics log filtering
+- Handle creating initial configuration files
+- Improve Config manager
 
 License
 -------

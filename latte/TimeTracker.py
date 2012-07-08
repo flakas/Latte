@@ -31,7 +31,7 @@ class TimeTracker(object):
         Returns sleepTime config
 
         """
-        return self._configs['sleepTime']
+        return self._configs.getint('sleep_time')
 
     def get_window_time(self, window):
         """
@@ -100,8 +100,8 @@ class TimeTracker(object):
 
         """
         # Join stats system path and create it if it doesn't exist
-        target_path = os.path.join(self._configs['appPath'],
-                                   self._configs['statsPath'])
+        target_path = os.path.join(self._configs.get('app_path'),
+                                   self._configs.get('stats_path'))
         if not os.path.exists(target_path):
             os.makedirs(target_path)
         # Filename for current timestamp

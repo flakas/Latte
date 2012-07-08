@@ -8,6 +8,8 @@ import os
 import json
 import time
 
+from .Config import Config
+
 class Analyzer(object):
     """ Analyzes Latte log data """
 
@@ -110,8 +112,8 @@ class Analyzer(object):
         """ Loads logs from log files and stores them in memory """
 
         # Get a list of log files available
-        logsPath = os.path.join(self.config['appPath'], \
-                                self.config['statsPath'])
+        logsPath = os.path.join(self.config.get('app_path'), \
+                                self.config.get('stats_path'))
         logFiles = os.listdir(logsPath)
         if not logFiles:
             return False
@@ -154,10 +156,4 @@ class Analyzer(object):
             return '%ds' % seconds
 
 if __name__ == '__main__':
-    # FIXME: At this point it should load user-defined configs, not hardcoded
-    configs = {}
-    configs['appPath'] = os.path.expanduser('~/.latte')
-    configs['statsPath'] = 'stats/'
-    configs['sleepTime'] = 5
-    configs['autosaveTime'] = 3600
-    Analyzer(configs).run()
+    Analyzer(Config()).run()

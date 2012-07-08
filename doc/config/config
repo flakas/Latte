@@ -1,0 +1,14 @@
+[main]
+# Where statistics files should be saved
+stats_path = stats/
+
+# Delay between log records (in seconds)
+# The lower the number, the more accurate logs will be, but the more system
+# load this will cause
+# Default: 5
+sleep_time = 5
+
+# How often should log data be written to the disk (in seconds)
+# NOTE that with each write a new log file will be created
+# Default: 3600
+autosave_time = 3600

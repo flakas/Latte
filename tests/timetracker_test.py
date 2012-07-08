@@ -2,9 +2,11 @@ import unittest
 import json
 import os
 import shutil
+import mock
 
 from latte.TimeTracker import TimeTracker
 from latte.Assigner import Assigner
+from latte.Config import Config
 
 class testTimeTracker(unittest.TestCase):
 
@@ -25,11 +27,18 @@ class testTimeTracker(unittest.TestCase):
 
         """
 
-        self.configs = {
-            'sleepTime' : 5,
-            'appPath' : 'tests/latte/',
-            'statsPath' : 'stats/',
-        }
+        self.configs = mock.Mock()
+
+        def get(*args, **kwargs):
+            if args[0] == 'app_path':
+                return 'tests/latte/'
+            elif args[0] == 'sleep_time':
+                return 5
+            elif args[0] == 'stats_path':
+                return 'stats/'
+        self.configs.get = get
+        self.configs.getint = get
+
         self.categorizer = Assigner('category', self.configs)
         self.projectizer = Assigner('project', self.configs)
         self.timetracker = TimeTracker(self.configs, self.categorizer, self.projectizer)
@@ -37,7 +46,7 @@ class testTimeTracker(unittest.TestCase):
 
     def tearDown(self):
         try:
-            shutil.rmtree(self.configs['appPath'])
+            shutil.rmtree(self.configs.get('app_path'))
         except Exception as ex:
             pass
 
@@ -49,7 +58,7 @@ class testTimeTracker(unittest.TestCase):
 
         """
 
-        self.assertEqual(self.timetracker.get_sleep_time(), self.configs['sleepTime'])
+        self.assertEqual(self.timetracker.get_sleep_time(), self.configs.get('sleep_time'))
 
     def testGettingEmptyLog(self):
 
@@ -71,7 +80,7 @@ class testTimeTracker(unittest.TestCase):
 
         window = 'Non existing window 1'
         self.timetracker.log(window)
-        self.assertEqual(self.timetracker.get_window_time(window), self.configs['sleepTime'])
+        self.assertEqual(self.timetracker.get_window_time(window), self.configs.get('sleep_time'))
 
     def testClearLogs(self):
 
@@ -100,12 +109,12 @@ class testTimeTracker(unittest.TestCase):
         self.timetracker.log('Test window 1')
         self.assertEqual(self.timetracker.get_logs(), {
             'Test window 1' : {
-                'time' : 2 * self.configs['sleepTime'],
+                'time' : 2 * self.configs.get('sleep_time'),
                 'categories' : [],
                 'project' : '',
             },
             'Test window 2' : {
-                'time' : self.configs['sleepTime'],
+                'time' : self.configs.get('sleep_time'),
                 'categories' : [],
                 'project' : '',
             }
@@ -124,8 +133,8 @@ class testTimeTracker(unittest.TestCase):
         str = json.dumps(self.timetracker.get_logs(), indent=4)
         filename = self.timetracker.dump_logs()
         file_path = os.path.join(
-            self.configs['appPath'],
-            self.configs['statsPath'],
+            self.configs.get('app_path'),
+            self.configs.get('stats_path'),
             filename
         )
         self.assertTrue(os.path.exists(file_path))
