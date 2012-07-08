@@ -1,1 +1,1 @@
-__all__ = ['Categories', 'Projects', 'Assigner', 'latte', 'TimeTracker', 'Analyzer']
+__all__ = ['Categories', 'Projects', 'Assigner', 'latte', 'TimeTracker', 'Analyzer', 'Config']
