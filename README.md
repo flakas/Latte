@@ -3,7 +3,7 @@ Latte - Linux Automatic Time Tracker
 
 An attempt to build an automatic time tracker for Linux
 
-Stable: [![Build Status](https://secure.travis-ci.org/flakas/Latte.png?branch=master)](http://travis-ci.org/flakas/Latte)
+Stable: Adding separate Travis build statuses to README for development and master[![Build Status](https://secure.travis-ci.org/flakas/Latte.png?branch=master)](http://travis-ci.org/flakas/Latte)
 Development: [![Build Status](https://secure.travis-ci.org/flakas/Latte.png?branch=development)](http://travis-ci.org/flakas/Latte)
 
 Installation
@@ -34,6 +34,23 @@ Configuration scripts are saved in `~/.latte` folder.
 
 Statistics files are stored in `~/.latte/stats` folder
 
+Usage
+-----
+
+Run the binary script either in foreground:
+
+```latte```
+
+or in background:
+```latte &```
+
+To analyze log data you can use the built in analyzer:
+
+- `latte analyze` to analyze all log data
+- `latte analyze X d` analyze log data from past X days, where X is any positive integer
+- `latte analyze X w` analyze log data from past X weeks, where X is any positive integer
+- `latte analyze X m` analyze log data from past X months, where X is any positive integer
+- `latte analyze X` analyze log data from past X seconds, where X is any positive integer
 
 Goal
 ----
