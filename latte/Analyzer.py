@@ -18,13 +18,15 @@ class Analyzer(object):
         if len(args) == 1:
             try:
                 log_time = int(args[0], 10)
-                self.since = time.time() - log_time
+                if log_time > 0:
+                    self.since = time.time() - log_time
             except:
                 print 'Cannot convert time argument to integer'
         elif len(args) == 2 and args[1] in ['d', 'w', 'm']:
             try:
                 log_time = int(args[0], 10)
-                converted = True
+                if log_time > 0:
+                    converted = True
             except:
                 print 'Cannot convert time argument to integer'
             if converted:
