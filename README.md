@@ -52,6 +52,15 @@ To analyze log data you can use the built in analyzer:
 - `latte analyze X m` analyze log data from past X months, where X is any positive integer
 - `latte analyze X` analyze log data from past X seconds, where X is any positive integer
 
+Dependencies
+--------
+
+This application requires:
+
+- `xprop` to detect active window title for log tracking
+- `w` to detect when the user is inactive (to stop monitorint the system)
+
+
 Goal
 ----
 
@@ -79,6 +88,7 @@ Tasks ordered in random manner:
 - Better analytics log filtering
 - Handle creating initial configuration files
 - Improve Config manager
+- Add in-app help
 
 License
 -------
