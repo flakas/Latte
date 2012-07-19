@@ -19,7 +19,14 @@ class Config(object):
 
     def load_config(self, path):
         """ Attempt to load configs from default path. """
-        self.config.read(os.path.expanduser(path + '/config'))
+        path = os.path.expanduser(path + '/config')
+        if os.path.exists(path):
+            self.config.read(path)
+        else:
+            self.config.add_section('main')
+            self.config.set('main', 'stats_path', 'stats/')
+            self.config.set('main', 'sleep_time', '5')
+            self.config.set('main', 'autosave_time', '3600')
 
     def get(self, item, section='main'):
         """ Fetches config item from the list. """
