@@ -75,20 +75,7 @@ To build an Automatic Time Tracker for Linux that:
 Tasks
 -----
 
-Tasks ordered in random manner:
-
-- Functionality to check if the user is active (mouse and/or keyboard activity tracking)
-- Add comments to the code
-- Add configuration examples
-- Write documentation
-- Add a wiki
-- Better log data processing functionality
-- Distribution through PIP
-- 'Do not track' functionality
-- Better analytics log filtering
-- Handle creating initial configuration files
-- Improve Config manager
-- Add in-app help
+Check our out [Pivotal tracker](https://www.pivotaltracker.com/projects/601587) for this project
 
 License
 -------
