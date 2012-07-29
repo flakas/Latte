@@ -25,14 +25,6 @@ class TimeTracker(object):
         self._categorizer.load_groups()
         self._projectizer.load_groups()
 
-    def get_sleep_time(self):
-        """
-
-        Returns sleepTime config
-
-        """
-        return self._configs.get('sleep_time')
-
     def get_window_time(self, window):
         """
 
@@ -74,7 +66,7 @@ class TimeTracker(object):
             project = self._projectizer.assign(False, window, categories)
             if project:
                 self.logs[window]['project'] = project.get_title()
-        self.logs[window]['time'] += self.get_sleep_time()
+        self.logs[window]['time'] += self._configs.get('sleep_time')
 
     def get_logs(self):
         """

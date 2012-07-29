@@ -50,16 +50,6 @@ class testTimeTracker(unittest.TestCase):
         except Exception as ex:
             pass
 
-    def testSleepTimeIsSet(self):
-
-        """
-
-        Tests if sleepTime is being set properly
-
-        """
-
-        self.assertEqual(self.timetracker.get_sleep_time(), self.configs.get('sleep_time'))
-
     def testGettingEmptyLog(self):
 
         """
