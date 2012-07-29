@@ -17,6 +17,7 @@ class Config(object):
         self.user_config_path = os.path.expanduser(path)
 
         self.load_default_configs()
+        self.create_default_configs()
         self.load_user_config(path)
 
     def load_default_configs(self):
@@ -29,6 +30,11 @@ class Config(object):
     def set(self, name, value):
         """ Set config value. """
         self.configs[name] = value
+
+    def create_default_configs(self):
+        # Create main application folder
+        if not os.path.exists(self.configs.get('app_path')):
+            os.makedirs(self.configs.get('app_path'))
 
     def load_user_config(self, path):
         """ Attempt to load configs from default path. """

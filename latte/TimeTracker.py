@@ -9,11 +9,7 @@ import json
 import os
 
 class TimeTracker(object):
-    """
-
-    Tracks window time and stores window information
-
-    """
+    """ Tracks window time and stores window information. """
 
     logs = {}
 
@@ -26,15 +22,10 @@ class TimeTracker(object):
         self._projectizer.load_groups()
 
     def get_window_time(self, window):
-        """
-
-        Returns window time information from logs
-
-        """
+        """ Returns window time information from logs """
         if window in self.logs.keys():
             return self.logs[window]['time']
-        else:
-            return None
+        return None
 
     def get_window_stats(self, window):
         """
@@ -45,15 +36,10 @@ class TimeTracker(object):
         """
         if window in self.logs.keys():
             return self.logs[window]
-        else:
-            return None
+        return None
 
     def log(self, window):
-        """
-
-        Logs window time, handles assigning to projects and categories.
-
-        """
+        """ Logs window time, handles assigning to projects and categories. """
         if not window in self.logs.keys():
             self.logs[window] = {
                 'time' : 0,
@@ -69,28 +55,16 @@ class TimeTracker(object):
         self.logs[window]['time'] += self._configs.get('sleep_time')
 
     def get_logs(self):
-        """
-
-        Returns whole logs dict
-
-        """
+        """ Returns whole logs dict. """
 
         return self.logs
 
     def clear_logs(self):
-        """
-
-        Removes logs, stored in this object
-
-        """
+        """ Removes logs, stored in this object. """
         self.logs = {}
 
     def dump_logs(self):
-        """
-
-        Dumps logs to filesystem
-
-        """
+        """ Dumps logs to filesystem. """
         # Join stats system path and create it if it doesn't exist
         target_path = os.path.join(self._configs.get('app_path'),
                                    self._configs.get('stats_path'))

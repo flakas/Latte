@@ -20,11 +20,7 @@ from .Config import Config
 
 class Latte(object):
 
-    """
-
-    Main application class
-
-    """
+    """ Main application class. """
 
     def __init__(self):
         self.configs = Config()
@@ -34,27 +30,14 @@ class Latte(object):
                                    categorizer=self.categorizer,
                                    projectizer=self.projectizer)
 
-        # Register a cleanup
         atexit.register(self.cleanup)
 
-        # Add application configuration path
-        if not os.path.exists(self.configs.get('app_path')):
-            os.makedirs(self.configs.get('app_path'))
-
     def cleanup(self):
-        """
-
-        Atexit cleanup method. Force dumps log information to the filesystem
-
-        """
+        """ On exit force dump log information. """
         self.tracker.dump_logs()
 
     def run(self):
-        """
-
-        Primary application loop
-
-        """
+        """ Primary application loop. """
         duration = 0
         try:
             while True:
@@ -77,11 +60,7 @@ class Latte(object):
             print 'Exiting...'
 
 def get_active_window_title():
-    """
-
-    Fetches active window title using xprop
-
-    """
+    """ Fetches active window title using xprop. """
     try:
         active = subprocess.Popen(["xprop", "-root", "_NET_ACTIVE_WINDOW"],
                                 stdout=subprocess.PIPE)

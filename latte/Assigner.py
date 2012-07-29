@@ -68,11 +68,7 @@ class Assigner(object):
                     self.add_group(obj)
 
     def add_group(self, group):
-        """
-
-        Adds group object to groups list
-
-        """
+        """ Adds group object to groups list. """
 
         if self._assignerType == 'project':
             from .Projects import Project as targetClass
