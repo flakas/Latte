@@ -1,0 +1,4 @@
+[latest]
+- Added CHANGELOG
+- Added help description
+- Changed Config manager to store configs in proprietary way

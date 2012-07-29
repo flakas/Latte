@@ -31,7 +31,7 @@ class TimeTracker(object):
         Returns sleepTime config
 
         """
-        return self._configs.getint('sleep_time')
+        return self._configs.get('sleep_time')
 
     def get_window_time(self, window):
         """

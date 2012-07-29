@@ -66,10 +66,10 @@ class Latte(object):
                     repr(stats['project']), \
                     stats['time']
 
-            time.sleep(self.configs.getint('sleep_time'))
+            time.sleep(self.configs.get('sleep_time'))
             # Track time since last save and do autosaves
-            duration += self.configs.getint('sleep_time')
-            if duration >= self.configs.getint('autosave_time'):
+            duration += self.configs.get('sleep_time')
+            if duration >= self.configs.get('autosave_time'):
                 duration = 0
                 self.tracker.dump_logs()
 

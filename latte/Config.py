@@ -13,29 +13,46 @@ class Config(object):
     """ Handles config loading and parsing. """
 
     def __init__(self, path='~/.latte'):
-        self.config = ConfigParser.ConfigParser()
-        self.load_config(path)
-        self.config.set('main', 'app_path', os.path.expanduser(path))
+        self.configs = {}
+        self.user_config_path = os.path.expanduser(path)
 
-    def load_config(self, path):
+        self.load_default_configs()
+        self.load_user_config(path)
+
+    def load_default_configs(self):
+        """ Load default config values. """
+        self.set('app_path', self.user_config_path)
+        self.set('stats_path', 'stats/')
+        self.set('sleep_time', 5)
+        self.set('autosave_time', 3600)
+
+    def set(self, name, value):
+        """ Set config value. """
+        self.configs[name] = value
+
+    def load_user_config(self, path):
         """ Attempt to load configs from default path. """
         path = os.path.expanduser(path + '/config')
         if os.path.exists(path):
-            self.config.read(path)
+            parser = ConfigParser.ConfigParser()
+            parser.read(path)
+            self.overwrite_with_user_configs(parser)
+            return True
         else:
-            self.config.add_section('main')
-            self.config.set('main', 'stats_path', 'stats/')
-            self.config.set('main', 'sleep_time', '5')
-            self.config.set('main', 'autosave_time', '3600')
+            return False
 
-    def get(self, item, section='main'):
+    def overwrite_with_user_configs(self, parser):
+        """ Overwrite default configs with user-defined configs. """
+        for item in ['app_path', 'stats_path']:
+            self.set(item, parser.get('main', item))
+        for item in ['sleep_time', 'autosave_time']:
+            self.set(item, parser.getint('main', item))
+
+    def get(self, item):
         """ Fetches config item from the list. """
-        return self.config.get(section, item)
-
-    def getint(self, item, section='main'):
-        """ Attempts to fetch config item as integer. """
-        return self.config.getint(section, item)
-
+        if item in self.configs.keys():
+            return self.configs[item]
+        return None
 
 if __name__ == '__main__':
     Config()
