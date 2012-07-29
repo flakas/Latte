@@ -56,22 +56,25 @@ class Latte(object):
 
         """
         duration = 0
-        while True:
-            title = get_active_window_title()
-            if title:
-                self.tracker.log(title)
-                stats = self.tracker.get_window_stats(title)
-                print title, \
-                    repr(stats['categories']), \
-                    repr(stats['project']), \
-                    stats['time']
+        try:
+            while True:
+                title = get_active_window_title()
+                if title:
+                    self.tracker.log(title)
+                    stats = self.tracker.get_window_stats(title)
+                    print title, \
+                        repr(stats['categories']), \
+                        repr(stats['project']), \
+                        stats['time']
 
-            time.sleep(self.configs.get('sleep_time'))
-            # Track time since last save and do autosaves
-            duration += self.configs.get('sleep_time')
-            if duration >= self.configs.get('autosave_time'):
-                duration = 0
-                self.tracker.dump_logs()
+                time.sleep(self.configs.get('sleep_time'))
+                # Track time since last save and do autosaves
+                duration += self.configs.get('sleep_time')
+                if duration >= self.configs.get('autosave_time'):
+                    duration = 0
+                    self.tracker.dump_logs()
+        except KeyboardInterrupt:
+            print 'Exiting...'
 
 def get_active_window_title():
     """

@@ -2,3 +2,4 @@
 - Added CHANGELOG
 - Added help description
 - Changed Config manager to store configs in proprietary way
+- Fixed exit with Ctrl-C: no more call stack traces
