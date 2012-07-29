@@ -9,12 +9,29 @@ This is run as a binary application
 
 import os
 import sys
-import argparse
 from latte.latte import Latte
 from latte.Analyzer import Analyzer
 from latte.Config import Config
 
-if len(sys.argv) >= 2 and sys.argv[1] == 'analyze':
+if len(sys.argv) == 1:
+    Latte().run()
+elif len(sys.argv) >= 2 and sys.argv[1] == 'analyze':
     Analyzer(Config(), sys.argv[2:]).run()
 else:
-    Latte().run()
+    print '''Linux automatic time tracker
+
+Tracks time spent on activities based on window titles and categorizes
+activities based on user defined rules and configs.
+
+More information: https://github.com/flakas/Latte
+
+Usage:
+
+latte               Run activity logger
+latte analyze       Analyze all log data
+latte analyze X d   Analyze log data for past X days
+latte analyze X w   Analyze log data for past X weeks
+latte analyze X m   Analyze log data for past X months
+latte analyze X     Analyze log data for past X seconds
+
+latte -h            Display this message and exit'''
