@@ -58,8 +58,6 @@ Dependencies
 This application requires:
 
 - `xprop` to detect active window title for log tracking
-- `w` to detect when the user is inactive (to stop monitorint the system)
-
 
 Goal
 ----
