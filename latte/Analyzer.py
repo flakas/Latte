@@ -16,29 +16,32 @@ class Analyzer(object):
     def __init__(self, config, args=[]):
         self.config = config
         self.logs = {}
+        self.parse_time_args(args)
+
+    def parse_time_args(self, args=[]):
         self.since = 0
         if len(args) == 1:
-            try:
-                log_time = int(args[0], 10)
-                if log_time > 0:
-                    self.since = time.time() - log_time
-            except:
-                print 'Cannot convert time argument to integer'
+            self.since = self.calculate_since(args[0])
         elif len(args) == 2 and args[1] in ['d', 'w', 'm']:
-            try:
-                log_time = int(args[0], 10)
-                if log_time > 0:
-                    converted = True
-            except:
-                print 'Cannot convert time argument to integer'
-            if converted:
-                if args[1] == 'd':
-                    log_time *= 86400 #1 day
-                elif args[1] == 'w':
-                    log_time *= 604800 #1 week
-                elif args[1] == 'm':
-                    log_time *= 2592000 #1 month
-                self.since = time.time() - log_time
+            self.since = self.calculate_since(args[0], args[1])
+
+    def calculate_since(self, since_str, multiplier=''):
+        try:
+            log_time = int(since_str, 10)
+            if log_time > 0:
+                if multiplier:
+                    if multiplier == 'd':
+                        log_time *= 86400 # 1 day
+                    elif multiplier == 'w':
+                        log_time *= 604800 # 1 week
+                    elif multiplier == 'm':
+                        log_time *= 2592000 # 1 month
+                return time.time() - log_time
+            return 0
+        except ValueError:
+            print 'Cannot convert time argument to integer'
+            return False
+
 
     def run(self):
         """ Main analyzer loop """
