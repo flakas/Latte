@@ -28,16 +28,16 @@ class Analyzer(object):
     def calculate_since(self, since_str, multiplier=''):
         try:
             log_time = int(since_str, 10)
-            if log_time > 0:
-                if multiplier:
-                    if multiplier == 'd':
-                        log_time *= 86400 # 1 day
-                    elif multiplier == 'w':
-                        log_time *= 604800 # 1 week
-                    elif multiplier == 'm':
-                        log_time *= 2592000 # 1 month
-                return time.time() - log_time
-            return 0
+            if log_time <= 0: # Don't allow peeking into the future
+                return 0
+            if multiplier:
+                if multiplier == 'd':
+                    log_time *= 86400 # 1 day
+                elif multiplier == 'w':
+                    log_time *= 604800 # 1 week
+                elif multiplier == 'm':
+                    log_time *= 2592000 # 1 month
+            return time.time() - log_time
         except ValueError:
             print 'Cannot convert time argument to integer'
             return False
