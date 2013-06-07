@@ -5,13 +5,13 @@ from latte.Analyzer import Analyzer
 class TestAnalyzer(unittest.TestCase):
 
     def setUp(self):
-        self.configs = {}
-        self.configs['appPath'] = os.path.expanduser('latte/')
-        self.configs['statsPath'] = 'stats/'
-        self.configs['sleepTime'] = 5
-        self.configs['autosaveTime'] = 3600
+        self.config = {}
+        self.config['appPath'] = os.path.expanduser('latte/')
+        self.config['statsPath'] = 'stats/'
+        self.config['sleepTime'] = 5
+        self.config['autosaveTime'] = 3600
 
-        self.analyzer = Analyzer(self.configs)
+        self.analyzer = Analyzer(self.config)
 
     def tearDown(self):
         pass
