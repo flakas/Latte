@@ -9,7 +9,7 @@ Development: [![Build Status](https://secure.travis-ci.org/flakas/Latte.png?bran
 Installation
 ------------
 
-Use these installation commands to install `Latte`:
+Install from the latest source:
 
 ```
 git clone git://github.com/flakas/Latte.git
@@ -17,9 +17,10 @@ cd Latte
 python setup.py install
 ```
 
-OR
+*OR*
 
-You can install it from Python Package Index (PIP):
+Install from PIP (Python Package Index):
+
 ```
 pip install latte
 ```
@@ -27,12 +28,9 @@ pip install latte
 Configuration
 -------------
 
-Configuration scripts are saved in `~/.latte` folder.
+Configuration files are saved in `~/.config/latte` folder.
 
-- `categories.py` should contain user defined classes for categories (see example configuration in `doc/config/categories.py`)
-- `projects.py` should contain user defined classes for projects (see example configuration in `doc/config/projects.py`)
-
-Statistics files are stored in `~/.latte/stats` folder
+Statistics files are stored in `~/.config/latte` folder (configurable)
 
 Usage
 -----
@@ -66,9 +64,9 @@ To build an Automatic Time Tracker for Linux that:
 
 - keeps track of windows where the user spends time
 - is aware if the user is active or not
-- collects information for analysis and statistics
-- Can assign time and activities to specific projects and/or categories based on
-  specific rules defined by user (Regular Expressions possibly)
+- collects information for personal analysis and statistics
+- can classify activities based on user defined rules
+- ignores unwanted and sensitive information
 
 Tasks
 -----

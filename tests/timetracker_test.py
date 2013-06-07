@@ -5,7 +5,6 @@ import shutil
 import mock
 
 from latte.TimeTracker import TimeTracker
-from latte.Assigner import Assigner
 from latte.Config import Config
 
 class testTimeTracker(unittest.TestCase):

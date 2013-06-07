@@ -12,8 +12,8 @@ import os
 class Config(object):
     """ Handles config loading and parsing. """
 
-    def __init__(self, path='~/.latte'):
-        self.configs = {}
+    def __init__(self, path='~/.config/latte'):
+        self.config = {}
         self.user_config_path = os.path.expanduser(path)
 
         self.load_default_configs()
@@ -23,18 +23,17 @@ class Config(object):
     def load_default_configs(self):
         """ Load default config values. """
         self.set('app_path', self.user_config_path)
-        self.set('stats_path', 'stats/')
+        self.set('stats_db', 'sqlite:////%s/stats.db' % self.user_config_path)
         self.set('sleep_time', 5)
-        self.set('autosave_time', 3600)
 
     def set(self, name, value):
         """ Set config value. """
-        self.configs[name] = value
+        self.config[name] = value
 
     def create_default_configs(self):
         # Create main application folder
-        if not os.path.exists(self.configs.get('app_path')):
-            os.makedirs(self.configs.get('app_path'))
+        if not os.path.exists(self.config.get('app_path')):
+            os.makedirs(self.config.get('app_path'))
 
     def load_user_config(self, path):
         """ Attempt to load configs from default path. """
@@ -49,15 +48,15 @@ class Config(object):
 
     def overwrite_with_user_configs(self, parser):
         """ Overwrite default configs with user-defined configs. """
-        for item in ['app_path', 'stats_path']:
-            self.set(item, parser.get('main', item))
-        for item in ['sleep_time', 'autosave_time']:
+        for item in ['stats_db']:
+            self.set(item, 'sqlite:////%s/%s' % (self.user_config_path, parser.get('main', item)))
+        for item in ['sleep_time']:
             self.set(item, parser.getint('main', item))
 
     def get(self, item):
         """ Fetches config item from the list. """
-        if item in self.configs.keys():
-            return self.configs[item]
+        if item in self.config.keys():
+            return self.config[item]
         return None
 
 if __name__ == '__main__':

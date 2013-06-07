@@ -12,50 +12,39 @@ each window individually. Stores log data to the filesystem.
 import time
 import subprocess
 import os
-import atexit
 
+from sqlalchemy import *
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
+
+from .Base import Base
 from .TimeTracker import TimeTracker
-from .Assigner import Assigner
 from .Config import Config
+from .Log import Log
 
 class Latte(object):
 
     """ Main application class. """
 
     def __init__(self):
-        self.configs = Config()
-        self.categorizer = Assigner('category', self.configs)
-        self.projectizer = Assigner('project', self.configs)
-        self.tracker = TimeTracker(configs=self.configs,
-                                   categorizer=self.categorizer,
-                                   projectizer=self.projectizer)
+        self.config = Config()
 
-        atexit.register(self.cleanup)
+        engine = create_engine(self.config.get('stats_db'))
+        Session = sessionmaker(bind=engine)
+        Base.metadata.create_all(engine)
 
-    def cleanup(self):
-        """ On exit force dump log information. """
-        self.tracker.dump_logs()
+        self.tracker = TimeTracker(config=self.config, session=Session())
 
     def run(self):
-        """ Primary application loop. """
         duration = 0
         try:
             while True:
                 title = get_active_window_title()
-                if title:
-                    self.tracker.log(title)
-                    stats = self.tracker.get_window_stats(title)
-                    print title, \
-                        repr(stats['categories']), \
-                        repr(stats['project']), \
-                        stats['time']
+                self.tracker.log(title)
+                stats = self.tracker.get_window_stats(title)
+                print "%s, %s" % (title, stats.duration)
 
-                time.sleep(self.configs.get('sleep_time'))
-                # Track time since last save and do autosaves
-                duration += self.configs.get('sleep_time')
-                if duration >= self.configs.get('autosave_time'):
-                    duration = 0
-                    self.tracker.dump_logs()
+                time.sleep(self.config.get('sleep_time'))
         except KeyboardInterrupt:
             print 'Exiting...'
 
