@@ -23,17 +23,16 @@ from .Config import Config
 from .Log import Log
 
 class Latte(object):
-
     """ Main application class. """
 
     def __init__(self):
         self.config = Config()
 
         engine = create_engine(self.config.get('stats_db'))
-        Session = sessionmaker(bind=engine)
+        self.session = sessionmaker(bind=engine)
         Base.metadata.create_all(engine)
 
-        self.tracker = TimeTracker(config=self.config, session=Session())
+        self.tracker = TimeTracker(config=self.config, session=self.session())
 
     def run(self):
         duration = 0
@@ -48,6 +47,9 @@ class Latte(object):
         except KeyboardInterrupt:
             print 'Exiting...'
 
+    def get_session(self):
+        return self.session()
+
 def get_active_window_title():
     """ Fetches active window title using xprop. """
     try:
@@ -57,9 +59,10 @@ def get_active_window_title():
         window = subprocess.Popen(["xprop", "-id", active_id, "WM_NAME"],
                                 stdout=subprocess.PIPE,
                                 stderr=subprocess.PIPE)
-        return window.communicate()[0].strip().split('"', 1)[-1][:-1]
+        result = window.communicate()[0].strip().split('"', 1)[-1][:-1]
+        return unicode(result.decode('utf-8'))
     except:
-        return ''
+        return u''
 
 
 if __name__ == '__main__':

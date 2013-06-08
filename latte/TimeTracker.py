@@ -17,26 +17,18 @@ class TimeTracker(object):
         self.session = session
 
     def get_window_time(self, window):
-        """ Returns window time information from logs """
+        """ Return time spent on a window """
         log = self.get_window_stats(window)
         if log:
             return log.duration
         return None
 
     def get_window_stats(self, window):
-        """
-
-        Returns a dict of window statistics.
-        That includes window time, category and project.
-
-        """
-        window = window.decode('unicode-escape')
+        """ Get statistics of a window"""
         return self.session.query(Log).filter_by(window_title=window).first()
 
     def log(self, window):
-        """ Logs window time """
-
-        window = window.decode('unicode_escape')
+        """ Log window time """
 
         log = self.session.query(Log).filter_by(window_title=window).first()
         if log:

@@ -1,5 +1,6 @@
 [2.0]
 - Removed categories and projects
+- Separated stats to a separate command
 
 [1.2]
 - Added CHANGELOG

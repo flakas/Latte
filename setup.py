@@ -9,9 +9,9 @@ config = {
     'author_email': 'flakas@tautvidas.com',
     'url': 'https://github.com/flakas/Latte',
     'install_requires': [],
-    'packages': ['latte', 'latte.Categories', 'latte.Projects'],
-    'scripts': ['bin/latte'],
-    'version': '1.2.0',
+    'packages': ['latte'],
+    'scripts': ['bin/latte', 'bin/lattestats'],
+    'version': '2.0',
     'name': 'latte'
 }
 

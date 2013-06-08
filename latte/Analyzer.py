@@ -8,15 +8,18 @@ import os
 import json
 import time
 
+from sqlalchemy import *
+
 from .Config import Config
+from .Log import Log
 
 class Analyzer(object):
     """ Analyzes Latte log data """
 
-    def __init__(self, config, args=[]):
+    def __init__(self, config, session, args=[]):
         self.config = config
-        self.logs = {}
         self.parse_time_args(args)
+        self.session = session
 
     def parse_time_args(self, args=[]):
         self.since = 0
@@ -45,100 +48,25 @@ class Analyzer(object):
 
     def run(self):
         """ Main analyzer loop """
-        self.load_logs()
-        #print repr(self.logs)
         self.analyze()
 
     def analyze(self):
         """ Analyzes log data and prints out results """
+        logs = self.session.query(Log.window_title, func.sum(Log.duration).label('duration'))
         if self.since:
             print 'Looking for log data since %s' % time.strftime('%d %b %Y %H:%M:%S', time.gmtime(self.since))
-        if not self.logs:
+            logs = logs.filter(Log.date > since)
+        logs = logs.group_by(Log.window_title).order_by('duration DESC')
+        if logs.count() <= 0:
             print 'There is no log data'
             return False
 
-        windows = {}
-        categories = {}
-        projects = {}
-        totalLogs = 0
-        totalTime = 0
+        totalTime = self.session.query(func.sum(Log.duration)).scalar()
 
-        # Log files
-        for logFileKey in self.logs.keys():
-            logFile = self.logs[logFileKey]
-            totalLogs += len(logFile)
-            # Individual log entries
-            for logKey in logFile.keys():
-                log = logFile[logKey]
-                totalTime += log['time']
-                if not windows.has_key(logKey):
-                    windows[logKey] = log['time']
-                else:
-                    windows[logKey] += log['time']
-                if not projects.has_key(log['project']):
-                    projects[log['project']] = log['time']
-                else:
-                    projects[log['project']] += log['time']
-                if 'categories' in log.keys():
-                    if not log['categories']:
-                        log['categories'] = ['(Uncategorized)']
-                    # Assign time to individual categories
-                    for cat in log['categories']:
-                        if not categories.has_key(cat):
-                            categories[cat] = log['time']
-                        else:
-                            categories[cat] += log['time']
-
-        print 'Total log files: %d\nTotal log entries: %d' % (len(self.logs), \
-                                                              totalLogs)
-        print 'Total logged time: %s' % self.normalize_time(totalTime)
-        print ''
+        print "Total logged time: %s\n" % self.normalize_time(totalTime)
         print 'Spent time on windows:'
-        sortedWindowTimes = sorted(windows.items(), \
-                                   cmp=lambda x, y: cmp(x[1], y[1]), \
-                                   reverse=True)
-        for (window, spent) in sortedWindowTimes:
-            print '- "%s" : %s' % (window, self.normalize_time(spent))
-
-        print ''
-        print 'Spent time on categories:'
-        for (category, spent) in categories.items():
-            print '- "%s" : %s' % (category, self.normalize_time(spent))
-
-        print ''
-        print 'Spent time on projects:'
-        for (project, spent) in projects.items():
-            print '- "%s" : %s' % (project, self.normalize_time(spent))
-
-
-    def load_logs(self):
-        """ Loads logs from log files and stores them in memory """
-
-        # Get a list of log files available
-        logsPath = os.path.join(self.config.get('app_path'), \
-                                self.config.get('stats_path'))
-        logFiles = os.listdir(logsPath)
-        if not logFiles:
-            return False
-
-        if self.since:
-            since = str(self.since)
-            logFiles = filter(lambda x: x >= since, logFiles)
-
-
-        # Attempt to open each file, read and parse log data
-        for logFile in logFiles:
-            path = os.path.join(logsPath, logFile)
-            logFileHandle = open(path, 'r')
-            contents = logFileHandle.read()
-            # File data may be corrupted
-            try:
-                jsonContents = json.loads(contents)
-                self.logs[logFile] = jsonContents
-            except ValueError:
-                continue
-            logFileHandle.close()
-        return True
+        for (window, duration) in logs:
+            print '- "%s" : %s' % (window, self.normalize_time(duration))
 
     def normalize_time(self, seconds):
         """ Normalizes time into user-friendly form """
