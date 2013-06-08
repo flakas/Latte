@@ -11,7 +11,7 @@ class TestAnalyzer(unittest.TestCase):
         self.config['sleepTime'] = 5
         self.config['autosaveTime'] = 3600
 
-        self.analyzer = Analyzer(self.config)
+        self.analyzer = Analyzer(self.config, {})
 
     def tearDown(self):
         pass

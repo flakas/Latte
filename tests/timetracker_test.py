@@ -45,24 +45,24 @@ class testTimeTracker(unittest.TestCase):
     def testGettingEmptyLog(self):
         """ Tests if getWindowTime with empty log returns None """
 
-        self.assertEqual(self.timetracker.get_window_time('Bogus'), None)
+        self.assertEqual(self.timetracker.get_window_time(u'Bogus'), None)
 
     def testAddTimeToNonExistingWindows(self):
         """ Test adding time to non existing window titles """
 
-        window = 'Non existing window 1'
+        window = u'Non existing window 1'
         self.timetracker.log(window)
         self.assertEqual(self.timetracker.get_window_time(window), self.config.get('sleep_time'))
 
     def testAddTimeToExistingWindows(self):
-        window = 'Testing Window 1'
+        window = u'Testing Window 1'
         self.timetracker.log(window)
         self.timetracker.log(window)
 
         self.assertEqual(self.timetracker.get_window_time(window), self.config.get('sleep_time') * 2)
 
     def testGetWindowStats(self):
-        window = 'Some window'
+        window = u'Some window'
         self.timetracker.log(window)
 
         data = self.timetracker.get_window_stats(window)
