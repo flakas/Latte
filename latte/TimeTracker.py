@@ -30,6 +30,9 @@ class TimeTracker(object):
     def log(self, window):
         """ Log window time """
 
+        if self.contains_ignored_keywords(window):
+            return False
+
         log = self.session.query(Log).filter_by(window_title=window).first()
         if log:
             log.duration += self.config.get('sleep_time')
@@ -38,3 +41,10 @@ class TimeTracker(object):
             self.session.add(log)
 
         self.session.commit()
+
+    def contains_ignored_keywords(self, window):
+        window = window.lower()
+        for word in self.config.get('ignore_keywords'):
+            if word in window:
+                return True
+        return False

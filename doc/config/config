@@ -7,3 +7,7 @@ stats_db = data.db
 # load this will cause
 # Default: 5
 sleep_time = 5
+
+# List of keywords to ignore
+# Any window that has any of the keywords in its title will be ignored
+ignore_keywords = bank,paypal

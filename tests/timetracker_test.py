@@ -30,6 +30,8 @@ class testTimeTracker(unittest.TestCase):
                 return 5
             elif args[0] == 'stats_path':
                 return 'stats/'
+            elif args[0] == 'ignore_keywords':
+                return ['ignore', 'keyw']
         self.config.get = get
         self.config.getint = get
 
@@ -67,3 +69,13 @@ class testTimeTracker(unittest.TestCase):
 
         data = self.timetracker.get_window_stats(window)
         self.assertIs(type(self.timetracker.get_window_stats(window)), Log)
+
+    def testContainsIgnoredKeywords(self):
+        window = u'Some string with ignored keywords'
+        self.assertTrue(self.timetracker.contains_ignored_keywords(window))
+        window2 = u'Doesn\'t contain bad words'
+        self.assertFalse(self.timetracker.contains_ignored_keywords(window2))
+
+    def testAddLogWithIgnoredKeywords(self):
+        window = u'Some string with ignored keywords'
+        self.assertFalse(self.timetracker.log(window))

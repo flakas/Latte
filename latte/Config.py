@@ -25,6 +25,7 @@ class Config(object):
         self.set('app_path', self.user_config_path)
         self.set('stats_db', 'sqlite:////%s/stats.db' % self.user_config_path)
         self.set('sleep_time', 5)
+        self.set('ignore_keywords', [])
 
     def set(self, name, value):
         """ Set config value. """
@@ -52,6 +53,8 @@ class Config(object):
             self.set(item, 'sqlite:////%s/%s' % (self.user_config_path, parser.get('main', item)))
         for item in ['sleep_time']:
             self.set(item, parser.getint('main', item))
+        for item in ['ignore_keywords']:
+            self.set(item, map(lambda x: unicode(x.decode('utf-8')).lower(), parser.get('main', item).split(',')))
 
     def get(self, item):
         """ Fetches config item from the list. """

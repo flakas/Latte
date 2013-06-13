@@ -41,7 +41,10 @@ class Latte(object):
                 title = get_active_window_title()
                 self.tracker.log(title)
                 stats = self.tracker.get_window_stats(title)
-                print "%s, %s" % (title, stats.duration)
+                if stats:
+                    print "%s, %s" % (title, stats.duration)
+                elif not stats:
+                    print "IGNORED"
 
                 time.sleep(self.config.get('sleep_time'))
         except KeyboardInterrupt:
