@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 
 Latte activity log analyzer
@@ -7,6 +8,8 @@ Latte activity log analyzer
 import os
 import json
 import time
+import sys
+import errno
 
 from sqlalchemy import *
 
@@ -48,7 +51,12 @@ class Analyzer(object):
 
     def run(self):
         """ Main analyzer loop """
-        self.analyze()
+        try:
+            self.analyze()
+        except IOError as e:
+            # Just ignore broken pipe exceptions
+            if e.errno == errno.EPIPE:
+                pass
 
     def analyze(self):
         """ Analyzes log data and prints out results """
@@ -66,7 +74,7 @@ class Analyzer(object):
         print "Total logged time: %s\n" % self.normalize_time(totalTime)
         print 'Spent time on windows:'
         for (window, duration) in logs:
-            print '- "%s" : %s' % (window, self.normalize_time(duration))
+            print '- "%s" : %s' % (window.encode('utf-8'), self.normalize_time(duration))
 
     def normalize_time(self, seconds):
         """ Normalizes time into user-friendly form """

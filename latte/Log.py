@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from sqlalchemy import Column, String, Integer, Date, Unicode
 from .Base import Base
 
