@@ -29,7 +29,8 @@ More information: https://github.com/flakas/Latte
 Usage:
 
 latte            Run activity logger
-lattestats       Analyze all log data
+lattestats       Analyze log data for past 24 hours
+lattestats all   Analyze all log data
 lattestats X d   Analyze log data for past X days
 lattestats X w   Analyze log data for past X weeks
 lattestats X m   Analyze log data for past X months

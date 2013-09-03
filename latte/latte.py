@@ -36,6 +36,9 @@ class Latte(object):
         self.tracker = TimeTracker(config=self.config, session=self.session())
 
     def run(self):
+        if not has_required_dependencies():
+            print "Required dependencies were not found. Please make sure `xprop` is installed and in your PATH. Exiting..."
+            return
         duration = 0
         try:
             while True:
@@ -53,6 +56,14 @@ class Latte(object):
 
     def get_session(self):
         return self.session()
+
+def has_required_dependencies():
+    """ Checks whether the system has required dependencies"""
+    try:
+        subprocess.call(["xprop", "-root", "_NET_ACTIVE_WINDOW"], stdout=subprocess.PIPE)
+        return True
+    except OSError as e:
+        return False
 
 def get_active_window_title():
     """ Fetches active window title using xprop. """

@@ -21,15 +21,18 @@ class Analyzer(object):
 
     def __init__(self, config, session, args=[]):
         self.config = config
-        self.parse_time_args(args)
+        self.since = self.parse_time_args(args)
         self.session = session
 
     def parse_time_args(self, args=[]):
-        self.since = 0
-        if len(args) == 1:
-            self.since = self.calculate_since(args[0])
+        since = self.calculate_since('1', 'd') # 1 day
+        if len(args) == 1 and args[0] == 'all':
+            since = 0
+        elif len(args) == 1:
+            since = self.calculate_since(args[0])
         elif len(args) == 2 and args[1] in ['d', 'w', 'm']:
-            self.since = self.calculate_since(args[0], args[1])
+            since = self.calculate_since(args[0], args[1])
+        return since
 
     def calculate_since(self, since_str, multiplier=''):
         try:
@@ -62,8 +65,8 @@ class Analyzer(object):
         """ Analyzes log data and prints out results """
         logs = self.session.query(Log.window_title, func.sum(Log.duration).label('duration'))
         if self.since:
-            print 'Looking for log data since %s' % time.strftime('%d %b %Y %H:%M:%S', time.gmtime(self.since))
-            logs = logs.filter(Log.date > since)
+            print 'Looking for log data since %s' % time.strftime('%d %b %Y %H:%M:%S', time.localtime(self.since))
+            logs = logs.filter(Log.date > self.since)
         logs = logs.group_by(Log.window_title).order_by('duration DESC')
         if logs.count() <= 0:
             print 'There is no log data'
