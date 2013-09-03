@@ -44,11 +44,12 @@ or in background:
 
 To analyze log data you can use the built in analyzer:
 
-- `latte analyze` to analyze all log data
-- `latte analyze X d` analyze log data from past X days, where X is any positive integer
-- `latte analyze X w` analyze log data from past X weeks, where X is any positive integer
-- `latte analyze X m` analyze log data from past X months, where X is any positive integer
-- `latte analyze X` analyze log data from past X seconds, where X is any positive integer
+- `lattestats` to analyze log data from past 24 hours
+- `lattestats all`   Analyze all log data
+- `lattestats X d` analyze log data from past X days, where X is any positive integer
+- `lattestats X w` analyze log data from past X weeks, where X is any positive integer
+- `lattestats X m` analyze log data from past X months, where X is any positive integer
+- `lattestats X` analyze log data from past X seconds, where X is any positive integer
 
 Dependencies
 --------
@@ -67,11 +68,6 @@ To build an Automatic Time Tracker for Linux that:
 - collects information for personal analysis and statistics
 - can classify activities based on user defined rules
 - ignores unwanted and sensitive information
-
-Tasks
------
-
-Check our out [Pivotal tracker](https://www.pivotaltracker.com/projects/601587) for this project
 
 License
 -------
