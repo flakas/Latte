@@ -1,7 +1,7 @@
 Latte - Linux Automatic Time Tracker
 ====================================
 
-An attempt to build an automatic time tracker for Linux
+A proof of concept automated time tracker, intended for Ubuntu Linux.
 
 Stable: [![Build Status](https://secure.travis-ci.org/flakas/Latte.png?branch=master)](http://travis-ci.org/flakas/Latte)
 Development: [![Build Status](https://secure.travis-ci.org/flakas/Latte.png?branch=development)](http://travis-ci.org/flakas/Latte)
@@ -68,6 +68,8 @@ To build an Automatic Time Tracker for Linux that:
 - collects information for personal analysis and statistics
 - can classify activities based on user defined rules
 - ignores unwanted and sensitive information
+
+All without any human intervention (except for the initial set up).
 
 License
 -------
