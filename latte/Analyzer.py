@@ -8,6 +8,7 @@ Latte activity log analyzer
 import os
 import json
 import time
+from datetime import datetime, timedelta
 import sys
 import errno
 
@@ -15,6 +16,7 @@ from sqlalchemy import *
 
 from .Config import Config
 from .Log import Log
+from .latte import Latte
 
 class Analyzer(object):
     """ Analyzes Latte log data """
@@ -46,7 +48,7 @@ class Analyzer(object):
                     log_time *= 604800 # 1 week
                 elif multiplier == 'm':
                     log_time *= 2592000 # 1 month
-            return time.time() - log_time
+            return datetime.now() - timedelta(seconds=log_time)
         except ValueError:
             print 'Cannot convert time argument to integer'
             return False
@@ -65,7 +67,7 @@ class Analyzer(object):
         """ Analyzes log data and prints out results """
         logs = self.session.query(Log.window_title, func.sum(Log.duration).label('duration'))
         if self.since:
-            print 'Looking for log data since %s' % time.strftime('%d %b %Y %H:%M:%S', time.localtime(self.since))
+            print 'Looking for log data since %s' % self.since
             logs = logs.filter(Log.date > self.since)
         logs = logs.group_by(Log.window_title).order_by('duration DESC')
         if logs.count() <= 0:
@@ -98,4 +100,4 @@ class Analyzer(object):
             return '%ds' % seconds
 
 if __name__ == '__main__':
-    Analyzer(Config()).run()
+    Analyzer(Config(), Latte().get_session(), sys.argv[2:]).run()

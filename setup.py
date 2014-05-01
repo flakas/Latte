@@ -8,7 +8,7 @@ config = {
     'author': 'Tautvidas Sipavicius',
     'author_email': 'flakas@tautvidas.com',
     'url': 'https://github.com/flakas/Latte',
-    'install_requires': [],
+    'install_requires': ['sqlalchemy','pysqlite'],
     'packages': ['latte'],
     'scripts': ['bin/latte', 'bin/lattestats'],
     'version': '2.0',
