@@ -44,7 +44,7 @@ class Latte(object):
             while True:
                 title = get_active_window_title()
                 self.tracker.log(title)
-                stats = self.tracker.get_window_stats(title)
+                stats = self.tracker.current_log
                 if stats:
                     print "%s, %s" % (title, stats.duration)
                 elif not stats:

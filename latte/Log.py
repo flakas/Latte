@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from sqlalchemy import Column, String, Integer, Date, Unicode
+from sqlalchemy import Column, String, Integer, DateTime, Unicode
 from .Base import Base
 
 class Log(Base):
@@ -7,7 +7,7 @@ class Log(Base):
 
     id = Column(Integer, primary_key=True)
     window_title = Column(Unicode)
-    date = Column(Date)
+    date = Column(DateTime)
     duration = Column(Integer)
 
     def __init__(self, window_title, date, duration):
