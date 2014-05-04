@@ -10,6 +10,7 @@ Handles application configuration loading
 import ConfigParser
 import os
 
+
 class Config(object):
     """ Handles config loading and parsing. """
 
@@ -63,6 +64,7 @@ class Config(object):
         if item in self.config.keys():
             return self.config[item]
         return None
+
 
 if __name__ == '__main__':
     Config()

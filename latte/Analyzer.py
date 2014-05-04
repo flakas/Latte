@@ -5,18 +5,14 @@ Latte activity log analyzer
 
 """
 
-import os
-import json
-import time
 from datetime import datetime, timedelta
-import sys
 import errno
 
 from sqlalchemy import *
-
 from .Config import Config
 from .Log import Log
 from .latte import Latte
+
 
 class Analyzer(object):
     """ Analyzes Latte log data """
@@ -27,7 +23,7 @@ class Analyzer(object):
         self.session = session
 
     def parse_time_args(self, args=[]):
-        since = self.calculate_since('1', 'd') # 1 day
+        since = self.calculate_since('1', 'd')  # 1 day
         if len(args) == 1 and args[0] == 'all':
             since = 0
         elif len(args) == 1:
@@ -39,20 +35,19 @@ class Analyzer(object):
     def calculate_since(self, since_str, multiplier=''):
         try:
             log_time = int(since_str, 10)
-            if log_time <= 0: # Don't allow peeking into the future
+            if log_time <= 0:  # Don't allow peeking into the future
                 return 0
             if multiplier:
                 if multiplier == 'd':
-                    log_time *= 86400 # 1 day
+                    log_time *= 86400  # 1 day
                 elif multiplier == 'w':
-                    log_time *= 604800 # 1 week
+                    log_time *= 604800  # 1 week
                 elif multiplier == 'm':
-                    log_time *= 2592000 # 1 month
+                    log_time *= 2592000  # 1 month
             return datetime.now() - timedelta(seconds=log_time)
         except ValueError:
             print 'Cannot convert time argument to integer'
             return False
-
 
     def run(self):
         """ Main analyzer loop """
@@ -74,9 +69,9 @@ class Analyzer(object):
             print 'There is no log data'
             return False
 
-        totalTime = self.session.query(func.sum(Log.duration)).scalar()
+        total_time = self.session.query(func.sum(Log.duration)).scalar()
 
-        print "Total logged time: %s\n" % self.normalize_time(totalTime)
+        print "Total logged time: %s\n" % self.normalize_time(total_time)
         print 'Spent time on windows:'
         for (window, duration) in logs:
             print '- "%s" : %s' % (window.encode('utf-8'), self.normalize_time(duration))
@@ -89,15 +84,16 @@ class Analyzer(object):
 
         if seconds >= 60:
             minutes = seconds / 60
-            seconds = seconds % 60
+            seconds %= 60
             if minutes >= 60:
                 hours = minutes / 60
-                minutes = minutes % 60
+                minutes %= 60
                 return '%dh%dm%ds' % (hours, minutes, seconds)
             else:
                 return '%dm%ds' % (minutes, seconds)
         else:
             return '%ds' % seconds
+
 
 if __name__ == '__main__':
     Analyzer(Config(), Latte().get_session(), sys.argv[2:]).run()

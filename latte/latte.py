@@ -12,17 +12,13 @@ each window individually. Stores log data to the filesystem.
 
 import time
 import subprocess
-import os
 
 from sqlalchemy import *
-from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-
 from .Base import Base
 from .TimeTracker import TimeTracker
 from .Config import Config
 from .UserInactive import get_time
-from .Log import Log
 
 
 class Latte(object):

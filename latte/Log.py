@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
-from sqlalchemy import Column, String, Integer, DateTime, Unicode
+from sqlalchemy import Column, Integer, DateTime, Unicode
 from .Base import Base
+
 
 class Log(Base):
     __tablename__ = 'logs'
@@ -17,5 +18,5 @@ class Log(Base):
 
     def __repr__(self):
         return "<Log(%s, %s, %s)>" % \
-                (self.window_title, str(self.date), self.duration)
+               (self.window_title, str(self.date), self.duration)
 

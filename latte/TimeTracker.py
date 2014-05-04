@@ -5,10 +5,10 @@ Time tracking class
 Handles window time logging and log information storage
 
 """
-from sqlalchemy.orm.exc import NoResultFound
 from datetime import datetime
+
 from .Log import Log
-import os
+
 
 class TimeTracker(object):
     """ Tracks window time and stores window information. """
@@ -45,7 +45,7 @@ class TimeTracker(object):
         self.session.commit()
 
     def reduce_time(self, time):
-        self.current_log.duration -= time;
+        self.current_log.duration -= time
         if self.current_log.duration <= 0:
             self.current_log.duration = 0
         self.session.commit()
