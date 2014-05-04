@@ -27,6 +27,7 @@ class Config(object):
         self.set('stats_db', 'sqlite:////%s/stats.db' % self.user_config_path)
         self.set('sleep_time', 5)
         self.set('ignore_keywords', [])
+        self.set('user_inactive_threshold', 30)
 
     def set(self, name, value):
         """ Set config value. """

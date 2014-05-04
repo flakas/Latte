@@ -21,7 +21,9 @@ from sqlalchemy.orm import sessionmaker
 from .Base import Base
 from .TimeTracker import TimeTracker
 from .Config import Config
+from .UserInactive import get_time
 from .Log import Log
+
 
 class Latte(object):
     """ Main application class. """
@@ -42,20 +44,25 @@ class Latte(object):
         duration = 0
         try:
             while True:
-                title = get_active_window_title()
-                self.tracker.log(title)
-                stats = self.tracker.current_log
-                if stats:
-                    print "%s, %s" % (title, stats.duration)
-                elif not stats:
-                    print "IGNORED"
-
+                if get_time() > self.config.get('user_inactive_threshold'):
+                    print "User inactive"
+                    if self.tracker.current_log != None:
+                        self.tracker.reduce_time(get_time())
+                else:
+                    title = get_active_window_title()
+                    self.tracker.log(title)
+                    stats = self.tracker.current_log
+                    if stats:
+                        print "%s, %s" % (title, stats.duration)
+                    elif not stats:
+                        print "IGNORED"
                 time.sleep(self.config.get('sleep_time'))
         except KeyboardInterrupt:
             print 'Exiting...'
 
     def get_session(self):
         return self.session()
+
 
 def has_required_dependencies():
     """ Checks whether the system has required dependencies"""
@@ -65,15 +72,16 @@ def has_required_dependencies():
     except OSError as e:
         return False
 
+
 def get_active_window_title():
     """ Fetches active window title using xprop. """
     try:
         active = subprocess.Popen(["xprop", "-root", "_NET_ACTIVE_WINDOW"],
-                                stdout=subprocess.PIPE)
+                                  stdout=subprocess.PIPE)
         active_id = active.communicate()[0].strip().split()[-1]
         window = subprocess.Popen(["xprop", "-id", active_id, "WM_NAME"],
-                                stdout=subprocess.PIPE,
-                                stderr=subprocess.PIPE)
+                                  stdout=subprocess.PIPE,
+                                  stderr=subprocess.PIPE)
         result = window.communicate()[0].strip().split('"', 1)[-1][:-1]
         return unicode(result.decode('utf-8'))
     except:
