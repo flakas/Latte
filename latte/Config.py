@@ -28,7 +28,7 @@ class Config(object):
         self.set('stats_db', 'sqlite:////%s/stats.db' % self.user_config_path)
         self.set('sleep_time', 5)
         self.set('ignore_keywords', [])
-        self.set('user_inactive_threshold', 30)
+        self.set('user_inactive_threshold', 6 * 60)
 
     def set(self, name, value):
         """ Set config value. """
@@ -54,7 +54,7 @@ class Config(object):
         """ Overwrite default configs with user-defined configs. """
         for item in ['stats_db']:
             self.set(item, 'sqlite:////%s/%s' % (self.user_config_path, parser.get('main', item)))
-        for item in ['sleep_time']:
+        for item in ['sleep_time', 'user_inactive_threshold']:
             self.set(item, parser.getint('main', item))
         for item in ['ignore_keywords']:
             self.set(item, map(lambda x: unicode(x.decode('utf-8')).lower(), parser.get('main', item).split(',')))
