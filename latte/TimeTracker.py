@@ -8,7 +8,7 @@ Handles window time logging and log information storage
 from sqlalchemy.orm.exc import NoResultFound
 from datetime import datetime, date
 from .Log import Log
-import os
+
 
 class TimeTracker(object):
     """ Tracks window time and stores window information. """
@@ -44,6 +44,13 @@ class TimeTracker(object):
             self.session.add(self.current_log)
 
         self.session.commit()
+
+    def reduce_time(self, time):
+        self.current_log.duration -= time
+        if self.current_log.duration <= 0:
+            self.current_log.duration = 0
+        self.session.commit()
+        self.current_log = None
 
     def contains_ignored_keywords(self, window):
         window = window.lower()
