@@ -5,8 +5,8 @@ Time tracking class
 Handles window time logging and log information storage
 
 """
-from datetime import datetime
-
+from sqlalchemy.orm.exc import NoResultFound
+from datetime import datetime, date
 from .Log import Log
 
 
@@ -36,7 +36,8 @@ class TimeTracker(object):
             self.current_log = None
             return False
 
-        if self.current_log and self.current_log.window_title == window:
+        if (self.current_log and self.current_log.window_title == window and
+                self.current_log.date.date() == date.today()):
             self.current_log.duration += self.config.get('sleep_time')
         else:
             self.current_log = Log(window, datetime.now(), self.config.get('sleep_time'))
