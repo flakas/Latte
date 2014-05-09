@@ -12,13 +12,14 @@ each window individually. Stores log data to the filesystem.
 
 import time
 import subprocess
+import ctypes
 
 from sqlalchemy import *
 from sqlalchemy.orm import sessionmaker
 from .Base import Base
 from .TimeTracker import TimeTracker
 from .Config import Config
-from .UserInactive import get_time
+from .UserActivityTracker import UserActivityTracker
 
 
 class Latte(object):
@@ -31,23 +32,25 @@ class Latte(object):
         self.session = sessionmaker(bind=engine)
         Base.metadata.create_all(engine)
 
-        self.tracker = TimeTracker(config=self.config, session=self.session())
+        self.time_tracker = TimeTracker(config=self.config, session=self.session())
+        self.activity_tracker = UserActivityTracker(time_tracker=self.time_tracker, config=self.config)
 
     def run(self):
         if not has_required_dependencies():
-            print "Required dependencies were not found. Please make sure `xprop` is installed and in your PATH. Exiting..."
+            print "Required dependencies were not found. Please make sure `xprop` is installed and is in your PATH. Exiting..."
             return
+        if not has_optional_dependencies():
+            print "Optional dependencies were not found. Please make sure `libX11.so` and `libXss.so` are installed. Inactivity tracking will not work."
+
         duration = 0
         try:
             while True:
-                if get_time() > self.config.get('user_inactive_threshold'):
+                if self.activity_tracker.is_user_inactive():
                     print "User inactive"
-                    if self.tracker.current_log != None:
-                        self.tracker.reduce_time(get_time())
                 else:
                     title = get_active_window_title()
-                    self.tracker.log(title)
-                    stats = self.tracker.current_log
+                    self.time_tracker.log(title)
+                    stats = self.time_tracker.current_log
                     if stats:
                         print "%s, %s" % (title, stats.duration)
                     elif not stats:
@@ -61,13 +64,21 @@ class Latte(object):
 
 
 def has_required_dependencies():
-    """ Checks whether the system has required dependencies"""
+    """ Checks whether the system has required dependencies """
     try:
         subprocess.call(["xprop", "-root", "_NET_ACTIVE_WINDOW"], stdout=subprocess.PIPE)
         return True
     except OSError as e:
         return False
 
+def has_optional_dependencies():
+    """ Checks whether the system has optional dependencies """
+    try:
+        xlib = ctypes.cdll.LoadLibrary('libX11.so')
+        xss = ctypes.cdll.LoadLibrary('libXss.so')
+        return True
+    except OSError as e:
+        return False
 
 def get_active_window_title():
     """ Fetches active window title using xprop. """

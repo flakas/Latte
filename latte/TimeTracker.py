@@ -46,11 +46,16 @@ class TimeTracker(object):
         self.session.commit()
 
     def reduce_time(self, time):
-        self.current_log.duration -= time
-        if self.current_log.duration <= 0:
-            self.current_log.duration = 0
-        self.session.commit()
-        self.current_log = None
+        if self.current_log:
+            self.current_log.duration -= time
+            if self.current_log.duration <= 0:
+                self.current_log.duration = 0
+            new_duration = self.current_log.duration
+            self.session.commit()
+            self.current_log = None
+            return new_duration
+        else:
+            return False
 
     def contains_ignored_keywords(self, window):
         window = window.lower()

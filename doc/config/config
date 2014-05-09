@@ -11,3 +11,7 @@ sleep_time = 5
 # List of keywords to ignore
 # Any window that has any of the keywords in its title will be ignored
 ignore_keywords = bank,paypal
+
+# Ignore logging if the user is inactive for X seconds
+# Default: 360
+user_inactive_threshold = 360
