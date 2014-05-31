@@ -25,7 +25,8 @@ from .UserActivityTracker import UserActivityTracker
 class Latte(object):
     """ Main application class. """
 
-    def __init__(self):
+    def __init__(self, silent=False):
+        self.silent = silent
         self.config = Config()
 
         engine = create_engine(self.config.get('stats_db'))
@@ -37,31 +38,34 @@ class Latte(object):
 
     def run(self):
         if not has_required_dependencies():
-            print "Required dependencies were not found. Please make sure `xprop` is installed and is in your PATH. Exiting..."
+            self.output("Required dependencies were not found. Please make sure `xprop` is installed and is in your PATH. Exiting...")
             return
         if not has_optional_dependencies():
-            print "Optional dependencies were not found. Please make sure `libX11.so` and `libXss.so` are installed. Inactivity tracking will not work."
+            self.output("Optional dependencies were not found. Please make sure `libX11.so` and `libXss.so` are installed. Inactivity tracking will not work.")
 
         duration = 0
         try:
             while True:
                 if self.activity_tracker.is_user_inactive():
-                    print "User inactive"
+                    self.output("User inactive")
                 else:
                     title = get_active_window_title()
                     self.time_tracker.log(title)
                     stats = self.time_tracker.current_log
                     if stats:
-                        print "%s, %s" % (title, stats.duration)
+                        self.output("%s, %s" % (title, stats.duration))
                     elif not stats:
-                        print "IGNORED"
+                        self.output("IGNORED")
                 time.sleep(self.config.get('sleep_time'))
         except KeyboardInterrupt:
-            print 'Exiting...'
+            self.output('Exiting...')
 
     def get_session(self):
         return self.session()
 
+    def output(self, text):
+        if not self.silent:
+            print text
 
 def has_required_dependencies():
     """ Checks whether the system has required dependencies """
