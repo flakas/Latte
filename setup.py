@@ -11,7 +11,7 @@ config = {
     'install_requires': ['sqlalchemy','pysqlite'],
     'packages': ['latte'],
     'scripts': ['bin/latte', 'bin/lattestats'],
-    'version': '2.1',
+    'version': '2.2',
     'name': 'latte'
 }
 
