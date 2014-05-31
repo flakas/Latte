@@ -6,10 +6,10 @@ A proof of concept automated time tracker, intended for Ubuntu Linux.
 Stable: [![Build Status](https://secure.travis-ci.org/flakas/Latte.png?branch=master)](http://travis-ci.org/flakas/Latte)
 Development: [![Build Status](https://secure.travis-ci.org/flakas/Latte.png?branch=development)](http://travis-ci.org/flakas/Latte)
 
-Installation
-------------
+Installing and upgrading
+-----------------------
 
-Install from the latest source:
+Install (upgrade) from the latest source:
 
 ```
 git clone git://github.com/flakas/Latte.git
@@ -19,10 +19,16 @@ python setup.py install
 
 *OR*
 
-Install from PIP (Python Package Index):
+Install via PIP (Python Package Index):
 
 ```
 pip install latte
+```
+
+Upgrade via PIP:
+
+```
+pip install latte --upgrade
 ```
 
 Configuration
@@ -39,8 +45,8 @@ Run the binary script either in foreground:
 
 `latte`
 
-or in background:
-`latte &`
+or in the background:
+`latte --silent &`
 
 To analyze log data you can use the built in analyzer:
 
@@ -57,6 +63,10 @@ Dependencies
 This application requires:
 
 - `xprop` to detect active window title for log tracking
+
+These dependencies are optional, but without them some functionality will not work:
+
+- `libX11.so` and `libXss.so` to detect whether user is inactive (packages `libx11-dev` and `libxss-dev`)
 
 Goal
 ----
