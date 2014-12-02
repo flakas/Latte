@@ -15,3 +15,6 @@ ignore_keywords = bank,paypal
 # Ignore logging if the user is inactive for X seconds
 # Default: 360
 user_inactive_threshold = 360
+
+# The format of the string returned by lattestats
+analyzer_output_format = - "%s" : %s

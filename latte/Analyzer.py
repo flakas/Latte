@@ -70,11 +70,12 @@ class Analyzer(object):
             return False
 
         total_time = self.session.query(func.sum(Log.duration)).scalar()
+        output_format = self.config.get('analyzer_output_format')
 
         print "Total logged time: %s\n" % self.normalize_time(total_time)
         print 'Spent time on windows:'
         for (window, duration) in logs:
-            print '- "%s" : %s' % (window.encode('utf-8'), self.normalize_time(duration))
+            print output_format % (window.encode('utf-8'), self.normalize_time(duration))
 
     def normalize_time(self, seconds):
         """ Normalizes time into user-friendly form """
