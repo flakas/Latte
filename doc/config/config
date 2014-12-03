@@ -1,6 +1,6 @@
 [main]
 # DB where statistics should be saved
-stats_db = data.db
+stats_db = stats.db
 
 # Delay between log records (in seconds)
 # The lower the number, the more accurate logs will be, but the more system
