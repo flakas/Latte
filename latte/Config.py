@@ -58,8 +58,9 @@ class Config(object):
             self.set(item, parser.getint('main', item))
         for item in ['ignore_keywords']:
             self.set(item, map(lambda x: unicode(x.decode('utf-8')).lower(), parser.get('main', item).split(',')))
-        for item in ['analyzer_output_format']:
-			self.set(item, parser.get('main', item))
+        for item in ['analyzer_output_default', 'analyzer_output_title', 
+        'analyzer_output_class', 'analyzer_output_instance']:
+            self.set(item, parser.get('main', item))
 
     def get(self, item):
         """ Fetches config item from the list. """
