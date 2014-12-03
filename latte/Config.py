@@ -29,6 +29,10 @@ class Config(object):
         self.set('sleep_time', 5)
         self.set('ignore_keywords', [])
         self.set('user_inactive_threshold', 6 * 60)
+        self.set('analyzer_output_default', '- [%s::%s] "%s" : %s')
+        self.set('analyzer_output_title', '- "%s": %s')
+        self.set('analyzer_output_class', '- "%s": %s')
+        self.set('analyzer_output_instance', '- "%s": %s')
 
     def set(self, name, value):
         """ Set config value. """
