@@ -1,10 +1,11 @@
 Latte - Linux Automatic Time Tracker
 ====================================
 
-A proof of concept automated time tracker, intended for Ubuntu Linux.
+A proof of concept automated time tracker. This is a fork that differs from the 
+original project by adding some functionalities.
 
-Stable: [![Build Status](https://secure.travis-ci.org/flakas/Latte.png?branch=master)](http://travis-ci.org/flakas/Latte)
-Development: [![Build Status](https://secure.travis-ci.org/flakas/Latte.png?branch=development)](http://travis-ci.org/flakas/Latte)
+Please see http://github.com/flakas/Latte for the original version.
+
 
 Installing and upgrading
 -----------------------
@@ -12,23 +13,9 @@ Installing and upgrading
 Install (upgrade) from the latest source:
 
 ```
-git clone git://github.com/flakas/Latte.git
+git clone git://github.com/Ariacorporate/Latte.git
 cd Latte
 python setup.py install
-```
-
-*OR*
-
-Install via PIP (Python Package Index):
-
-```
-pip install latte
-```
-
-Upgrade via PIP:
-
-```
-pip install latte --upgrade
 ```
 
 Configuration
@@ -50,12 +37,24 @@ or in the background:
 
 To analyze log data you can use the built in analyzer:
 
-- `lattestats` to analyze log data from past 24 hours
-- `lattestats all`   Analyze all log data
-- `lattestats X d` analyze log data from past X days, where X is any positive integer
-- `lattestats X w` analyze log data from past X weeks, where X is any positive integer
-- `lattestats X m` analyze log data from past X months, where X is any positive integer
-- `lattestats X` analyze log data from past X seconds, where X is any positive integer
+Syntax: `lattestats [OPTIONS]`
+
+- `lattestats` to analyze log data from past 24 hours by window title
+- `lattestats -h` to print an help message
+
+Time options:
+- `-t all`  to analyze log data from past 24 hours
+- `-t X d`  analyze log data from past X days, where X is any positive integer
+- `-t X w`  analyze log data from past X weeks, where X is any positive integer
+- `-t X m`  analyze log data from past X months, where X is any positive integer
+- `-t X` 	analyze log data from past X seconds, where X is any positive integer
+
+Grouping options:
+
+- `-g title`    (default) Groups entries by window name
+- `-g instance` Groups entries by application name
+- `-g class`    Groups entries by application class
+
 
 Dependencies
 --------
