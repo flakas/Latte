@@ -65,6 +65,10 @@ class Config(object):
         for item in ['analyzer_output_default', 'analyzer_output_title', 
         'analyzer_output_class', 'analyzer_output_instance']:
             self.set(item, parser.get('main', item))
+        for item in ['aliases']:
+            aliases = map(lambda y: y.split(':'), parser.get('main', item).split(','))
+            for alias in aliases:
+                self.set(item, map(lambda x: unicode(x.decode('utf-8')).lower(), alias))
 
     def get(self, item):
         """ Fetches config item from the list. """
