@@ -49,11 +49,14 @@ class Latte(object):
                 if self.activity_tracker.is_user_inactive():
                     self.output("User inactive")
                 else:
-                    title = get_active_window_title()
-                    self.time_tracker.log(title)
+                    window_data = get_active_window_data()
+                    title = window_data[0]
+                    window_class = window_data[1]
+                    window_instance = window_data[2]
+                    self.time_tracker.log(title, window_class, window_instance)
                     stats = self.time_tracker.current_log
                     if stats:
-                        self.output("%s, %s" % (title, stats.duration))
+                        self.output("[%s] %s, %s" % (window_class, title, stats.duration))
                     elif not stats:
                         self.output("IGNORED")
                 time.sleep(self.config.get('sleep_time'))
@@ -84,7 +87,7 @@ def has_optional_dependencies():
     except OSError as e:
         return False
 
-def get_active_window_title():
+def get_active_window_data():
     """ Fetches active window title using xprop. """
     try:
         active = subprocess.Popen(["xprop", "-root", "_NET_ACTIVE_WINDOW"],
@@ -93,10 +96,20 @@ def get_active_window_title():
         window = subprocess.Popen(["xprop", "-id", active_id, "WM_NAME"],
                                   stdout=subprocess.PIPE,
                                   stderr=subprocess.PIPE)
-        result = window.communicate()[0].strip().split('"', 1)[-1][:-1]
-        return unicode(result.decode('utf-8'))
+        title = window.communicate()[0].strip().split('"', 1)[-1][:-1]
+        wm_class = subprocess.Popen(["xprop", "-id", active_id, "WM_CLASS"], 
+                                  stdout=subprocess.PIPE,
+                                  stderr=subprocess.PIPE)
+        wm_class_message = wm_class.communicate()[0].strip().split('"')
+        window_class = wm_class_message[1]
+        window_instance = wm_class_message[3]
+        results = [title, window_class, window_instance]
+        unicode_results = []
+        for i in results:
+            unicode_results.append(unicode(i.decode('utf-8')))
+        return unicode_results
     except:
-        return u''
+        return [u'', u'', u'']
 
 
 if __name__ == '__main__':
