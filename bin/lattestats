@@ -23,16 +23,25 @@ Data files are saved to ~/.config/latte (by default, configurable)
 
 More information: https://github.com/flakas/Latte
 
+
 Usage:
 
-latte            Run activity logger
-lattestats       Analyze log data for past 24 hours
-lattestats all   Analyze all log data
-lattestats X d   Analyze log data for past X days
-lattestats X w   Analyze log data for past X weeks
-lattestats X m   Analyze log data for past X months
-lattestats X     Analyze log data for past X seconds
+latte                     Run activity logger
+lattestats [OPTIONS]      Analyze log data for past 24 hours
 
-latte -h         Display this message and exit'''
+options:
+    time:
+    -t all          Analyze all log data
+    -t X d          Analyze log data for past X days
+    -t X w          Analyze log data for past X weeks
+    -t X m          Analyze log data for past X months
+    -t X            Analyze log data for past X second
+    
+    grouping:
+    -g title        (default) Groups entries by window name
+    -g instance     Groups entries by application name
+    -g class        Groups entries by application class
+    
+lattestats -h         Display this message and exit'''
 else:
     Analyzer(Config(), Latte().get_session(), sys.argv[1:]).run()
