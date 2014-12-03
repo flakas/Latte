@@ -47,6 +47,13 @@ class Analyzer(object):
             group_arg = args[group_index+1:group_index+2]
             if len(group_arg) > 0:
                 self.group = group_arg[0]
+        
+        self.order = 'DESC'
+        if '-o' in args:
+            order_index = args.index('-o')
+            order_arg = args[order_index+1:order_index+2]
+            if len(order_arg) > 0:
+                self.order = order_arg[0]
 
     def calculate_since(self, since_str, multiplier=''):
         try:
@@ -81,13 +88,15 @@ class Analyzer(object):
         if self.since:
             print 'Looking for log data since %s' % self.since
             logs = logs.filter(Log.date > self.since)
+            
+        ordering = 'duration %s' % self.order
         
         if self.group == 'class':
-            logs = logs.group_by(Log.window_class).order_by('duration DESC')
+            logs = logs.group_by(Log.window_class).order_by(ordering)
         elif self.group == 'instance':
-            logs = logs.group_by(Log.window_instance).order_by('duration DESC')
+            logs = logs.group_by(Log.window_instance).order_by(ordering)
         else:
-            logs = logs.group_by(Log.window_title).order_by('duration DESC')
+            logs = logs.group_by(Log.window_title).order_by(ordering)
             
         if logs.count() <= 0:
             print 'There is no log data'
