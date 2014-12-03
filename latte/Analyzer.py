@@ -20,6 +20,8 @@ class Analyzer(object):
     def __init__(self, config, session, args=[]):
         self.config = config
         self.session = session
+        self.group = 'title'
+        self.order = 'DESC'
         self.parse_args(args)
 
     def parse_time_args(self, args=[]):
@@ -41,14 +43,12 @@ class Analyzer(object):
             time_args = []
         self.parse_time_args(time_args)
         
-        self.group = 'title'
         if '-g' in args:
             group_index = args.index('-g')
             group_arg = args[group_index+1:group_index+2]
             if len(group_arg) > 0:
                 self.group = group_arg[0]
         
-        self.order = 'DESC'
         if '-o' in args:
             order_index = args.index('-o')
             order_arg = args[order_index+1:order_index+2]
@@ -81,6 +81,28 @@ class Analyzer(object):
             if e.errno == errno.EPIPE:
                 pass
 
+    def analyzer_output(self, logs):
+        if self.group == 'class':
+            output_format = self.config.get('analyzer_output_class')
+            for row in logs:
+                duration = self.normalize_time(row[1])
+                window_class = row[2].encode('utf-8')
+                print output_format % (window_class, duration)
+        elif self.group == 'instance':
+            output_format = self.config.get('analyzer_output_instance')
+            for row in logs:
+                duration = self.normalize_time(row[1])
+                window_instance = row[3].encode('utf-8')
+                print output_format % (window_instance, duration)
+        else:
+            output_format = self.config.get('analyzer_output_default')
+            for row in logs:
+                window = row[0].encode('utf-8')
+                duration = self.normalize_time(row[1])
+                window_class = row[2].encode('utf-8')
+                window_instance = row[3].encode('utf-8')
+                print output_format % (window_class, window_instance, window, duration)
+
     def analyze(self):
         """ Analyzes log data and prints out results """
         logs = self.session.query(Log.window_title, func.sum(Log.duration).label('duration'), 
@@ -106,20 +128,9 @@ class Analyzer(object):
 
         print "Total logged time: %s\n" % self.normalize_time(total_time)
         print 'Spent time on windows:'
-        if self.group == 'class':
-            output_format = self.config.get('analyzer_output_class')
-            for (window, duration, window_class, window_instance) in logs:
-                print output_format % (window_class, self.normalize_time(duration))
-        elif self.group == 'instance':
-            output_format = self.config.get('analyzer_output_instance')
-            for (window, duration, window_class, window_instance) in logs:
-                print output_format % (window_instance, self.normalize_time(duration))
-        else:
-            output_format = self.config.get('analyzer_output_default')
-            for (window, duration, window_class, window_instance) in logs:
-                print output_format % (window_class, window_instance, window.encode('utf-8'), 
-                self.normalize_time(duration))
-
+        self.analyzer_output(logs)
+        
+        
     def normalize_time(self, seconds):
         """ Normalizes time into user-friendly form """
 
