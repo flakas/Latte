@@ -21,7 +21,7 @@ if len(sys.argv) == 2 and sys.argv[1] == '-h':
 Tracks time spent on activities based on window titles.
 Data files are saved to ~/.config/latte (by default, configurable)
 
-More information: https://github.com/flakas/Latte (original version)
+More information: https://github.com/flakas/Latte
 
 
 Usage:
