@@ -55,6 +55,12 @@ Grouping options:
 - `-g instance` Groups entries by application name
 - `-g class`    Groups entries by application class
 
+Ordering
+
+- `-o desc`    (default) Orders entries by descending duration
+- `-o asc` 		Orders entries by ascending duration
+
+
 
 Dependencies
 --------

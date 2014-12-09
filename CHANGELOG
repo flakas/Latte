@@ -1,2 +1,18 @@
+04-12-14
+- Added aliases for window_class
+
+03-12-14
+- adds 'WM_CLASS' to the logged data
+- added '-o' option to stats
+
 02-12-14
--  	Added 'analyzer_output_format' config parameter
+- Added 'analyzer_output_format' config parameter
+
+
+
+    
+
+
+
+
+
