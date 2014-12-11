@@ -22,6 +22,7 @@ class Analyzer(object):
         self.session = session
         self.group = 'title'
         self.order = 'DESC'
+        self.graphical = False
         self.parse_args(args)
 
     def parse_time_args(self, args=[]):
@@ -54,6 +55,9 @@ class Analyzer(object):
             order_arg = args[order_index+1:order_index+2]
             if len(order_arg) > 0:
                 self.order = order_arg[0]
+                
+        if '--graphical' in args:
+            self.graphical = True
 
     def calculate_since(self, since_str, multiplier=''):
         try:
@@ -82,6 +86,9 @@ class Analyzer(object):
                 pass
 
     def analyzer_output(self, logs):
+        total_time = self.get_total_time()
+        print "Total logged time: %s\n" % self.normalize_time(total_time)
+        print 'Spent time on windows:'
         if self.group == 'class':
             output_format = self.config.get('analyzer_output_class')
             for row in logs:
@@ -110,6 +117,9 @@ class Analyzer(object):
         else:
             alias = raw
         return alias.encode('utf-8')
+        
+    def get_total_time(self):
+        return self.session.query(func.sum(Log.duration)).scalar()
 
     def analyze(self):
         """ Analyzes log data and prints out results """
@@ -132,11 +142,10 @@ class Analyzer(object):
             print 'There is no log data'
             return False
 
-        total_time = self.session.query(func.sum(Log.duration)).scalar()
-
-        print "Total logged time: %s\n" % self.normalize_time(total_time)
-        print 'Spent time on windows:'
-        self.analyzer_output(logs)
+        if self.graphical == True:
+            return logs
+        else:
+            self.analyzer_output(logs)
         
         
     def normalize_time(self, seconds):
