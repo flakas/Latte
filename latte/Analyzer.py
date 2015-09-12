@@ -34,7 +34,7 @@ class Analyzer(object):
         elif len(args) >= 1:
             since = self.calculate_since(args[0])
         self.since = since
-        
+
     def parse_args(self, args=[]):
         """Parses command line arguments"""
         if '-t' in args:
@@ -43,19 +43,19 @@ class Analyzer(object):
         else:
             time_args = []
         self.parse_time_args(time_args)
-        
+
         if '-g' in args:
             group_index = args.index('-g')
             group_arg = args[group_index+1:group_index+2]
             if len(group_arg) > 0:
                 self.group = group_arg[0]
-        
+
         if '-o' in args:
             order_index = args.index('-o')
             order_arg = args[order_index+1:order_index+2]
             if len(order_arg) > 0:
                 self.order = order_arg[0]
-                
+
         if '--graphical' in args:
             self.graphical = True
 
@@ -109,35 +109,36 @@ class Analyzer(object):
                 window_class = self.get_alias(row[2])
                 window_instance = row[3].encode('utf-8')
                 print output_format % (window_class, window_instance, window, duration)
-                
+
     def get_alias(self, raw):
         alias = u''
-        if self.config.get('aliases').has_key(raw) == True:
+        alias_config = self.config.get('aliases')
+        if (alias_config != None and alias_config.has_key(raw)) == True:
             alias =  self.config.get('aliases')[raw]
         else:
             alias = raw
         return alias.encode('utf-8')
-        
+
     def get_total_time(self):
         return self.session.query(func.sum(Log.duration)).scalar()
 
     def analyze(self):
         """ Analyzes log data and prints out results """
-        logs = self.session.query(Log.window_title, func.sum(Log.duration).label('duration'), 
+        logs = self.session.query(Log.window_title, func.sum(Log.duration).label('duration'),
         Log.window_class, Log.window_instance)
         if self.since:
             print 'Looking for log data since %s' % self.since
             logs = logs.filter(Log.date > self.since)
-            
+
         ordering = 'duration %s' % self.order
-        
+
         if self.group == 'class':
             logs = logs.group_by(Log.window_class).order_by(ordering)
         elif self.group == 'instance':
             logs = logs.group_by(Log.window_instance).order_by(ordering)
         else:
             logs = logs.group_by(Log.window_title).order_by(ordering)
-            
+
         if logs.count() <= 0:
             print 'There is no log data'
             return False
@@ -146,8 +147,8 @@ class Analyzer(object):
             return logs
         else:
             self.analyzer_output(logs)
-        
-        
+
+
     def normalize_time(self, seconds):
         """ Normalizes time into user-friendly form """
 
