@@ -56,6 +56,17 @@ class Analyzer(object):
             if len(order_arg) > 0:
                 self.order = order_arg[0]
 
+        if '-d' in args:
+            display_index = args.index('-d')
+            display_arg = args[display_index+1:display_index+3]
+
+            if len(display_arg) >= 2 and display_arg[1] in ['s', 't']:
+                self.display = [display_arg[0], display_arg[1]]
+            else:
+                self.display = display_arg[0]
+        else:
+            self.display = 'all'
+
         if '--graphical' in args:
             self.graphical = True
 
