@@ -154,10 +154,11 @@ class Analyzer(object):
             if self.display[1] == 'c':
                 logs = logs.limit(self.display[0])
             elif self.display[1] == 't':
-                logs = logs.filter(Log.duration >= self.display[0])
+                logs = logs.having(func.sum(Log.duration) >= int(self.display[0]))
             elif self.display[1] == 's':
-                pass
-
+                percentage = 1/( 100.0/ int(self.display[0]) )
+                threshold = self.get_total_time() * percentage
+                logs = logs.having(func.sum(Log.duration) >= threshold)
 
         if logs.count() <= 0:
             print 'There is no log data'
