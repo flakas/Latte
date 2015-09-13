@@ -63,7 +63,7 @@ class Analyzer(object):
             if len(display_arg) >= 2 and display_arg[1] in ['s', 't']:
                 self.display = [display_arg[0], display_arg[1]]
             else:
-                self.display = display_arg[0]
+                self.display = [display_arg[0], 'c']
         else:
             self.display = 'all'
 
@@ -149,6 +149,15 @@ class Analyzer(object):
             logs = logs.group_by(Log.window_instance).order_by(ordering)
         else:
             logs = logs.group_by(Log.window_title).order_by(ordering)
+
+        if self.display != 'all':
+            if self.display[1] == 'c':
+                logs = logs.limit(self.display[0])
+            elif self.display[1] == 't':
+                logs = logs.filter(Log.duration >= self.display[0])
+            elif self.display[1] == 's':
+                pass
+
 
         if logs.count() <= 0:
             print 'There is no log data'
