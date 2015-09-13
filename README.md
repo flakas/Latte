@@ -1,7 +1,7 @@
 Latte - Linux Automatic Time Tracker
 ====================================
 
-A proof of concept automated time tracker. This is a fork that differs from the 
+A proof of concept automated time tracker. This is a fork that differs from the
 original project by adding some functionalities.
 
 Please see http://github.com/flakas/Latte for the original version.
@@ -60,7 +60,12 @@ Ordering
 - `-o desc`    (default) Orders entries by descending duration
 - `-o asc` 		Orders entries by ascending duration
 
+Displaying:
 
+- `-d all`    (default) Displays all entries for the time interval chosen
+- `-d X`      Displays up to X entries, where X is any positive integer
+- `-d X s`    Displays only entries that have a share of the analyzed logs greater than X, where X is any number between 0 and 100
+- `-d X t`    Displays only entries that have a spent time greater than X, where X is the time in seconds
 
 Dependencies
 --------
