@@ -29,7 +29,7 @@ class TimeTracker(object):
         """ Get statistics of a window"""
         return self.session.query(Log).filter_by(window_title=window).first()
 
-    def log(self, window):
+    def log(self, window, window_class, window_instance):
         """ Log window time """
 
         if self.contains_ignored_keywords(window):
@@ -40,7 +40,8 @@ class TimeTracker(object):
                 self.current_log.date.date() == date.today()):
             self.current_log.duration += self.config.get('sleep_time')
         else:
-            self.current_log = Log(window, datetime.now(), self.config.get('sleep_time'))
+            self.current_log = Log(window, window_class, window_instance, datetime.now(), 
+            self.config.get('sleep_time'))
             self.session.add(self.current_log)
 
         self.session.commit()

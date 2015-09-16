@@ -1,6 +1,6 @@
 [main]
 # DB where statistics should be saved
-stats_db = data.db
+stats_db = stats.db
 
 # Delay between log records (in seconds)
 # The lower the number, the more accurate logs will be, but the more system
@@ -15,3 +15,12 @@ ignore_keywords = bank,paypal
 # Ignore logging if the user is inactive for X seconds
 # Default: 360
 user_inactive_threshold = 360
+
+# The format of the strings returned by lattestats
+analyzer_output_default = - [%s::%s] "%s" : %s
+analyzer_output_title = - "%s": %s
+analyzer_output_class = - "%s": %s
+analyzer_output_instance = - "%s": %s
+
+# Aliases
+aliases = gnome-terminal:Terminal

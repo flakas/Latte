@@ -1,3 +1,8 @@
+[3.0]
+- Added 'WM_CLASS' to the logged data
+- Added '-o', '-g', '-d' options to stats
+- Added 'analyzer_output_format' config parameter
+
 [2.2]
 - Added an option to silence all logger output
 
@@ -14,4 +19,5 @@
 - Added CHANGELOG
 - Added help description
 - Changed Config manager to store configs in proprietary way
-- Fixed exit with Ctrl-C: no more call stack traces
+- Fixed exit with Ctrl-C: no more call stack traces04-12-14
+- Added aliases for window_class

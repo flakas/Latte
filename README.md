@@ -6,6 +6,7 @@ A proof of concept automated time tracker, intended for Ubuntu Linux.
 Stable: [![Build Status](https://secure.travis-ci.org/flakas/Latte.png?branch=master)](http://travis-ci.org/flakas/Latte)
 Development: [![Build Status](https://secure.travis-ci.org/flakas/Latte.png?branch=development)](http://travis-ci.org/flakas/Latte)
 
+
 Installing and upgrading
 -----------------------
 
@@ -50,12 +51,35 @@ or in the background:
 
 To analyze log data you can use the built in analyzer:
 
-- `lattestats` to analyze log data from past 24 hours
-- `lattestats all`   Analyze all log data
-- `lattestats X d` analyze log data from past X days, where X is any positive integer
-- `lattestats X w` analyze log data from past X weeks, where X is any positive integer
-- `lattestats X m` analyze log data from past X months, where X is any positive integer
-- `lattestats X` analyze log data from past X seconds, where X is any positive integer
+Syntax: `lattestats [OPTIONS]`
+
+- `lattestats` to analyze log data from past 24 hours by window title
+- `lattestats -h` to print an help message
+
+Time options:
+- `-t all`  to analyze log data from past 24 hours
+- `-t X d`  analyze log data from past X days, where X is any positive integer
+- `-t X w`  analyze log data from past X weeks, where X is any positive integer
+- `-t X m`  analyze log data from past X months, where X is any positive integer
+- `-t X` 	analyze log data from past X seconds, where X is any positive integer
+
+Grouping options:
+
+- `-g title`    (default) Groups entries by window name
+- `-g instance` Groups entries by application name
+- `-g class`    Groups entries by application class
+
+Ordering
+
+- `-o desc`    (default) Orders entries by descending duration
+- `-o asc` 		Orders entries by ascending duration
+
+Displaying:
+
+- `-d all`    (default) Displays all entries for the time interval chosen
+- `-d X`      Displays up to X entries, where X is any positive integer
+- `-d X s`    Displays only entries that have a share of the analyzed logs greater than X, where X is any number between 0 and 100
+- `-d X t`    Displays only entries that have a spent time greater than X, where X is the time in seconds
 
 Dependencies
 --------

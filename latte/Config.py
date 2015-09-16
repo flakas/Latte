@@ -29,6 +29,10 @@ class Config(object):
         self.set('sleep_time', 5)
         self.set('ignore_keywords', [])
         self.set('user_inactive_threshold', 6 * 60)
+        self.set('analyzer_output_default', '- [%s::%s] "%s" : %s')
+        self.set('analyzer_output_title', '- "%s": %s')
+        self.set('analyzer_output_class', '- "%s": %s')
+        self.set('analyzer_output_instance', '- "%s": %s')
 
     def set(self, name, value):
         """ Set config value. """
@@ -58,6 +62,16 @@ class Config(object):
             self.set(item, parser.getint('main', item))
         for item in ['ignore_keywords']:
             self.set(item, map(lambda x: unicode(x.decode('utf-8')).lower(), parser.get('main', item).split(',')))
+        for item in ['analyzer_output_default', 'analyzer_output_title', 
+        'analyzer_output_class', 'analyzer_output_instance']:
+            self.set(item, parser.get('main', item))
+        for item in ['aliases']:
+            aliases_dict = {}
+            aliases = map(lambda y: y.split(':'), parser.get('main', item).split(','))
+            for alias in aliases:
+                l = map(lambda x: unicode(x.decode('utf-8')), alias)
+                aliases_dict[l[0]] = l[1]
+            self.set('aliases', aliases_dict)
 
     def get(self, item):
         """ Fetches config item from the list. """
