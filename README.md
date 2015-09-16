@@ -109,3 +109,11 @@ License
 -------
 
 MIT license, check LICENSE.txt
+
+Contributors
+------------
+
+Special thanks to contributors:
+
+- [Settis](https://github.com/Settis)
+- [Vesuvium](https://github.com/Vesuvium)
