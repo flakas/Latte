@@ -1,10 +1,10 @@
 Latte - Linux Automatic Time Tracker
 ====================================
 
-A proof of concept automated time tracker. This is a fork that differs from the
-original project by adding some functionalities.
+A proof of concept automated time tracker, intended for Ubuntu Linux.
 
-Please see http://github.com/flakas/Latte for the original version.
+Stable: [![Build Status](https://secure.travis-ci.org/flakas/Latte.png?branch=master)](http://travis-ci.org/flakas/Latte)
+Development: [![Build Status](https://secure.travis-ci.org/flakas/Latte.png?branch=development)](http://travis-ci.org/flakas/Latte)
 
 
 Installing and upgrading
@@ -13,9 +13,23 @@ Installing and upgrading
 Install (upgrade) from the latest source:
 
 ```
-git clone git://github.com/Ariacorporate/Latte.git
+git clone git://github.com/flakas/Latte.git
 cd Latte
 python setup.py install
+```
+
+*OR*
+
+Install via PIP (Python Package Index):
+
+```
+pip install latte
+```
+
+Upgrade via PIP:
+
+```
+pip install latte --upgrade
 ```
 
 Configuration

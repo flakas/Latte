@@ -1,18 +1,23 @@
-04-12-14
-- Added aliases for window_class
-
-03-12-14
-- adds 'WM_CLASS' to the logged data
-- added '-o' option to stats
-
-02-12-14
+[3.0]
+- Added 'WM_CLASS' to the logged data
+- Added '-o', '-g', '-d' options to stats
 - Added 'analyzer_output_format' config parameter
 
+[2.2]
+- Added an option to silence all logger output
 
+[2.1]
+- Changed logger to work with seconds
+- Fixed setup.py to include required dependencies
+- Added user inactivity detection
 
-    
+[2.0]
+- Removed categories and projects
+- Separated stats to a separate command
 
-
-
-
-
+[1.2]
+- Added CHANGELOG
+- Added help description
+- Changed Config manager to store configs in proprietary way
+- Fixed exit with Ctrl-C: no more call stack traces04-12-14
+- Added aliases for window_class
