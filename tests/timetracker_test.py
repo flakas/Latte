@@ -55,7 +55,7 @@ class testTimeTracker(unittest.TestCase):
         window = u'Non existing window 1'
         window_class = u'New class'
         window_instance = u'New instance'
-        self.timetracker.log(window)
+        self.timetracker.log(window, window_class, window_instance)
         self.assertEqual(self.timetracker.get_window_time(window), self.config.get('sleep_time'))
 
     def testAddTimeToExistingWindows(self):
