@@ -22,9 +22,8 @@ Data files are saved to ~/.config/latte (default, but configurable)
 
 To check usage statistics run `lattestats` command.
 
-More information: 
-https://github.com/flakas/Latte (original version)
-https://github.com/Ariacorporate/Latte (this fork)"""
+More information:
+https://github.com/flakas/Latte (original version)"""
 
 parser = argparse.ArgumentParser(
         description=description,
