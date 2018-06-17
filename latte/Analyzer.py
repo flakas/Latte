@@ -141,7 +141,7 @@ class Analyzer(object):
             print('Looking for log data since %s' % self.since)
             logs = logs.filter(Log.date > self.since)
 
-        ordering = 'duration %s' % self.order
+        ordering = desc('duration')
 
         if self.group == 'class':
             logs = logs.group_by(Log.window_class).order_by(ordering)
