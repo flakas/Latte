@@ -59,7 +59,7 @@ class Screen:
             return [title, window_class, window_instance]
         except Exception as e:
             print(e)
-            return [u'', u'', u'']
+            return ['', '', '']
 
     def has_required_dependencies(self):
         """ Checks whether the system has required dependencies """

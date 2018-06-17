@@ -122,7 +122,7 @@ class Analyzer(object):
                 print(output_format % (window_class, window_instance, window, duration))
 
     def get_alias(self, raw):
-        alias = u''
+        alias = ''
         alias_config = self.config.get('aliases')
         if (alias_config != None and alias_config.has_key(raw)) == True:
             alias =  self.config.get('aliases')[raw]
