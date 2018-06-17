@@ -40,7 +40,7 @@ class TimeTracker(object):
                 self.current_log.date.date() == date.today()):
             self.current_log.duration += self.config.get('sleep_time')
         else:
-            self.current_log = Log(window, window_class, window_instance, datetime.now(), 
+            self.current_log = Log(window, window_class, window_instance, datetime.now(),
             self.config.get('sleep_time'))
             self.session.add(self.current_log)
 
