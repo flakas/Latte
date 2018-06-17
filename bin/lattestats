@@ -16,7 +16,7 @@ from latte.Config import Config
 
 
 if len(sys.argv) == 2 and (sys.argv[1] == '-h' or sys.argv[1] == '--help'):
-    print '''Linux automatic time tracker
+    print('''Linux automatic time tracker
 
 Tracks time spent on activities based on window titles.
 Data files are saved to ~/.config/latte (by default, configurable)
@@ -53,6 +53,6 @@ options:
     -d X s          Displays only entries that have a share of the analyzed logs greater than X, where X is any number between 0 and 100
     -d X t          Displays only entries that have a spent time greater than X, where X is the time in seconds
 
-lattestats --help         Display this message and exit'''
+lattestats --help         Display this message and exit''')
 else:
     Analyzer(Config(), Latte().get_session(), sys.argv[1:]).run()

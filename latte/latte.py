@@ -68,7 +68,7 @@ class Latte(object):
 
     def output(self, text):
         if not self.silent:
-            print text
+            print(text)
 
 def has_required_dependencies():
     """ Checks whether the system has required dependencies """

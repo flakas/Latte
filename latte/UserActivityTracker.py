@@ -27,7 +27,7 @@ class UserActivityTracker(object):
                 self.xss = ctypes.cdll.LoadLibrary('libXss.so')
                 self.xss.XScreenSaverAllocInfo.restype = ctypes.POINTER(XScreenSaverInfo)
                 self.xss_info = self.xss.XScreenSaverAllocInfo()
-            except OSError, e:
+            except OSError as e:
                 self.inactive_tracking_available = False
 
     def is_inactive_tracking_available(self):

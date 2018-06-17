@@ -7,7 +7,7 @@ Handles application configuration loading
 
 """
 
-import ConfigParser
+import configparser
 import os
 
 
@@ -47,7 +47,7 @@ class Config(object):
         """ Attempt to load configs from default path. """
         path = os.path.expanduser(path + '/config')
         if os.path.exists(path):
-            parser = ConfigParser.ConfigParser()
+            parser = configparser.ConfigParser()
             parser.read(path)
             self.overwrite_with_user_configs(parser)
             return True

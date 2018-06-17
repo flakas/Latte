@@ -13,7 +13,7 @@ class Log(Base):
     date = Column(DateTime)
     duration = Column(Integer)
 
-    def __init__(self, window_title, window_class, window_instance, date, 
+    def __init__(self, window_title, window_class, window_instance, date,
                 duration):
         self.window_title = window_title
         self.window_class = window_class
@@ -23,6 +23,6 @@ class Log(Base):
 
     def __repr__(self):
         return "<Log(%s, %s, %s, %s, %s)>" % \
-               (self.window_title, self.window_class, self.window_instance, 
+               (self.window_title, self.window_class, self.window_instance,
                 str(self.date), self.duration)
 

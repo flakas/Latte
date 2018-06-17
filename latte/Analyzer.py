@@ -84,7 +84,7 @@ class Analyzer(object):
                     log_time *= 2592000  # 1 month
             return datetime.now() - timedelta(seconds=log_time)
         except ValueError:
-            print 'Cannot convert time argument to integer'
+            print('Cannot convert time argument to integer')
             return False
 
     def run(self):
@@ -98,20 +98,20 @@ class Analyzer(object):
 
     def analyzer_output(self, logs):
         total_time = self.get_total_time()
-        print "Total logged time: %s\n" % self.normalize_time(total_time)
-        print 'Spent time on windows:'
+        print("Total logged time: %s\n" % self.normalize_time(total_time))
+        print('Spent time on windows:')
         if self.group == 'class':
             output_format = self.config.get('analyzer_output_class')
             for row in logs:
                 duration = self.normalize_time(row[1])
                 window_class = self.get_alias(row[2])
-                print output_format % (window_class, duration)
+                print(output_format % (window_class, duration))
         elif self.group == 'instance':
             output_format = self.config.get('analyzer_output_instance')
             for row in logs:
                 duration = self.normalize_time(row[1])
                 window_instance = row[3].encode('utf-8')
-                print output_format % (window_instance, duration)
+                print(output_format % (window_instance, duration))
         else:
             output_format = self.config.get('analyzer_output_default')
             for row in logs:
@@ -119,7 +119,7 @@ class Analyzer(object):
                 duration = self.normalize_time(row[1])
                 window_class = self.get_alias(row[2])
                 window_instance = row[3].encode('utf-8')
-                print output_format % (window_class, window_instance, window, duration)
+                print(output_format % (window_class, window_instance, window, duration))
 
     def get_alias(self, raw):
         alias = u''
@@ -138,7 +138,7 @@ class Analyzer(object):
         logs = self.session.query(Log.window_title, func.sum(Log.duration).label('duration'),
         Log.window_class, Log.window_instance)
         if self.since:
-            print 'Looking for log data since %s' % self.since
+            print('Looking for log data since %s' % self.since)
             logs = logs.filter(Log.date > self.since)
 
         ordering = 'duration %s' % self.order
@@ -161,7 +161,7 @@ class Analyzer(object):
                 logs = logs.having(func.sum(Log.duration) >= threshold)
 
         if logs.count() <= 0:
-            print 'There is no log data'
+            print('There is no log data')
             return False
 
         if self.graphical == True:
