@@ -110,15 +110,15 @@ class Analyzer(object):
             output_format = self.config.get('analyzer_output_instance')
             for row in logs:
                 duration = self.normalize_time(row[1])
-                window_instance = row[3].encode('utf-8')
+                window_instance = row[3]
                 print(output_format % (window_instance, duration))
         else:
             output_format = self.config.get('analyzer_output_default')
             for row in logs:
-                window = row[0].encode('utf-8')
+                window = row[0]
                 duration = self.normalize_time(row[1])
                 window_class = self.get_alias(row[2])
-                window_instance = row[3].encode('utf-8')
+                window_instance = row[3]
                 print(output_format % (window_class, window_instance, window, duration))
 
     def get_alias(self, raw):
@@ -128,7 +128,7 @@ class Analyzer(object):
             alias =  self.config.get('aliases')[raw]
         else:
             alias = raw
-        return alias.encode('utf-8')
+        return alias
 
     def get_total_time(self):
         return self.session.query(func.sum(Log.duration)).scalar()
