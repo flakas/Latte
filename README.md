@@ -86,11 +86,12 @@ Dependencies
 
 This application requires:
 
-- `xprop` to detect active window title for log tracking
+- Python 3
+- `xprop` to detect active window title for log tracking (`sudo apt-get install x11-utils`)
 
 These dependencies are optional, but without them some functionality will not work:
 
-- `libX11.so` and `libXss.so` to detect whether user is inactive (packages `libx11-dev` and `libxss-dev`)
+- `libX11.so` and `libXss.so` to detect whether user is inactive (packages `libx11-dev` and `libxss-dev`, `sudo apt-get install libx11-dev libxss-dev`)
 
 Goal
 ----
@@ -113,7 +114,4 @@ MIT license, check LICENSE.txt
 Contributors
 ------------
 
-Special thanks to contributors:
-
-- [Settis](https://github.com/Settis)
-- [Vesuvium](https://github.com/Vesuvium)
+Special thanks to [contributors](https://github.com/flakas/Latte/graphs/contributors).

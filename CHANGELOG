@@ -1,5 +1,6 @@
 [4.0]
 - Added support for Python 3
+- Removed support for Python 2.x
 
 [3.0]
 - Added 'WM_CLASS' to the logged data
