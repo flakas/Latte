@@ -1,3 +1,6 @@
+[4.0]
+- Added support for Python 3
+
 [3.0]
 - Added 'WM_CLASS' to the logged data
 - Added '-o', '-g', '-d' options to stats
