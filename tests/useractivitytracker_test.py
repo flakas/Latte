@@ -27,25 +27,27 @@ class testUserActivityTracker(unittest.TestCase):
         self.config.getint = get
 
         self.time_tracker = mock.Mock()
+        self.screen = mock.Mock()
+        self.screen.is_available.return_value = True
 
-        self.user_activity_tracker = UserActivityTracker(config=self.config, time_tracker=self.time_tracker)
+        self.user_activity_tracker = UserActivityTracker(config=self.config, time_tracker=self.time_tracker, screen=self.screen)
 
     def tearDown(self):
         self.user_activity_tracker = None
 
     def testUserIsActiveIfIsInactiveForLessThanInactivityThreshold(self):
-        """ Tests if user is not inactive if inactivity duration is less than the threshold """
-        self.user_activity_tracker.get_inactivity_time = lambda: 5
+        """ Tests that user is active if inactivity duration is less than the threshold """
+        self.screen.get_idle_time.return_value = 5
         self.assertFalse(self.user_activity_tracker.is_user_inactive())
 
     def testInactivityDurationIsSubtractedFromCurrentLog(self):
         """ Tests that the inactivity duration is subtracted from the log duration """
         inactivity_time = 15
-        self.user_activity_tracker.get_inactivity_time = lambda: inactivity_time
+        self.screen.get_idle_time.return_value = 15
         self.user_activity_tracker.is_user_inactive()
         self.time_tracker.reduce_time.assert_called_with(inactivity_time)
 
     def testUserIsInActiveIfIsInactiveForMoreThanInactivityThreshold(self):
         """ Tests if user is inactive if inactivity duration is more than the threshold """
-        self.user_activity_tracker.get_inactivity_time = lambda: 15
+        self.screen.get_idle_time.return_value = 15
         self.assertTrue(self.user_activity_tracker.is_user_inactive())

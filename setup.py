@@ -8,8 +8,8 @@ config = {
     'author': 'Tautvidas Sipavicius',
     'author_email': 'flakas@tautvidas.com',
     'url': 'https://github.com/flakas/Latte',
-    'install_requires': ['sqlalchemy','pysqlite'],
-    'packages': ['latte'],
+    'install_requires': ['sqlalchemy'],
+    'packages': ['latte', 'latte.os'],
     'scripts': ['bin/latte', 'bin/lattestats'],
     'version': '4.0',
     'name': 'latte'
