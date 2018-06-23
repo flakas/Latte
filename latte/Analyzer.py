@@ -7,6 +7,7 @@ Latte activity log analyzer
 
 from datetime import datetime, timedelta
 import errno
+import math
 
 from sqlalchemy import *
 from .Config import Config
@@ -170,24 +171,22 @@ class Analyzer(object):
             self.analyzer_output(logs)
 
 
-    def normalize_time(self, seconds):
+    def normalize_time(self, total_seconds):
         """ Normalizes time into user-friendly form """
 
-        if seconds <= 0:
+        if total_seconds <= 0:
             return '0s'
 
-        if seconds >= 60:
-            minutes = seconds / 60
-            seconds %= 60
-            if minutes >= 60:
-                hours = minutes / 60
-                minutes %= 60
-                return '%dh%dm%ds' % (hours, minutes, seconds)
-            else:
-                return '%dm%ds' % (minutes, seconds)
-        else:
-            return '%ds' % seconds
+        hours = math.floor(total_seconds / 3600)
+        minutes = math.floor((total_seconds % 3600) / 60)
+        seconds = total_seconds % 60
 
+        intervals = [(hours, '%dh'), (minutes, '%dm'), (seconds, '%ds')]
+
+        nonzero_intervals = filter(lambda i: i[0] > 0, intervals)
+        formatted_intervals = map(lambda i: i[1] % i[0], nonzero_intervals)
+
+        return ''.join(formatted_intervals)
 
 if __name__ == '__main__':
     Analyzer(Config(), Latte().get_session(), sys.argv[2:]).run()
