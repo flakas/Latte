@@ -43,25 +43,27 @@ class Latte(object):
         if not self.screen.has_optional_dependencies():
             self.output("Optional dependencies were not found. Please make sure `libX11.so` and `libXss.so` are installed. Inactivity tracking will not work.")
 
-        duration = 0
         try:
-            while True:
-                if self.activity_tracker.is_user_inactive():
-                    self.output("User inactive")
-                else:
-                    window_data = self.screen.get_active_window_data()
-                    title = window_data[0]
-                    window_class = window_data[1]
-                    window_instance = window_data[2]
-                    self.time_tracker.log(title, window_class, window_instance)
-                    stats = self.time_tracker.current_log
-                    if stats:
-                        self.output("[%s] %s, %s" % (window_class, title, stats.duration))
-                    elif not stats:
-                        self.output("IGNORED")
-                time.sleep(self.config.get('sleep_time'))
+            self.run_tracker()
         except KeyboardInterrupt:
             self.output('Exiting...')
+
+    def run_tracker(self):
+        while True:
+            if self.activity_tracker.is_user_inactive():
+                self.output("User inactive")
+            else:
+                self.log_user_activity()
+            time.sleep(self.config.get('sleep_time'))
+
+    def log_user_activity(self):
+        [title, window_class, window_instance] = self.screen.get_active_window_data()
+        self.time_tracker.log(title, window_class, window_instance)
+        stats = self.time_tracker.current_log
+        if stats:
+            self.output("[%s] %s, %s" % (window_class, title, stats.duration))
+        elif not stats:
+            self.output("IGNORED")
 
     def get_session(self):
         return self.session()
