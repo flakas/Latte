@@ -23,7 +23,6 @@ class Analyzer(object):
         self.config = config
         self.db = db
         self.arguments = arguments
-        self.graphical = False
 
         self.parse_args()
 
@@ -35,10 +34,6 @@ class Analyzer(object):
         self.since = self.parse_time_args()
         self.group = self.arguments.get('g')
         self.order = self.arguments.get('o')
-
-        # TODO: this needs to be handled or probably deleted
-        # if '--graphical' in args:
-            # self.graphical = True
 
     def parse_time_args(self):
         default_since = self.calculate_since(1, 86400)  # 1 day
@@ -135,10 +130,7 @@ class Analyzer(object):
             print('There is no log data')
             return False
 
-        if self.graphical == True:
-            return logs
-        else:
-            self.analyzer_output(logs)
+        self.analyzer_output(logs)
 
     def set_grouping(self, query):
         groups = {
@@ -154,21 +146,22 @@ class Analyzer(object):
         return query.order_by(ordering)
 
     def set_result_limiting(self, query):
-        limit = self.arguments.get('display_limit')
-        share = self.arguments.get('display_share')
-        min_time = self.arguments.get('display_time')
-
         if self.arguments.get('display_all'):
-            # no limiting to process all results
-            pass
-        elif limit:
-            query = query.limit(limit)
-        elif share:
+            return query
+
+        limit = self.arguments.get('display_limit')
+        if limit:
+            return query.limit(limit)
+
+        share = self.arguments.get('display_share')
+        if share:
             percentage = 1 / (100.0 / share)
             threshold = self.get_total_time() * percentage
-            query = query.having(func.sum(Log.duration) >= threshold)
-        elif min_time:
-            query = query.having(func.sum(Log.duration) >= min_time)
+            return query.having(func.sum(Log.duration) >= threshold)
+
+        min_time = self.arguments.get('display_time')
+        if min_time:
+            return query.having(func.sum(Log.duration) >= min_time)
 
         return query
 
