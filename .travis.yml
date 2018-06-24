@@ -9,9 +9,8 @@ before_script:
 script:
   - nosetests --with-xunit --xunit-file=unit.xml
   - coverage run $(which nosetests)
-  - coverage xml
 after_script:
+  - coverage xml
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT --coverage-input-type coverage.py
-  - ./cc-test-reporter upload-coverage
 notifications:
   email: false
