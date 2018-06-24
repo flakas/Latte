@@ -1,6 +1,7 @@
 import unittest
+from unittest.mock import MagicMock
 import os
-from latte.Analyzer import Analyzer
+from latte.analyzer.Analyzer import Analyzer
 
 class TestAnalyzer(unittest.TestCase):
 
@@ -11,17 +12,19 @@ class TestAnalyzer(unittest.TestCase):
         self.config['sleepTime'] = 5
         self.config['autosaveTime'] = 3600
 
-        self.analyzer = Analyzer(self.config, {})
+        self.arguments = MagicMock()
+
+        self.analyzer = Analyzer(self.config, {}, self.arguments)
 
     def tearDown(self):
         pass
 
-    def testNormalizeTime(self):
-        """ Tests time normalization """
-        self.assertEqual(self.analyzer.normalize_time(0), '0s')
-        self.assertEqual(self.analyzer.normalize_time(-1), '0s')
-        self.assertEqual(self.analyzer.normalize_time(10), '10s')
-        self.assertEqual(self.analyzer.normalize_time(60), '1m')
-        self.assertEqual(self.analyzer.normalize_time(119), '1m59s')
-        self.assertEqual(self.analyzer.normalize_time(3600), '1h')
-        self.assertEqual(self.analyzer.normalize_time(3661), '1h1m1s')
+    def testGetHumanReadableDuration(self):
+        """ Tests pretty time formatting """
+        self.assertEqual(self.analyzer.get_human_readable_duration(0), '0s')
+        self.assertEqual(self.analyzer.get_human_readable_duration(-1), '0s')
+        self.assertEqual(self.analyzer.get_human_readable_duration(10), '10s')
+        self.assertEqual(self.analyzer.get_human_readable_duration(60), '1m')
+        self.assertEqual(self.analyzer.get_human_readable_duration(119), '1m59s')
+        self.assertEqual(self.analyzer.get_human_readable_duration(3600), '1h')
+        self.assertEqual(self.analyzer.get_human_readable_duration(3661), '1h1m1s')

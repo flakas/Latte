@@ -57,11 +57,14 @@ Syntax: `lattestats [OPTIONS]`
 - `lattestats -h` to print an help message
 
 Time options:
-- `-t all` to analyze log data from past 24 hours
-- `-t X d` analyze log data from past X days, where X is any positive integer
-- `-t X w` analyze log data from past X weeks, where X is any positive integer
-- `-t X m` analyze log data from past X months, where X is any positive integer
-- `-t X` analyze log data from past X seconds, where X is any positive integer
+
+- `--time-all` to analyze all known log data
+- `--time-seconds S` to analyze log data created in last S seconds
+- `--time-days D` to analyze log data created in last D days
+- `--time-weeks W` to analyze log data created in last W weeks
+- `--time-months M` to analyze log data created in last M months
+
+By default `lattestats` will analyze logs created in past 24 hours.
 
 Grouping options:
 
@@ -76,10 +79,10 @@ Ordering
 
 Displaying:
 
-- `-d all` (default) Displays all entries for the time interval chosen
-- `-d X` Displays up to X entries, where X is any positive integer
-- `-d X s` Displays only entries that have a share of the analyzed logs greater than X, where X is any number between 0 and 100
-- `-d X t` Displays only entries that have a spent time greater than X, where X is the time in seconds
+- `--display-all` Display all found entries from the chosen time interval
+- `--display-limit N` Display up to N top entries
+- `--display-share PERCENTAGE` Display entries that have a share of the analyzed logs greater than SHARE, where SHARE is any number between 0 and 100
+- `--display-time SECONDS` Displays entries that have the accumulated time greater than SECONDS
 
 Dependencies
 --------

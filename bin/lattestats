@@ -9,50 +9,12 @@ This is run as a binary application
 """
 
 import sys
+import argparse
 
 from latte.latte import Latte
-from latte.Analyzer import Analyzer
+from latte.analyzer.Analyzer import Analyzer
+from latte.analyzer.arguments import Arguments
 from latte.Config import Config
 
 
-if len(sys.argv) == 2 and (sys.argv[1] == '-h' or sys.argv[1] == '--help'):
-    print('''Linux automatic time tracker
-
-Tracks time spent on activities based on window titles.
-Data files are saved to ~/.config/latte (by default, configurable)
-
-More information:
-https://github.com/flakas/Latte
-
-
-Usage:
-
-latte                     Run activity logger
-lattestats [OPTIONS]      Analyze log data for past 24 hours
-
-options:
-    time:
-    -t all          Analyze all log data
-    -t X d          Analyze log data for past X days
-    -t X w          Analyze log data for past X weeks
-    -t X m          Analyze log data for past X months
-    -t X            Analyze log data for past X second
-
-    grouping:
-    -g title        (default) Groups entries by window name
-    -g instance     Groups entries by application name
-    -g class        Groups entries by application class
-
-    ordering:
-    -o desc         (default) Orders entries by descending duration
-    -o asc          Orders entries by ascending duration
-
-    displaying:
-    -d all          (default) Displays all entries for the time interval chosen
-    -d X            Displays up to X entries, where X is any positive integer
-    -d X s          Displays only entries that have a share of the analyzed logs greater than X, where X is any number between 0 and 100
-    -d X t          Displays only entries that have a spent time greater than X, where X is the time in seconds
-
-lattestats --help         Display this message and exit''')
-else:
-    Analyzer(Config(), Latte().get_session(), sys.argv[1:]).run()
+Analyzer(Config(), Latte().get_session(), Arguments(sys.argv)).run()
