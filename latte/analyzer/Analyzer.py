@@ -154,22 +154,21 @@ class Analyzer(object):
         return query.order_by(ordering)
 
     def set_result_limiting(self, query):
-        if self.arguments.get('display_all'):
-            return query
-
         limit = self.arguments.get('display_limit')
-        if limit:
-            return query.limit(limit)
-
         share = self.arguments.get('display_share')
-        if share:
+        min_time = self.arguments.get('display_time')
+
+        if self.arguments.get('display_all'):
+            # no limiting to process all results
+            pass
+        elif limit:
+            query = query.limit(limit)
+        elif share:
             percentage = 1 / (100.0 / share)
             threshold = self.get_total_time() * percentage
-            return query.having(func.sum(Log.duration) >= threshold)
-
-        min_time = self.arguments.get('display_time')
-        if min_time:
-            return query.having(func.sum(Log.duration) >= min_time)
+            query = query.having(func.sum(Log.duration) >= threshold)
+        elif min_time:
+            query = query.having(func.sum(Log.duration) >= min_time)
 
         return query
 
