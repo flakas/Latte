@@ -24,15 +24,21 @@ class Config(object):
 
     def load_default_configs(self):
         """ Load default config values. """
-        self.set('app_path', self.user_config_path)
-        self.set('stats_db', 'sqlite:////%s/stats.db' % self.user_config_path)
-        self.set('sleep_time', 5)
-        self.set('ignore_keywords', [])
-        self.set('user_inactive_threshold', 6 * 60)
-        self.set('analyzer_output_default', '- [%s::%s] "%s" : %s')
-        self.set('analyzer_output_title', '- "%s": %s')
-        self.set('analyzer_output_class', '- "%s": %s')
-        self.set('analyzer_output_instance', '- "%s": %s')
+
+        defaults = {
+            'app_path': self.user_config_path,
+            'stats_db': 'sqlite:////%s/stats.db' % self.user_config_path,
+            'sleep_time': 5,
+            'ignore_keywords': [],
+            'user_inactive_threshold': 6 * 60,
+            'analyzer_output_default': '[%s::%s] "%s" : %s',
+            'analyzer_output_title': '- "%s": %s',
+            'analyzer_output_class': '- "%s": %s',
+            'analyzer_output_instance': '- "%s": %s',
+        }
+
+        for (key, value) in defaults.items():
+            self.set(key, value)
 
     def set(self, name, value):
         """ Set config value. """
@@ -56,15 +62,35 @@ class Config(object):
 
     def overwrite_with_user_configs(self, parser):
         """ Overwrite default configs with user-defined configs. """
-        for item in ['stats_db']:
-            self.set(item, 'sqlite:////%s/%s' % (self.user_config_path, parser.get('main', item)))
+        funcs = [
+            self._set_user_defined_databases,
+            self._set_user_defined_tracking_durations,
+            self._set_user_defined_ignored_keywords,
+            self._set_user_defined_output_formatting,
+            self._set_user_defined_aliases,
+        ]
+
+        for func in funcs:
+            func(parser)
+
+    def _set_user_defined_databases(self, parser):
+        item = 'stats_db'
+        self.set(item, 'sqlite:////%s/%s' % (self.user_config_path, parser.get('main', item)))
+
+    def _set_user_defined_tracking_durations(self, parser):
         for item in ['sleep_time', 'user_inactive_threshold']:
             self.set(item, parser.getint('main', item))
+
+    def _set_user_defined_ignored_keywords(self, parser):
         for item in ['ignore_keywords']:
             self.set(item, map(lambda x: unicode(x.decode('utf-8')).lower(), parser.get('main', item).split(',')))
-        for item in ['analyzer_output_default', 'analyzer_output_title', 
-        'analyzer_output_class', 'analyzer_output_instance']:
+
+    def _set_user_defined_output_formatting(self, parser):
+        for item in ['analyzer_output_default', 'analyzer_output_title',
+                'analyzer_output_class', 'analyzer_output_instance']:
             self.set(item, parser.get('main', item))
+
+    def _set_user_defined_aliases(self, parser):
         for item in ['aliases']:
             aliases_dict = {}
             aliases = map(lambda y: y.split(':'), parser.get('main', item).split(','))

@@ -7,10 +7,10 @@ before_script:
   - chmod +x ./cc-test-reporter
   - ./cc-test-reporter before-build
 script:
-  - nosetests
+  - nosetests --with-xunit --xunit-file=unit.xml
   - coverage run $(which nosetests)
-  - coverage xml
 after_script:
+  - coverage xml
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT --coverage-input-type coverage.py
 notifications:
   email: false

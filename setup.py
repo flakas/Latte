@@ -14,7 +14,7 @@ config = {
     'author_email': 'flakas@tautvidas.com',
     'url': 'https://github.com/flakas/Latte',
     'install_requires': ['sqlalchemy'],
-    'packages': ['latte', 'latte.os'],
+    'packages': ['latte', 'latte.analyzer', 'latte.os'],
     'scripts': ['bin/latte', 'bin/lattestats'],
     'version': '4.0',
     'name': 'latte',
