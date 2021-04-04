@@ -7,8 +7,8 @@ from sqlalchemy import *
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-from latte.TimeTracker import TimeTracker
-from latte.Config import Config
+from latte.os.windows import ActiveWindow
+from latte.trackers import TimeTracker
 from latte.db import Base, Log
 
 class testTimeTracker(unittest.TestCase):
@@ -38,7 +38,7 @@ class testTimeTracker(unittest.TestCase):
         self.session = sessionmaker(bind=engine)
         Base.metadata.create_all(engine)
 
-        self.timetracker = TimeTracker(self.config, session=self.session())
+        self.timetracker = TimeTracker(self.config, db=self.session())
 
     def tearDown(self):
         self.session().rollback()
@@ -54,15 +54,15 @@ class testTimeTracker(unittest.TestCase):
         window = u'Non existing window 1'
         window_class = u'New class'
         window_instance = u'New instance'
-        self.timetracker.log(window, window_class, window_instance)
+        self.timetracker.track(ActiveWindow(window, window_class, window_instance))
         self.assertEqual(self.timetracker.get_window_time(window), self.config.get('sleep_time'))
 
     def testAddTimeToExistingWindows(self):
         window = u'Testing Window 1'
         window_class = u'Window class 1'
         window_instance = u'Instance 1'
-        self.timetracker.log(window, window_class, window_instance)
-        self.timetracker.log(window, window_class, window_instance)
+        self.timetracker.track(ActiveWindow(window, window_class, window_instance))
+        self.timetracker.track(ActiveWindow(window, window_class, window_instance))
 
         self.assertEqual(self.timetracker.get_window_time(window), self.config.get('sleep_time') * 2)
 
@@ -70,7 +70,7 @@ class testTimeTracker(unittest.TestCase):
         window = u'Some window'
         window_class = u'Some class'
         window_instance = u'Some instance'
-        self.timetracker.log(window, window_class, window_instance)
+        self.timetracker.track(ActiveWindow(window, window_class, window_instance))
 
         data = self.timetracker.get_window_stats(window)
         self.assertIs(type(self.timetracker.get_window_stats(window)), Log)
@@ -85,4 +85,4 @@ class testTimeTracker(unittest.TestCase):
         window = u'Some string with ignored keywords'
         window_class = u'Window class'
         window_instance = u'Window instance'
-        self.assertFalse(self.timetracker.log(window, window_class, window_instance))
+        self.assertFalse(self.timetracker.track(ActiveWindow(window, window_class, window_instance)))

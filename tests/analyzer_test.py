@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import MagicMock
 import os
-from latte.analyzer.Analyzer import Analyzer
+from latte.commands import Analyzer
 
 class TestAnalyzer(unittest.TestCase):
 

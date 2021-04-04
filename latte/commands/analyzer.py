@@ -1,18 +1,11 @@
 # -*- coding: utf-8 -*-
-"""
-
-Latte activity log analyzer
-
-"""
 
 from datetime import datetime, timedelta
 import errno
 import math
 
 from sqlalchemy import *
-from latte.Config import Config
 from latte.db import Log
-from latte.latte import Latte
 
 
 class Analyzer(object):

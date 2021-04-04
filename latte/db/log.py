@@ -25,4 +25,3 @@ class Log(Base):
         return "<Log(%s, %s, %s, %s, %s)>" % \
                (self.window_title, self.window_class, self.window_instance,
                 str(self.date), self.duration)
-

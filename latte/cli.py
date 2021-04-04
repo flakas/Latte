@@ -1,7 +1,7 @@
 from latte.parsers import main_parser, run_parser, stats_parser
-from latte.latte import Latte
-from latte.analyzer.Analyzer import Analyzer
-from latte.Config import Config
+from latte.commands import Analyzer, Monitor
+from latte.config import Config
+from latte.core import Core
 
 def main(argv=None):
     parser = main_parser()
@@ -11,7 +11,9 @@ def main(argv=None):
         parser.print_help()
         return
 
+    core = Core()
+
     if options.command == 'run':
-        Latte(run_parser().parse_args(rest).silent).run()
+        Monitor(core.config, core.get_db(), run_parser().parse_args(rest).silent).run()
     elif options.command == 'stats':
-        Analyzer(Config(), Latte().get_session(), stats_parser().parse_args(rest)).run()
+        Analyzer(core.config, core.get_db(), stats_parser().parse_args(rest)).run()
