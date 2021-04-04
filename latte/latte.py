@@ -13,7 +13,7 @@ each window individually. Stores log data to the filesystem.
 import time
 from sqlalchemy import *
 from sqlalchemy.orm import sessionmaker
-from latte.Base import Base
+from latte.db import Base
 from latte.TimeTracker import TimeTracker
 from latte.Config import Config
 from latte.UserActivityTracker import UserActivityTracker

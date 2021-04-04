@@ -9,8 +9,7 @@ from sqlalchemy.orm import sessionmaker
 
 from latte.TimeTracker import TimeTracker
 from latte.Config import Config
-from latte.Log import Log
-from latte.Base import Base
+from latte.db import Base, Log
 
 class testTimeTracker(unittest.TestCase):
     """ A test class for the TimeTracker class """

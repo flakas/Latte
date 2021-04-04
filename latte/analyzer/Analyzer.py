@@ -10,9 +10,8 @@ import errno
 import math
 
 from sqlalchemy import *
-from latte.analyzer.arguments import Arguments
 from latte.Config import Config
-from latte.Log import Log
+from latte.db import Log
 from latte.latte import Latte
 
 
@@ -174,6 +173,3 @@ class Analyzer(object):
         formatted_intervals = map(lambda i: i[1] % i[0], nonzero_intervals)
 
         return ''.join(formatted_intervals)
-
-if __name__ == '__main__':
-    Analyzer(Config(), Latte().get_session(), Arguments(sys.argv)).run()

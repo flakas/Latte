@@ -7,7 +7,7 @@ Handles window time logging and log information storage
 """
 from sqlalchemy.orm.exc import NoResultFound
 from datetime import datetime, date
-from .Log import Log
+from latte.db import Log
 
 
 class TimeTracker(object):

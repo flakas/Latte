@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from sqlalchemy import Column, Integer, DateTime, Unicode
-from .Base import Base
+from . import Base
 
 
 class Log(Base):
