@@ -16,7 +16,7 @@ config = {
     'python_requires': '>=3.6',
     'install_requires': ['sqlalchemy==1.4.5'],
     'test_suite': 'tests',
-    'tests_require': ['coverage>=4.5.1', 'mock>=2.0.0', 'nose==1.3.7'],
+    'tests_require': ['mock>=2.0.0', 'nose==1.3.7'],
     'packages': ['latte'],
     'entry_points': {'console_scripts': ['latte=latte.cli:main']},
     'version': '5.0-dev',
