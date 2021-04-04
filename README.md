@@ -1,11 +1,17 @@
-Latte - Linux Automatic Time Tracker
+Latte - Automatic Time Tracker for Linux
 ====================================
-
-A proof of concept automated time tracker, intended for Ubuntu Linux.
 
 Stable: [![Build Status](https://secure.travis-ci.org/flakas/Latte.png?branch=master)](http://travis-ci.org/flakas/Latte)
 Development: [![Build Status](https://secure.travis-ci.org/flakas/Latte.png?branch=development)](http://travis-ci.org/flakas/Latte)
 
+Developing
+----------
+
+```
+git clone git://github.com/flakas/Latte.git
+cd Latte
+python setup.py clean develop
+```
 
 Installing and upgrading
 -----------------------
@@ -44,17 +50,17 @@ Usage
 
 Run the binary script either in foreground:
 
-`latte`
+`latte run`
 
 or in the background:
-`latte --silent &`
+`latte run --silent &`
 
 To analyze log data you can use the built in analyzer:
 
-Syntax: `lattestats [OPTIONS]`
+Syntax: `latte stats [OPTIONS]`
 
-- `lattestats` to analyze log data from past 24 hours by window title
-- `lattestats -h` to print an help message
+- `latte stats` to analyze log data from past 24 hours by window title
+- `latte stats -h` to print an help message
 
 Time options:
 
@@ -64,7 +70,7 @@ Time options:
 - `--time-weeks W` to analyze log data created in last W weeks
 - `--time-months M` to analyze log data created in last M months
 
-By default `lattestats` will analyze logs created in past 24 hours.
+By default `latte stats` will analyze logs created in past 24 hours.
 
 Grouping options:
 

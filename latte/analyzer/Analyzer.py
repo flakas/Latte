@@ -22,23 +22,16 @@ class Analyzer(object):
     def __init__(self, config, db, arguments):
         self.config = config
         self.db = db
+
         self.arguments = arguments
-
-        self.parse_args()
-
-    def parse_args(self):
-        """Parses command line arguments"""
-
-        self.arguments.parse()
-
         self.since = self.parse_time_args()
-        self.group = self.arguments.get('g')
-        self.order = self.arguments.get('o')
+        self.group = self.arguments.g
+        self.order = self.arguments.o
 
     def parse_time_args(self):
         default_since = self.calculate_since(1, 86400)  # 1 day
 
-        if self.arguments.get('time_all'):
+        if self.arguments.time_all:
             return 0
 
         options = [
@@ -49,8 +42,8 @@ class Analyzer(object):
         ]
 
         for (key, multiplier) in options:
-            duration = self.arguments.get(key)
-            if self.arguments.get(key):
+            duration = self.arguments.__getattribute__(key)
+            if self.arguments.__getattribute__(key):
                 return self.calculate_since(duration, multiplier)
 
         return default_since
@@ -146,20 +139,20 @@ class Analyzer(object):
         return query.order_by(ordering)
 
     def set_result_limiting(self, query):
-        if self.arguments.get('display_all'):
+        if self.arguments.display_all:
             return query
 
-        limit = self.arguments.get('display_limit')
+        limit = self.arguments.display_limit
         if limit:
             return query.limit(limit)
 
-        share = self.arguments.get('display_share')
+        share = self.arguments.display_share
         if share:
             percentage = 1 / (100.0 / share)
             threshold = self.get_total_time() * percentage
             return query.having(func.sum(Log.duration) >= threshold)
 
-        min_time = self.arguments.get('display_time')
+        min_time = self.arguments.display_time
         if min_time:
             return query.having(func.sum(Log.duration) >= min_time)
 

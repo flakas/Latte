@@ -1,3 +1,6 @@
+[5.0-dev]
+- Merged `latte` and `lattestats` commands into `latte`
+
 [4.0]
 - Added support for Python 3
 - Removed support for Python 2.x
