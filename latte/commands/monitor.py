@@ -7,7 +7,7 @@ from latte.os import Windows, IdleDetector
 
 
 class Monitor(object):
-    """ Monitors computer usage """
+    """ Collects data on computer usage """
 
     def __init__(self, config, db, silent=False):
         self.config = config

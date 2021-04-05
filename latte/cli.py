@@ -1,6 +1,5 @@
 from latte.parsers import main_parser, run_parser, stats_parser
 from latte.commands import Analyzer, Monitor
-from latte.config import Config
 from latte.core import Core
 
 def main(argv=None):

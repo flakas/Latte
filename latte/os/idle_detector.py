@@ -18,25 +18,30 @@ class IdleDetector:
 
     def get_idle_time(self):
         """ Returns idle time in seconds if available or raises exception """
-        if not is_available():
+        if not self.is_available():
             return 0
 
-        if not self.xss_info:
-            self._get_screen()
-
-        self.xss.XScreenSaverQueryInfo(self.dpy, self.root, self.xss_info)
-        return self.xss_info.contents.idle/1000
-
-    def _get_screen(self):
         try:
+            # Get the window pointer
             xlib = ctypes.cdll.LoadLibrary('libX11.so')
-            self.dpy = xlib.XOpenDisplay(os.environ['DISPLAY'])
-            self.root = xlib.XDefaultRootWindow(self.dpy)
-            self.xss = ctypes.cdll.LoadLibrary('libXss.so')
-            self.xss.XScreenSaverAllocInfo.restype = ctypes.POINTER(XScreenSaverInfo)
-            self.xss_info = self.xss.XScreenSaverAllocInfo()
+            display = xlib.XOpenDisplay(None) # None uses the DISPLAY env variable
+            root_window = xlib.XDefaultRootWindow(display)
+
+            # Get the screensaver info
+            xss = ctypes.cdll.LoadLibrary('libXss.so')
+            xss.XScreenSaverAllocInfo.restype = ctypes.POINTER(XScreenSaverInfo)
+            screensaver_info = xss.XScreenSaverAllocInfo()
+            xss.XScreenSaverQueryInfo(display, root_window, screensaver_info)
+
+            idle_time = screensaver_info.contents.idle/1000
+
+            # Don't forget to clean up
+            xss.XFree(screensaver_info)
+            xss.XCloseDisplay(display)
+
+            return idle_time
         except OSError as e:
-            self.inactive_tracking_available = False
+            return 0
 
     def has_optional_dependencies(self):
         """ Checks whether the system has optional dependencies """
