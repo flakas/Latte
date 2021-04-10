@@ -28,3 +28,7 @@ class TestAnalyzer(unittest.TestCase):
         self.assertEqual(self.analyzer.get_human_readable_duration(119), '1m59s')
         self.assertEqual(self.analyzer.get_human_readable_duration(3600), '1h')
         self.assertEqual(self.analyzer.get_human_readable_duration(3661), '1h1m1s')
+
+    def testGetTotalTime(self):
+        logs = [MagicMock(duration=1), MagicMock(duration=10)]
+        self.assertEqual(self.analyzer.get_total_time(logs), 11)

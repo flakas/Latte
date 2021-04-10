@@ -58,7 +58,7 @@ class Analyzer(object):
                 pass
 
     def analyzer_output(self, logs):
-        total_time = self.get_total_time()
+        total_time = self.get_total_time(logs)
         print("Total logged time: %s\n" % self.get_human_readable_duration(total_time))
         print('Spent time on windows:')
         if self.group == 'class':
@@ -91,8 +91,8 @@ class Analyzer(object):
             alias = raw
         return alias
 
-    def get_total_time(self):
-        return self.db.query(func.sum(Log.duration)).scalar()
+    def get_total_time(self, logs):
+        return sum(map(lambda log: log.duration, logs))
 
     def analyze(self):
         """ Analyzes log data and prints out results """
