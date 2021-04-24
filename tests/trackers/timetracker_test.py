@@ -43,12 +43,12 @@ class TestTimeTracker(unittest.TestCase):
     def tearDown(self):
         self.session().rollback()
 
-    def testGettingEmptyLog(self):
+    def test_getting_empty_log(self):
         """ Tests if getWindowTime with empty log returns None """
 
         self.assertEqual(self.timetracker.get_window_time(u'Bogus'), None)
 
-    def testAddTimeToNonExistingWindows(self):
+    def test_add_time_to_non_existing_windows(self):
         """ Test adding time to non existing window titles """
 
         window = u'Non existing window 1'
@@ -57,7 +57,7 @@ class TestTimeTracker(unittest.TestCase):
         self.timetracker.track(ActiveWindow(window, window_class, window_instance))
         self.assertEqual(self.timetracker.get_window_time(window), self.config.get('sleep_time'))
 
-    def testAddTimeToExistingWindows(self):
+    def test_add_time_to_existing_windows(self):
         window = u'Testing Window 1'
         window_class = u'Window class 1'
         window_instance = u'Instance 1'
@@ -66,7 +66,7 @@ class TestTimeTracker(unittest.TestCase):
 
         self.assertEqual(self.timetracker.get_window_time(window), self.config.get('sleep_time') * 2)
 
-    def testGetWindowStats(self):
+    def test_get_window_stats(self):
         window = u'Some window'
         window_class = u'Some class'
         window_instance = u'Some instance'
@@ -75,13 +75,13 @@ class TestTimeTracker(unittest.TestCase):
         data = self.timetracker.get_window_stats(window)
         self.assertIs(type(self.timetracker.get_window_stats(window)), Log)
 
-    def testContainsIgnoredKeywords(self):
+    def test_contains_ignored_keywords(self):
         window = u'Some string with ignored keywords'
         self.assertTrue(self.timetracker.contains_ignored_keywords(window))
         window2 = u'Doesn\'t contain bad words'
         self.assertFalse(self.timetracker.contains_ignored_keywords(window2))
 
-    def testAddLogWithIgnoredKeywords(self):
+    def test_add_log_with_ignored_keywords(self):
         window = u'Some string with ignored keywords'
         window_class = u'Window class'
         window_instance = u'Window instance'

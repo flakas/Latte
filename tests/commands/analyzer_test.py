@@ -19,7 +19,7 @@ class TestAnalyzer(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testGetHumanReadableDuration(self):
+    def test_get_human_readable_duration(self):
         """ Tests pretty time formatting """
         self.assertEqual(self.analyzer.get_human_readable_duration(0), '0s')
         self.assertEqual(self.analyzer.get_human_readable_duration(-1), '0s')
@@ -29,6 +29,6 @@ class TestAnalyzer(unittest.TestCase):
         self.assertEqual(self.analyzer.get_human_readable_duration(3600), '1h')
         self.assertEqual(self.analyzer.get_human_readable_duration(3661), '1h1m1s')
 
-    def testGetTotalTime(self):
+    def test_get_total_time(self):
         logs = [MagicMock(duration=1), MagicMock(duration=10)]
         self.assertEqual(self.analyzer.get_total_time(logs), 11)

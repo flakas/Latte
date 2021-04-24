@@ -27,12 +27,12 @@ class TestUserActivityTracker(unittest.TestCase):
     def tearDown(self):
         self.tracker = None
 
-    def testUserIsActiveIfIsInactiveForLessThanInactivityThreshold(self):
+    def test_user_is_active_if_is_inactive_for_less_than_inactivity_threshold(self):
         """ Tests that user is active if inactivity duration is less than the threshold """
         self.idle_detector.get_idle_time.return_value = self.inactivity_threshold - 1
         self.assertFalse(self.tracker.is_inactive())
 
-    def testUserIsInActiveIfIsInactiveForMoreThanInactivityThreshold(self):
+    def test_user_is_in_active_if_is_inactive_for_more_than_inactivity_threshold(self):
         """ Tests if user is inactive if inactivity duration is more than the threshold """
         self.idle_detector.get_idle_time.return_value = self.inactivity_threshold + 1
         self.assertTrue(self.tracker.is_inactive())
