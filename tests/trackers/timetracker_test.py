@@ -11,7 +11,7 @@ from latte.os.windows import ActiveWindow
 from latte.trackers import TimeTracker
 from latte.db import Base, Log
 
-class testTimeTracker(unittest.TestCase):
+class TestTimeTracker(unittest.TestCase):
     """ A test class for the TimeTracker class """
 
     sleepTime = 0

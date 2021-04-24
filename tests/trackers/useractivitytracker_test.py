@@ -9,7 +9,7 @@ from sqlalchemy.orm import sessionmaker
 
 from latte.trackers import UserActivityTracker
 
-class testUserActivityTracker(unittest.TestCase):
+class TestUserActivityTracker(unittest.TestCase):
     """ A test class for the UserActivityTracker class """
 
     user_activity_tracker = None

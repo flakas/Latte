@@ -1,7 +1,12 @@
 # -*- coding: utf-8 -*-
-from sqlalchemy import Column, Integer, DateTime, Unicode
+from sqlalchemy import Column, Integer, DateTime, Unicode, Table, ForeignKey
+from sqlalchemy.orm import relationship
 from . import Base
 
+LogTags = Table('log_tags', Base.metadata,
+    Column('log_id', Integer, ForeignKey('logs.id')),
+    Column('tag_id', Integer, ForeignKey('tags.id'))
+)
 
 class Log(Base):
     __tablename__ = 'logs'
@@ -12,6 +17,7 @@ class Log(Base):
     window_instance = Column(Unicode)
     date = Column(DateTime)
     duration = Column(Integer)
+    tags = relationship("Tag", secondary=LogTags)
 
     def __init__(self, window_title, window_class, window_instance, date,
                 duration):

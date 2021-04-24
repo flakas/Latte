@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import time
-from latte.trackers import TimeTracker, UsageTracker, UserActivityTracker
+from latte.trackers import TimeTracker, UsageTracker, UserActivityTracker, TagTracker
 from latte.os import Windows, IdleDetector
 
 
@@ -22,6 +22,7 @@ class Monitor(object):
                 idle_detector=self.idle_detector,
                 inactivity_threshold=self.config.get('user_inactive_threshold'))
         self.usage_tracker = UsageTracker(self.time_tracker, self.activity_tracker, self.windows)
+        self.tag_tracker = TagTracker(db=self.db)
 
     def run(self):
         if not self.windows.has_required_dependencies():
