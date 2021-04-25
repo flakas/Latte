@@ -5,7 +5,7 @@ import errno
 import math
 
 from sqlalchemy import *
-from latte.db import Log
+from latte.db import Log, Tag
 
 
 class Analyzer(object):
@@ -19,6 +19,7 @@ class Analyzer(object):
         self.since = self.parse_time_args()
         self.group = self.arguments.g
         self.order = self.arguments.o
+        self.tags = self.arguments.tags.split(',') if len(self.arguments.tags) > 0 else []
 
     def parse_time_args(self):
         default_since = self.calculate_since(1, 86400)  # 1 day
@@ -110,6 +111,7 @@ class Analyzer(object):
         logs = self.set_grouping(logs)
         logs = self.set_ordering(logs)
         logs = self.set_result_limiting(logs)
+        logs = self.set_filter_by_tags(logs)
 
         if logs.count() <= 0:
             print('There is no log data')
@@ -149,6 +151,11 @@ class Analyzer(object):
             return query.having(func.sum(Log.duration) >= min_time)
 
         return query
+
+    def set_filter_by_tags(self, query):
+        if len(self.tags) == 0:
+            return query
+        return query.join(Log.tags).filter(Tag.name.in_(self.tags))
 
     def get_human_readable_duration(self, total_seconds):
         """ Normalizes time into user-friendly form """

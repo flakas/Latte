@@ -21,8 +21,8 @@ class Monitor(object):
         self.activity_tracker = UserActivityTracker(
                 idle_detector=self.idle_detector,
                 inactivity_threshold=self.config.get('user_inactive_threshold'))
-        self.usage_tracker = UsageTracker(self.time_tracker, self.activity_tracker, self.windows)
         self.tag_tracker = TagTracker(db=self.db)
+        self.usage_tracker = UsageTracker(self.db, self.time_tracker, self.activity_tracker, self.tag_tracker, self.windows)
 
     def run(self):
         if not self.windows.has_required_dependencies():

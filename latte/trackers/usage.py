@@ -1,5 +1,6 @@
 class UsageTracker:
-    def __init__(self, time_tracker, activity_tracker, tag_tracker, windows):
+    def __init__(self, db, time_tracker, activity_tracker, tag_tracker, windows):
+        self.db = db
         self.time_tracker = time_tracker
         self.activity_tracker = activity_tracker
         self.tag_tracker = tag_tracker
@@ -18,5 +19,7 @@ class UsageTracker:
 
         if self.activity_tracker.is_inactive():
             self.time_tracker.compensate_inactivity_and_stop_tracking(self.activity_tracker.get_inactivity_duration())
+
+        self.db.commit()
 
         return log

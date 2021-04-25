@@ -1,5 +1,5 @@
-from latte.parsers import main_parser, run_parser, stats_parser
-from latte.commands import Analyzer, Monitor
+from latte.parsers import main_parser, run_parser, stats_parser, tags_parser
+from latte.commands import Analyzer, Monitor, Tags
 from latte.core import Core
 
 def main(argv=None):
@@ -16,3 +16,7 @@ def main(argv=None):
         Monitor(core.config, core.get_db(), run_parser().parse_args(rest).silent).run()
     elif options.command == 'stats':
         Analyzer(core.config, core.get_db(), stats_parser().parse_args(rest)).run()
+    elif options.command == 'tags':
+        Tags(core.config, core.get_db(), tags_parser().parse_args(rest)).run()
+    else:
+        raise NotImplementedError('Unknown command', options.command)

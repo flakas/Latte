@@ -17,7 +17,7 @@ class Log(Base):
     window_instance = Column(Unicode)
     date = Column(DateTime)
     duration = Column(Integer)
-    tags = relationship("Tag", secondary=LogTags)
+    tags = relationship("Tag", secondary=LogTags, back_populates='logs')
 
     def __init__(self, window_title, window_class, window_instance, date,
                 duration):

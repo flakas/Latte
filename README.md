@@ -55,6 +55,8 @@ Run the binary script either in foreground:
 or in the background:
 `latte run --silent &`
 
+### Stats
+
 To analyze log data you can use the built in analyzer:
 
 Syntax: `latte stats [OPTIONS]`
@@ -89,6 +91,28 @@ Displaying:
 - `--display-limit N` Display up to N top entries
 - `--display-share PERCENTAGE` Display entries that have a share of the analyzed logs greater than SHARE, where SHARE is any number between 0 and 100
 - `--display-time SECONDS` Displays entries that have the accumulated time greater than SECONDS
+
+Tags:
+
+- `--tags` show stats for the comma-separated tag names
+
+### Tagging
+
+Latte can tag logs with custom tags for easier grouping and analytics.
+
+Add tags:
+- `latte tags add <name> [--window-title=<regex>] [--window-class=<regex>] [--window-instance=<class>]`
+- Filtering is based on Python's regular expressions using case-insensitive values;
+- Window title, class and instance filters are optional. All specified filters must match for the tag to be assigned.
+
+Delete tags:
+- `latte tags delete <name>`
+
+Show all tags:
+- `latte tags show`
+
+Forcibly retag all logs:
+- `latte tags retag`
 
 Dependencies
 --------
