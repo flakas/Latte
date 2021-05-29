@@ -13,6 +13,10 @@ class UsageTracker:
             return None
 
         active_window = self.windows.get_active()
+        if not active_window:
+            self.time_tracker.compensate_inactivity_and_stop_tracking(0)
+            self.db.commit()
+            return None
 
         log = self.time_tracker.track(active_window)
         self.tag_tracker.track(log)

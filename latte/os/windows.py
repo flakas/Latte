@@ -28,7 +28,7 @@ class Windows:
             return ActiveWindow(title, window_class, window_instance)
         except Exception as e:
             print(e)
-            return ['', '', '']
+            return None
 
     def has_required_dependencies(self):
         """ Checks whether the system has required dependencies """
