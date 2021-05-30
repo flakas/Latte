@@ -101,9 +101,9 @@ Tags:
 Latte can tag logs with custom tags for easier grouping and analytics.
 
 Add tags:
-- `latte tags add <name> [--window-title=<regex>] [--window-class=<regex>] [--window-instance=<class>]`
+- `latte tags add <name> [--window-title=<regex>] [--window-class=<regex>] [--window-instance=<regex>] [--tag=<regex>]`
 - Filtering is based on Python's regular expressions using case-insensitive values;
-- Window title, class and instance filters are optional. All specified filters must match for the tag to be assigned.
+- Window title, class, instance and tag filters are optional. All specified filters must match for the tag to be assigned.
 
 Delete tags:
 - `latte tags delete <name>`

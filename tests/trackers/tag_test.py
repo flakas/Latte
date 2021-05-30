@@ -10,7 +10,8 @@ class TestTagTracker(unittest.TestCase):
     def setUp(self):
         self.db = mock.Mock()
         self.tracker = TagTracker(self.db)
-        self.tag = mock.Mock()
+        self.tag = mock.Mock(name='default tag')
+        self.tag.name = 'default_tag'
         self.tag.get_options.return_value = { 'window_title': 'hello' }
         self.log = mock.Mock(window_title='hello world', window_class='test class', window_instance='some instance')
         self.log.tags = []
@@ -36,13 +37,19 @@ class TestTagTracker(unittest.TestCase):
         self.tag.get_options.return_value['window_instance'] = 'some'
         self.assertTrue(self.tracker.should_tag(self.log, self.tag))
 
-    def test_track_tags_log(self):
-        self.tracker.load_all_tags([self.tag])
-        self.tracker.track(self.log)
-        self.assertTrue(len(self.log.tags) > 0)
-
     def test_track_does_not_add_any_tags(self):
         self.tag.get_options.return_value['window_title'] = 'should not match'
         self.tracker.load_all_tags([self.tag])
         self.tracker.track(self.log)
         self.assertTrue(len(self.log.tags) == 0)
+
+    def test_track_adds_meta_tags(self):
+        self.log.tags = [self.tag]
+        meta_tag = mock.Mock(name='meta tag')
+        meta_tag.get_options.return_value = { 'tag': 'default' }
+        self.assertTrue(self.tracker.should_tag(self.log, meta_tag))
+
+    def test_track_tags_log(self):
+        self.tracker.load_all_tags([self.tag])
+        self.tracker.track(self.log)
+        self.assertTrue(len(self.log.tags) > 0)

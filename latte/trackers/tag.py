@@ -30,6 +30,9 @@ class TagTracker:
             matches.append(self.find_matches(options['window_class'], log.window_class))
         if 'window_instance' in options:
             matches.append(self.find_matches(options['window_instance'], log.window_instance))
+        if 'tag' in options:
+            for log_tag in log.tags:
+                matches.append(self.find_matches(options['tag'], log_tag.name))
 
         return len(matches) > 0 and all(matches)
 
