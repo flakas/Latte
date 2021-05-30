@@ -18,31 +18,23 @@ def main_parser():
             description=description,
             formatter_class=argparse.RawTextHelpFormatter)
 
-    parser.add_argument('command', choices=['run', 'stats', 'tags'], action='store', help='latte command')
+    subparsers = parser.add_subparsers(dest='command', help='sub-command help')
+    run_parser(subparsers)
+    stats_parser(subparsers)
+    tags_parser(subparsers)
 
     return parser
 
-def run_parser():
-    parser = argparse.ArgumentParser()
+def run_parser(parent):
+    description='Collect user activity information'
+    parser = parent.add_parser('run', description=description, help=description)
     parser.add_argument('-s', '--silent', action='store_true', help='Silence all output from latte')
 
     return parser
 
-def stats_parser():
-    description = textwrap.dedent('''
-    Linux automatic time tracker
-
-    Tracks time spent on activities based on window titles.
-    Data files are saved to ~/.config/latte (by default, configurable)
-
-    More information:
-    https://github.com/flakas/Latte
-    ''')
-
-    parser = argparse.ArgumentParser(
-        description=description,
-        formatter_class=argparse.RawTextHelpFormatter
-    )
+def stats_parser(parent):
+    description='Analyze collected activity data'
+    parser = parent.add_parser('stats', description=description, help=description)
 
     time_group = parser.add_mutually_exclusive_group()
     time_group.add_argument('--time-all', const='all', action='store_const', help='Analyze all known log data')
@@ -69,23 +61,11 @@ def stats_parser():
 
     return parser
 
-def tags_parser():
-    description = textwrap.dedent('''
-    Linux automatic time tracker
+def tags_parser(parent):
+    description = 'Manage tags to organize activity data'
+    parser = parent.add_parser('tags', description=description, help=description)
 
-    Tracks time spent on activities based on window titles.
-    Data files are saved to ~/.config/latte (by default, configurable)
-
-    More information:
-    https://github.com/flakas/Latte
-    ''')
-
-    parser = argparse.ArgumentParser(
-        description=description,
-        formatter_class=argparse.RawTextHelpFormatter
-    )
-
-    subparsers = parser.add_subparsers(dest='subcommand', help='subcommands')
+    subparsers = parser.add_subparsers(dest='subcommand', help='subcommands', required=True)
     tags_retag_parser(subparsers)
     tags_add_parser(subparsers)
     tags_delete_parser(subparsers)
@@ -94,10 +74,12 @@ def tags_parser():
     return parser
 
 def tags_retag_parser(parent):
-    parser = parent.add_parser('retag', help='Add a tag')
+    description = 'Retag all historical activity data with existing tags'
+    parser = parent.add_parser('retag', description=description, help=description)
 
 def tags_add_parser(parent):
-    parser = parent.add_parser('add', help='Add a tag')
+    description = 'Add a tag'
+    parser = parent.add_parser('add', description=description, help=description)
     parser.add_argument('name', action='store', help='Tag name')
     parser.add_argument('--window-title', action='store', dest='window_title', help='Window title case-insensitive regex')
     parser.add_argument('--window-class', action='store', dest='window_class', help='Window class case-insensitive regex')
@@ -106,8 +88,10 @@ def tags_add_parser(parent):
     return parser
 
 def tags_delete_parser(parent):
-    parser = parent.add_parser('delete', help='Delete a tag')
+    description = 'Delete a tag'
+    parser = parent.add_parser('delete', description=description, help=description)
     parser.add_argument('name', action='store', help='Tag name')
 
 def tags_show_parser(parent):
-    parser = parent.add_parser('show', help='Show all tags')
+    description = 'Show all tags'
+    parser = parent.add_parser('show', description=description, help=description)
