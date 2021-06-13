@@ -16,9 +16,9 @@ class Analyzer(object):
         self.db = db
 
         self.arguments = arguments
+        self.report = self.arguments.report
         self.since = self.parse_time_args()
-        self.group = self.arguments.g
-        self.order = self.arguments.o
+        self.order = 'desc'
         self.tags = self.arguments.tags.split(',') if len(self.arguments.tags) > 0 else []
 
     def parse_time_args(self):
@@ -58,66 +58,48 @@ class Analyzer(object):
             if e.errno == errno.EPIPE:
                 pass
 
-    def analyzer_output(self, logs):
-        total_time = self.get_total_time(logs)
+    def analyzer_output(self, durations):
+        total_time = self.get_total_time(durations)
         print("Total logged time: %s\n" % self.get_human_readable_duration(total_time))
-        print('Spent time on windows:')
-        if self.group == 'class':
-            output_format = self.config.get('analyzer_output_class')
-            for row in logs:
-                duration = self.get_human_readable_duration(row[1])
-                window_class = row[2]
-                print(output_format % (window_class, duration))
-        elif self.group == 'instance':
-            output_format = self.config.get('analyzer_output_instance')
-            for row in logs:
-                duration = self.get_human_readable_duration(row[1])
-                window_instance = row[3]
-                print(output_format % (window_instance, duration))
-        else:
-            output_format = self.config.get('analyzer_output_default')
-            for row in logs:
-                window = row[0]
-                duration = self.get_human_readable_duration(row[1])
-                window_class = row[2]
-                window_instance = row[3]
-                print(output_format % (window_class, window_instance, window, duration))
+        for row in durations:
+            name = row[0]
+            duration = self.get_human_readable_duration(row[1])
+            print("%s: %s" % (name, duration))
 
     def get_total_time(self, logs):
         return sum(map(lambda log: log.duration, logs))
 
     def analyze(self):
         """ Analyzes log data and prints out results """
-        logs = self.db.query(
-            Log.window_title,
-            func.sum(Log.duration).label('duration'),
-            Log.window_class,
-            Log.window_instance
-        )
+        if self.report == 'windows':
+            durations = self.db.query(
+                Log.window_title,
+                func.sum(Log.duration).label('duration')
+            ).group_by(Log.window_title)
+        elif self.report == 'tags':
+            durations = self.db.query(
+                Tag.name,
+                func.sum(Log.duration).label('duration')
+            ).join(Log.tags).group_by(Tag.name)
+        elif self.report == 'apps':
+            durations = self.db.query(
+                Log.window_instance,
+                func.sum(Log.duration).label('duration')
+            ).group_by(Log.window_instance)
 
         if self.since:
             print('Looking for log data since %s' % self.since)
-            logs = logs.filter(Log.date > self.since)
+            durations = durations.filter(Log.date > self.since)
 
-        logs = self.set_grouping(logs)
-        logs = self.set_ordering(logs)
-        logs = self.set_result_limiting(logs)
-        logs = self.set_filter_by_tags(logs)
+        durations = self.set_ordering(durations)
+        durations = self.set_result_limiting(durations)
+        durations = self.set_filter_by_tags(durations)
 
-        if logs.count() <= 0:
+        if durations.count() <= 0:
             print('There is no log data')
             return False
 
-        self.analyzer_output(logs)
-
-    def set_grouping(self, query):
-        groups = {
-            'title': 'window_title',
-            'instance': 'window_instance',
-            'class': 'window_class'
-        }
-
-        return query.group_by(getattr(Log, groups[self.group]))
+        self.analyzer_output(durations)
 
     def set_ordering(self, query):
         ordering = asc('duration') if self.order == 'asc' else desc('duration')

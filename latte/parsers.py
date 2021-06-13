@@ -36,6 +36,36 @@ def stats_parser(parent):
     description='Analyze collected activity data'
     parser = parent.add_parser('stats', description=description, help=description)
 
+    subparsers = parser.add_subparsers(dest='report', help='reports', required=True)
+
+    add_windows_report(subparsers)
+    add_tags_report(subparsers)
+    add_apps_report(subparsers)
+
+    return parser
+
+def add_windows_report(parent):
+    description = 'Show window stats'
+    parser = parent.add_parser('windows', description=description, help=description)
+    add_time_filters(parser)
+    add_display_filters(parser)
+    add_tag_filters(parser)
+
+def add_tags_report(parent):
+    description = 'Show tag stats'
+    parser = parent.add_parser('tags', description=description, help=description)
+    add_time_filters(parser)
+    add_display_filters(parser)
+    add_tag_filters(parser)
+
+def add_apps_report(parent):
+    description = 'Show app stats'
+    parser = parent.add_parser('apps', description=description, help=description)
+    add_time_filters(parser)
+    add_display_filters(parser)
+    add_tag_filters(parser)
+
+def add_time_filters(parser):
     time_group = parser.add_mutually_exclusive_group()
     time_group.add_argument('--time-all', const='all', action='store_const', help='Analyze all known log data')
     time_group.add_argument('--time-seconds', metavar='S', type=int, help='Analyze log data created in last S seconds')
@@ -43,22 +73,14 @@ def stats_parser(parent):
     time_group.add_argument('--time-weeks', metavar='W', type=int, help='Analyze log data created in last W weeks')
     time_group.add_argument('--time-months', metavar='M', type=int, help='Analyze log data created in last M months')
 
-    parser.add_argument('-g', metavar='GROUPING', choices=['title', 'instance', 'class'], help='Group entries by: title, instance or class')
-    parser.add_argument('-o', metavar='ORDERING', choices=['asc', 'desc'], help='Order entries by duration: asc or desc')
-
+def add_display_filters(parser):
     display_group = parser.add_mutually_exclusive_group()
     display_group.add_argument('--display-all', const='all', action='store_const', help='Display all found entries in the chosen time interval')
     display_group.add_argument('--display-limit', type=int, metavar='N', help='Display up to N top entries')
     display_group.add_argument('--display-time', type=int, metavar='SECONDS', help='Display entries that have the accumulated time greater than SECONDS')
 
+def add_tag_filters(parser):
     parser.add_argument('--tags', default='', help='Comma-separated tag names to filter to')
-
-    parser.set_defaults(
-        g='title',
-        o='desc',
-    )
-
-    return parser
 
 def tags_parser(parent):
     description = 'Manage tags to organize activity data'

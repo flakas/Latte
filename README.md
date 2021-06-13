@@ -59,9 +59,9 @@ or in the background:
 
 To analyze log data you can use the built in analyzer:
 
-Syntax: `latte stats [OPTIONS]`
+Syntax: `latte stats {windows,apps,tags} [OPTIONS]`
 
-- `latte stats` to analyze log data from past 24 hours by window title
+- `latte stats windows` to analyze log data from past 24 hours by window title
 - `latte stats -h` to print an help message
 
 Time options:
@@ -73,17 +73,6 @@ Time options:
 - `--time-months M` to analyze log data created in last M months
 
 By default `latte stats` will analyze logs created in past 24 hours.
-
-Grouping options:
-
-- `-g title` (default) Groups entries by window name
-- `-g instance` Groups entries by application name
-- `-g class` Groups entries by application class
-
-Ordering
-
-- `-o desc` (default) Orders entries by descending duration
-- `-o asc` Orders entries by ascending duration
 
 Displaying:
 

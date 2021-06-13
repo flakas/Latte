@@ -15,9 +15,3 @@ ignore_keywords = bank,paypal
 # Ignore logging if the user is inactive for X seconds
 # Default: 360
 user_inactive_threshold = 360
-
-# The format of the strings returned by latte stats
-analyzer_output_default = - [%s::%s] "%s" : %s
-analyzer_output_title = - "%s": %s
-analyzer_output_class = - "%s": %s
-analyzer_output_instance = - "%s": %s

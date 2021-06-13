@@ -31,10 +31,6 @@ class Config(object):
             'sleep_time': 5,
             'ignore_keywords': [],
             'user_inactive_threshold': 6 * 60,
-            'analyzer_output_default': '[%s::%s] "%s" : %s',
-            'analyzer_output_title': '- "%s": %s',
-            'analyzer_output_class': '- "%s": %s',
-            'analyzer_output_instance': '- "%s": %s',
         }
 
         for (key, value) in defaults.items():
@@ -66,7 +62,6 @@ class Config(object):
             self._set_user_defined_databases,
             self._set_user_defined_tracking_durations,
             self._set_user_defined_ignored_keywords,
-            self._set_user_defined_output_formatting,
         ]
 
         for func in funcs:
@@ -83,11 +78,6 @@ class Config(object):
     def _set_user_defined_ignored_keywords(self, parser):
         for item in ['ignore_keywords']:
             self.set(item, map(lambda x: unicode(x.decode('utf-8')).lower(), parser.get('main', item).split(',')))
-
-    def _set_user_defined_output_formatting(self, parser):
-        for item in ['analyzer_output_default', 'analyzer_output_title',
-                'analyzer_output_class', 'analyzer_output_instance']:
-            self.set(item, parser.get('main', item))
 
     def get(self, item):
         """ Fetches config item from the list. """
