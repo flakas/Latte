@@ -67,7 +67,6 @@ class Config(object):
             self._set_user_defined_tracking_durations,
             self._set_user_defined_ignored_keywords,
             self._set_user_defined_output_formatting,
-            self._set_user_defined_aliases,
         ]
 
         for func in funcs:
@@ -89,15 +88,6 @@ class Config(object):
         for item in ['analyzer_output_default', 'analyzer_output_title',
                 'analyzer_output_class', 'analyzer_output_instance']:
             self.set(item, parser.get('main', item))
-
-    def _set_user_defined_aliases(self, parser):
-        for item in ['aliases']:
-            aliases_dict = {}
-            aliases = map(lambda y: y.split(':'), parser.get('main', item).split(','))
-            for alias in aliases:
-                l = map(lambda x: unicode(x.decode('utf-8')), alias)
-                aliases_dict[l[0]] = l[1]
-            self.set('aliases', aliases_dict)
 
     def get(self, item):
         """ Fetches config item from the list. """

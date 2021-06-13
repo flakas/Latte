@@ -1,5 +1,6 @@
 [5.0-dev]
 - Merged `latte` and `lattestats` commands into `latte`
+- Removed aliases
 
 [4.0]
 - Added support for Python 3

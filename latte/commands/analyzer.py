@@ -66,7 +66,7 @@ class Analyzer(object):
             output_format = self.config.get('analyzer_output_class')
             for row in logs:
                 duration = self.get_human_readable_duration(row[1])
-                window_class = self.get_alias(row[2])
+                window_class = row[2]
                 print(output_format % (window_class, duration))
         elif self.group == 'instance':
             output_format = self.config.get('analyzer_output_instance')
@@ -79,18 +79,9 @@ class Analyzer(object):
             for row in logs:
                 window = row[0]
                 duration = self.get_human_readable_duration(row[1])
-                window_class = self.get_alias(row[2])
+                window_class = row[2]
                 window_instance = row[3]
                 print(output_format % (window_class, window_instance, window, duration))
-
-    def get_alias(self, raw):
-        alias = ''
-        alias_config = self.config.get('aliases')
-        if (alias_config != None and alias_config.has_key(raw)) == True:
-            alias =  self.config.get('aliases')[raw]
-        else:
-            alias = raw
-        return alias
 
     def get_total_time(self, logs):
         return sum(map(lambda log: log.duration, logs))

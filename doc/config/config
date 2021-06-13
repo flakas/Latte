@@ -21,6 +21,3 @@ analyzer_output_default = - [%s::%s] "%s" : %s
 analyzer_output_title = - "%s": %s
 analyzer_output_class = - "%s": %s
 analyzer_output_instance = - "%s": %s
-
-# Aliases
-aliases = gnome-terminal:Terminal
