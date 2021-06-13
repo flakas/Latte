@@ -49,7 +49,6 @@ def stats_parser(parent):
     display_group = parser.add_mutually_exclusive_group()
     display_group.add_argument('--display-all', const='all', action='store_const', help='Display all found entries in the chosen time interval')
     display_group.add_argument('--display-limit', type=int, metavar='N', help='Display up to N top entries')
-    display_group.add_argument('--display-share', type=int, metavar='PERCENTAGE', help='Display entries that have a share of the analyzed logs greater than SHARE, where SHARE is any number between 0 and 100')
     display_group.add_argument('--display-time', type=int, metavar='SECONDS', help='Display entries that have the accumulated time greater than SECONDS')
 
     parser.add_argument('--tags', default='', help='Comma-separated tag names to filter to')

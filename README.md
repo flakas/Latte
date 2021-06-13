@@ -89,7 +89,6 @@ Displaying:
 
 - `--display-all` Display all found entries from the chosen time interval
 - `--display-limit N` Display up to N top entries
-- `--display-share PERCENTAGE` Display entries that have a share of the analyzed logs greater than SHARE, where SHARE is any number between 0 and 100
 - `--display-time SECONDS` Displays entries that have the accumulated time greater than SECONDS
 
 Tags:

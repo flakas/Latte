@@ -131,12 +131,6 @@ class Analyzer(object):
         if limit:
             return query.limit(limit)
 
-        share = self.arguments.display_share
-        if share:
-            percentage = 1 / (100.0 / share)
-            threshold = self.get_total_time() * percentage
-            return query.having(func.sum(Log.duration) >= threshold)
-
         min_time = self.arguments.display_time
         if min_time:
             return query.having(func.sum(Log.duration) >= min_time)
