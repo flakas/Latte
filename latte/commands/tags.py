@@ -30,7 +30,7 @@ class Tags(object):
     def add(self):
         """ Create a new tag to be tracked """
         options = {}
-        for prop_name in ['window_title', 'window_class', 'window_instance', 'tag']:
+        for prop_name in ['window_title', 'window_instance', 'tag']:
             if self.args.__getattribute__(prop_name):
                 options[prop_name] = self.args.__getattribute__(prop_name)
 

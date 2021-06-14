@@ -43,7 +43,7 @@ class Monitor(object):
 
     def show_tracking_result(self, log):
         if log:
-            self.output("[%s] %s, %s" % (log.window_class, log.window_title, log.duration))
+            self.output("[%s] %s, %s" % (log.window_instance, log.window_title, log.duration))
         else:
             self.output("IGNORED")
 

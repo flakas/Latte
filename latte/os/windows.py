@@ -1,9 +1,8 @@
 import subprocess
 
 class ActiveWindow:
-    def __init__(self, title, window_class, instance):
+    def __init__(self, title, instance):
         self.title = title
-        self.window_class = window_class
         self.instance = instance
 
 class Windows:
@@ -22,10 +21,9 @@ class Windows:
                                       stdout=subprocess.PIPE,
                                       stderr=subprocess.PIPE)
             wm_class_message = wm_class.communicate()[0].decode('utf-8').strip().split('"')
-            window_class = wm_class_message[1]
             window_instance = wm_class_message[3]
 
-            return ActiveWindow(title, window_class, window_instance)
+            return ActiveWindow(title, window_instance)
         except Exception as e:
             print(e)
             return None

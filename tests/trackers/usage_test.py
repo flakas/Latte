@@ -16,7 +16,7 @@ class TestUsageTracker(unittest.TestCase):
 
         self.tracker = UsageTracker(self.db, self.time_tracker,
                 self.activity_tracker, self.tag_tracker, self.windows)
-        self.active_window = mock.Mock(window_title='hello world', window_class='test class', window_instance='some instance')
+        self.active_window = mock.Mock(window_title='hello world', window_instance='some instance')
         self.windows.get_active.return_value = self.active_window
 
     def test_track_logs_active_window(self):

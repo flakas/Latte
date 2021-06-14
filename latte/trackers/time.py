@@ -26,7 +26,7 @@ class TimeTracker(object):
             self.current_log.duration += self.config.get('sleep_time')
         else:
             self.current_log = Log(
-                    active_window.title, active_window.window_class,
+                    active_window.title,
                     active_window.instance, datetime.now(),
                     self.config.get('sleep_time'))
             self.db.add(self.current_log)

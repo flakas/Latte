@@ -103,7 +103,6 @@ def tags_add_parser(parent):
     parser = parent.add_parser('add', description=description, help=description)
     parser.add_argument('name', action='store', help='Tag name')
     parser.add_argument('--window-title', action='store', dest='window_title', help='Window title case-insensitive regex')
-    parser.add_argument('--window-class', action='store', dest='window_class', help='Window class case-insensitive regex')
     parser.add_argument('--window-instance', action='store', dest='window_instance', help='Window instance case-insensitive regex')
     parser.add_argument('--tag', action='store', dest='tag', help='Tag name case-insensitive regex')
     return parser

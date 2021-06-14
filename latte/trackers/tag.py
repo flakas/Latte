@@ -26,8 +26,6 @@ class TagTracker:
         matches = []
         if 'window_title' in options:
             matches.append(self.find_matches(options['window_title'], log.window_title))
-        if 'window_class' in options:
-            matches.append(self.find_matches(options['window_class'], log.window_class))
         if 'window_instance' in options:
             matches.append(self.find_matches(options['window_instance'], log.window_instance))
         if 'tag' in options:

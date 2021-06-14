@@ -52,25 +52,22 @@ class TestTimeTracker(unittest.TestCase):
         """ Test adding time to non existing window titles """
 
         window = u'Non existing window 1'
-        window_class = u'New class'
         window_instance = u'New instance'
-        self.timetracker.track(ActiveWindow(window, window_class, window_instance))
+        self.timetracker.track(ActiveWindow(window, window_instance))
         self.assertEqual(self.timetracker.get_window_time(window), self.config.get('sleep_time'))
 
     def test_add_time_to_existing_windows(self):
         window = u'Testing Window 1'
-        window_class = u'Window class 1'
         window_instance = u'Instance 1'
-        self.timetracker.track(ActiveWindow(window, window_class, window_instance))
-        self.timetracker.track(ActiveWindow(window, window_class, window_instance))
+        self.timetracker.track(ActiveWindow(window, window_instance))
+        self.timetracker.track(ActiveWindow(window, window_instance))
 
         self.assertEqual(self.timetracker.get_window_time(window), self.config.get('sleep_time') * 2)
 
     def test_get_window_stats(self):
         window = u'Some window'
-        window_class = u'Some class'
         window_instance = u'Some instance'
-        self.timetracker.track(ActiveWindow(window, window_class, window_instance))
+        self.timetracker.track(ActiveWindow(window, window_instance))
 
         data = self.timetracker.get_window_stats(window)
         self.assertIs(type(self.timetracker.get_window_stats(window)), Log)
@@ -83,6 +80,5 @@ class TestTimeTracker(unittest.TestCase):
 
     def test_add_log_with_ignored_keywords(self):
         window = u'Some string with ignored keywords'
-        window_class = u'Window class'
         window_instance = u'Window instance'
-        self.assertFalse(self.timetracker.track(ActiveWindow(window, window_class, window_instance)))
+        self.assertFalse(self.timetracker.track(ActiveWindow(window, window_instance)))

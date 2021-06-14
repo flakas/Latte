@@ -13,15 +13,13 @@ class TestTagTracker(unittest.TestCase):
         self.tag = mock.Mock(name='default tag')
         self.tag.name = 'default_tag'
         self.tag.get_options.return_value = { 'window_title': 'hello' }
-        self.log = mock.Mock(window_title='hello world', window_class='test class', window_instance='some instance')
+        self.log = mock.Mock(window_title='hello world', window_instance='some instance')
         self.log.tags = []
 
     def tearDown(self):
         self.tracker = None
 
     def test_should_tag_with_specified_matchers(self):
-        self.assertTrue(self.tracker.should_tag(self.log, self.tag))
-        self.tag.get_options.return_value['window_class'] = 'test'
         self.assertTrue(self.tracker.should_tag(self.log, self.tag))
         self.tag.get_options.return_value['window_instance'] = 'some'
         self.assertTrue(self.tracker.should_tag(self.log, self.tag))
@@ -31,7 +29,6 @@ class TestTagTracker(unittest.TestCase):
         self.assertFalse(self.tracker.should_tag(self.log, self.tag))
 
     def test_should_tag_requires_all_specified_matchers_to_match(self):
-        self.tag.get_options.return_value['window_class'] = 'test'
         self.tag.get_options.return_value['window_instance'] = 'mistmatch'
         self.assertFalse(self.tracker.should_tag(self.log, self.tag))
         self.tag.get_options.return_value['window_instance'] = 'some'
